@@ -20,22 +20,22 @@ class PageController extends Controller
 
     public function postSubmitForm($form_id, Request $request, \App\Models\Answer $answer)
     {
-        $form_model = Form::find($form_id);
-        if($form_model->authentication === true){
+        $formModel = Form::find($form_id);
+        if($formModel->authentication === true){
             if (! \Auth::check()) {
                 return redirect()->route('auth.login');
             }
         }
 
-        $form = \FormBuilder::create(\App\Forms\CustomeForm::class, ['form_model' => $form_model]);
+        $form = \FormBuilder::create(\App\Forms\CustomeForm::class, ['formModel' => $formModel]);
 
         if (! $form->isValid()) {
             return redirect()->back()->withErrors($form->getErrors())->withInput();
         }
         $data = $form->getFieldValues();
-        $main_data = $data;
+        $mainData = $data;
         $files = [];
-        foreach($main_data as $key => $item){
+        foreach($mainData as $key => $item){
             // single file or multiple file
             if(is_object($item) || is_array($item)){
                 $files[$key] = $item;
@@ -44,23 +44,23 @@ class PageController extends Controller
         }
         $answer->activated = 1;
         $answer->user_id = Auth::id();
-        $answer->form_id = $form_model->id;
+        $answer->form_id = $formModel->id;
         $answer->answers = serialize($data);
         $answer->save();
 
         // upload files
         foreach($files as $column => $file) {
-            $file_service = new \App\Services\FileService();
-            $file_service->save($file, $answer, $column);
+            $fileService = new \App\Cms\FileService();
+            $fileService->save($file, $answer, $column);
         }
 
         // send sms to user and admin
-        if($form_model->notification === true){
-            $form_submitted =  new \App\Notifications\FormSubmitted();
+        if($formModel->notification === true){
+            $formSubmitted =  new \App\Notifications\FormSubmitted();
 
-            $admin_user = \App\Models\User::getAdminUser();
-            $admin_user->notify($form_submitted);
-            \Auth::user()->notify($form_submitted);
+            $adminUser = \App\Models\User::getAdminUser();
+            $adminUser->notify($formSubmitted);
+            \Auth::user()->notify($formSubmitted);
         }
 
         $request->session()->flash('alert-success', 'Congratulation, Your answer saved successfully!');

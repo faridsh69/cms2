@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Services\BaseApiController;
+use App\Cms\ApiController as CmsApiController;
 
-class ApiController extends BaseApiController
+class ApiController extends CmsApiController
 {}

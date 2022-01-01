@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Admin\Dashboard;
 
+use App\Cms\AdminResourceController;
+use App\Cms\FileService;
 use App\Models\Activity;
 use App\Models\Address;
 use App\Notifications\EmailVerified;
 use App\Notifications\PhoneVerified;
 use App\Notifications\ProfileUpdated;
-use App\Cms\AdminResourceController;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\View\View;
@@ -106,9 +107,9 @@ class DashboardController extends AdminResourceController
         if(! $authUser->activation_code){
             $code = rand(1000, 9999);
             $authUser->activation_code = $code;
-            $email_verified =  new EmailVerified();
-            $email_verified->setCode($code);
-            $authUser->notify($email_verified);
+            $emailVerifiedNotification =  new EmailVerified();
+            $emailVerifiedNotification->setCode($code);
+            $authUser->notify($emailVerifiedNotification);
             $authUser->update();
         }
         $this->meta['title'] = __('identify email');
@@ -146,9 +147,9 @@ class DashboardController extends AdminResourceController
         if(! $authUser->activation_code){
             $code = rand(1000, 9999);
             $authUser->activation_code = $code;
-            $phone_verified =  new PhoneVerified();
-            $phone_verified->setCode($code);
-            $authUser->notify($phone_verified);
+            $phoneVerifiedNotification =  new PhoneVerified();
+            $phoneVerifiedNotification->setCode($code);
+            $authUser->notify($phoneVerifiedNotification);
             $authUser->update();
         }
         $this->meta['title'] = __('identify phone');
@@ -176,20 +177,20 @@ class DashboardController extends AdminResourceController
         return redirect()->back();
     }
 
-    public function postIdentifyDocument($document_title = 'national_card')
+    public function postIdentifyDocument($documentTitle = 'national_card')
     {
         $authUser = Auth::user();
-        $file_service = new \App\Services\BaseFileService();
-        $file_service->save($this->httpRequest->file($document_title), $authUser, $document_title);
+        $fileService = new FileService();
+        $fileService->save($this->httpRequest->file($documentTitle), $authUser, $documentTitle);
 
-        $profile_updated = new ProfileUpdated();
-        $profile_updated->setCode($authUser->id);
+        $profileUpdatedNotification = new ProfileUpdated();
+        $profileUpdatedNotification->setCode($authUser->id);
         $admin_users = $this->modelRepository->getAdminUsers();
         foreach($admin_users as $admin){
-            $admin->notify($profile_updated);
+            $admin->notify($profileUpdatedNotification);
         }
 
-        $this->httpRequest->session()->flash('alert-success', __($document_title) . __('uploaded'));
+        $this->httpRequest->session()->flash('alert-success', __($documentTitle) . __('uploaded'));
         return redirect()->back();
     }
 

@@ -2,9 +2,7 @@
 
 namespace App\Enums;
 
-use App\Services\BaseEnum;
-
-final class FactorStatus extends BaseEnum
+final class FactorStatus
 {
     const data = [
 		1 => 'Initial',

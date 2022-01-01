@@ -2,9 +2,7 @@
 
 namespace App\Enums;
 
-use App\Services\BaseEnum;
-
-final class ModelType extends BaseEnum
+final class ModelType
 {
     const data = [
 		'Advertise' => 'Advertise',

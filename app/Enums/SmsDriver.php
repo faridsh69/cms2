@@ -2,9 +2,7 @@
 
 namespace App\Enums;
 
-use App\Services\BaseEnum;
-
-final class SmsDriver extends BaseEnum
+final class SmsDriver
 {
     const data = [
 		'kavenegar' => 'Kavenegar',

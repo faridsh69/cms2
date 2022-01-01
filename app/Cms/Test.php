@@ -7,7 +7,6 @@ use App\Models\Tag;
 use App\Models\User;
 use Str;
 use Tests\TestCase;
-use App\Services\BaseFactory;
 
 class Test extends TestCase
 {
@@ -51,7 +50,7 @@ class Test extends TestCase
                 ->assertRedirect(route('admin.' . $modelNameSlug . '.list.index'));
 
             // create fake data for store in database
-            $factory = new BaseFactory();
+            $factory = new Factory();
             $factory->setModelNameSlug($modelNameSlug);
             $fakeModel = $factory->make();
             $fakeData = $fakeModel->getAttributes();

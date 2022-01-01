@@ -2,9 +2,7 @@
 
 namespace App\Enums;
 
-use App\Services\BaseEnum;
-
-final class FieldType extends BaseEnum
+final class FieldType
 {
     const data = [
 		'text' => 'Text',

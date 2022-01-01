@@ -178,7 +178,7 @@ class AdminResourceController extends AdminController
     public function export()
     {
         $this->authorize('index', $this->modelNamespace);
-        $exportClassName = 'App\Services\BaseExport';
+        $exportClassName = 'App\Cms\Export';
         $exportRepository = new $exportClassName();
         $exportRepository->setModelName($this->modelName);
 
@@ -188,7 +188,7 @@ class AdminResourceController extends AdminController
     public function import()
     {
         $this->authorize('index', $this->modelNamespace);
-        $importClassName = 'App\Services\BaseImport';
+        $importClassName = 'App\Cms\Import';
         $importRepository = new $importClassName();
         $importRepository->setModelName($this->modelName);
 

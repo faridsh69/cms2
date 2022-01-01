@@ -2,9 +2,7 @@
 
 namespace App\Enums;
 
-use App\Services\BaseEnum;
-
-final class NotificationEvent extends BaseEnum
+final class NotificationEvent
 {
     const data = [
 		'user_registered_sms' => 'User Registered SMS',

@@ -2,9 +2,7 @@
 
 namespace App\Enums;
 
-use App\Services\BaseEnum;
-
-final class AppEnv extends BaseEnum
+final class AppEnv
 {
     const data = [
 		'production' => 'Production',

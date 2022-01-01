@@ -2,9 +2,7 @@
 
 namespace App\Enums;
 
-use App\Services\BaseEnum;
-
-final class BlockType extends BaseEnum
+final class BlockType
 {
     const data = [
 		'menu' => 'Menu',
