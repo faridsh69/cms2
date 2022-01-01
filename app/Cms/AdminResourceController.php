@@ -6,7 +6,7 @@ use Auth;
 use Str;
 use Illuminate\View\View;
 
-class ResourceController extends BaseAdminController
+class AdminResourceController extends AdminController
 {
     public function index() : View
     {
