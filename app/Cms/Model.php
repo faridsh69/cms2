@@ -13,13 +13,4 @@ class Model extends LaravelModel
 	protected $hidden = [
 		'deleted_at',
 	];
-
-	public function setTitle(string $title = null)
-	{
-	    $activity = new Activity();
-	    $activity->title = $title;
-	    $activity->activated = 1;
-
-	    return $activity;
-	}
 }

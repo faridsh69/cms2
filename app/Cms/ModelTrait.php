@@ -6,13 +6,13 @@ use Auth;
 use Cache;
 use File;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\belongsToMany;
 use Illuminate\Database\Eloquent\Relations\morphMany;
 use Illuminate\Database\Eloquent\Relations\morphToMany;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 trait ModelTrait
 {
@@ -173,15 +173,18 @@ trait ModelTrait
 	private function saveRelatedDataAfterCreate(array $data, $model) : bool
 	{
 		// Upload all columns with type file.
-		foreach(collect($this->getColumns())->where('type', 'file')->pluck('name') as $file_column) {
-			if(isset($data[$file_column]) && $data[$file_column]){
+		foreach(collect($this->getColumns())->where('type', 'file')->pluck('name') as $file_column)
+		{
+			if (isset($data[$file_column]) && $data[$file_column])
+			{
 				$file = $data[$file_column];
-				$file_service = new \App\Services\BaseFileService();
+				$file_service = new FileService();
 				$file_service->save($file, $model, $file_column);
 			}
 		}
 		// save relations with array type column like tags, related_models, etc.
-		foreach(collect($this->getColumns())->where('type', 'array')->pluck('name') as $array_column) {
+		foreach(collect($this->getColumns())->where('type', 'array')->pluck('name') as $array_column)
+		{
 			$model->{$array_column}()->sync($data[$array_column], true);
 		}
 

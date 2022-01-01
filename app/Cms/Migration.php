@@ -9,7 +9,7 @@ use Str;
 
 class Migration extends LaravelMigration
 {
-    // models of migration tables
+    // Models of migration tables
     public array $modelNameSlugs = [];
 
     // For $update true, if table exist it will update, if false will rebuild

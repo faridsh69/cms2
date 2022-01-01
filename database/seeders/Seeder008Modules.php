@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Models\Module;
 use Illuminate\Database\Seeder;
 
@@ -7,8 +9,8 @@ class Seeder008Modules extends Seeder
 {
     public function run()
     {
-        $image_folder_name = '/storage/photos/';
-        $video_folder_name = '/storage/videos/';
+        $photosFolder = 'temp-laravel-cms-static-files/photos/';
+        $videosFolder = 'temp-laravel-cms-static-files/videos/';
 
         $modules = [
             // Menu
@@ -53,26 +55,26 @@ class Seeder008Modules extends Seeder
                 'title' => 'Header Title 1',
                 'description' => 'Header Description 1',
                 'url' => 'header-url-1',
-                'image' => $image_folder_name . 'header-1.png',
+                'image' => $photosFolder . 'header-1.png',
             ],
             [
                 'type' => 'header',
                 'title' => 'Header Title 2',
                 'description' => 'Header Description 2',
                 'url' => 'header-url-2',
-                'image' => $image_folder_name . 'header-2.png',
+                'image' => $photosFolder . 'header-2.png',
             ],
             [
                 'type' => 'header',
                 'title' => 'Header Title 3',
                 'description' => 'Header Description 3',
                 'url' => 'header-url-3',
-                'image' => $image_folder_name . 'header-3.png',
+                'image' => $photosFolder . 'header-3.png',
             ],
             // Breadcrumb
             [
                 'type' => 'breadcrumb',
-                'image' => $image_folder_name . 'breadcrumb.png',
+                'image' => $photosFolder . 'breadcrumb.png',
             ],
             // Main Feature
             [
@@ -137,13 +139,13 @@ class Seeder008Modules extends Seeder
                 'description' => 'Introduce description',
                 'content' => 'Introduce Content',
                 'url' => 'introduce-url',
-                'image' => $image_folder_name . 'introduce.png',
+                'image' => $photosFolder . 'introduce.png',
             ],
             // Video
             [
                 'type' => 'video',
                 'title' => 'Video Title',
-                'video' => $video_folder_name . 'video.mp4',
+                'video' => $videosFolder . 'video.mp4',
             ],
             // Counting
             [
@@ -190,23 +192,23 @@ class Seeder008Modules extends Seeder
             // Services
             [
                 'type' => 'service',
-                'image' => $image_folder_name . 'service-1.png',
+                'image' => $photosFolder . 'service-1.png',
             ],
             [
                 'type' => 'service',
-                'image' => $image_folder_name . 'service-2.png',
+                'image' => $photosFolder . 'service-2.png',
             ],
             [
                 'type' => 'service',
-                'image' => $image_folder_name . 'service-3.png',
+                'image' => $photosFolder . 'service-3.png',
             ],
             [
                 'type' => 'service',
-                'image' => $image_folder_name . 'service-4.png',
+                'image' => $photosFolder . 'service-4.png',
             ],
             [
                 'type' => 'service',
-                'image' => $image_folder_name . 'service-5.png',
+                'image' => $photosFolder . 'service-5.png',
             ],
             // Pricing
             [
@@ -236,28 +238,28 @@ class Seeder008Modules extends Seeder
                 'title' => '#13 Customer',
                 'full_name' => 'Taylor Otwell',
                 'description' => '“ I love this business! ”',
-                'image' => $image_folder_name . 'testimonial-1.png',
+                'image' => $photosFolder . 'testimonial-1.png',
             ],
             [
                 'type' => 'testimonial',
                 'title' => 'Manager',
                 'full_name' => 'Navid Ma',
                 'description' => '“ I love this business! ”',
-                'image' => $image_folder_name . 'testimonial-2.png',
+                'image' => $photosFolder . 'testimonial-2.png',
             ],
             [
                 'type' => 'testimonial',
                 'title' => '#4 Customer',
                 'full_name' => 'Elizabeth Sm',
                 'description' => '“ I love this business! ”',
-                'image' => $image_folder_name . 'testimonial-3.png',
+                'image' => $photosFolder . 'testimonial-3.png',
             ],
             [
                 'type' => 'testimonial',
                 'title' => 'Chief Technology Officer',
                 'full_name' => 'Farid Sh',
                 'description' => '“ I love this business! ”',
-                'image' => $image_folder_name . 'testimonial-4.png',
+                'image' => $photosFolder . 'testimonial-4.png',
             ],
             // FAQ
             [
@@ -278,48 +280,48 @@ class Seeder008Modules extends Seeder
             // Partner
             [
                 'type' => 'partner',
-                'image' => $image_folder_name . 'partner-1.png',
+                'image' => $photosFolder . 'partner-1.png',
             ],
             [
                 'type' => 'partner',
-                'image' => $image_folder_name . 'partner-2.png',
+                'image' => $photosFolder . 'partner-2.png',
             ],
             [
                 'type' => 'partner',
-                'image' => $image_folder_name . 'partner-3.png',
+                'image' => $photosFolder . 'partner-3.png',
             ],
             [
                 'type' => 'partner',
-                'image' => $image_folder_name . 'partner-4.png',
+                'image' => $photosFolder . 'partner-4.png',
             ],
             [
                 'type' => 'partner',
-                'image' => $image_folder_name . 'partner-5.png',
+                'image' => $photosFolder . 'partner-5.png',
             ],
             // Team
             [
                 'type' => 'team',
                 'title' => '#13 Customer',
                 'full_name' => 'Taylor Otwell',
-                'image' => $image_folder_name . 'team-1.png',
+                'image' => $photosFolder . 'team-1.png',
             ],
             [
                 'type' => 'team',
                 'title' => 'Manager',
                 'full_name' => 'Navid Ma',
-                'image' => $image_folder_name . 'team-2.png',
+                'image' => $photosFolder . 'team-2.png',
             ],
             [
                 'type' => 'team',
                 'title' => '#4 Customer',
                 'full_name' => 'Elizabeth Sm',
-                'image' => $image_folder_name . 'team-3.png',
+                'image' => $photosFolder . 'team-3.png',
             ],
             [
                 'type' => 'team',
                 'title' => 'Chief Technology Officer',
                 'full_name' => 'Farid Sh',
-                'image' => $image_folder_name . 'team-4.png',
+                'image' => $photosFolder . 'team-4.png',
             ],
         ];
 

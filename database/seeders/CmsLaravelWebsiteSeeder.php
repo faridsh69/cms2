@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Models\Block;
 use App\Models\Category;
 use App\Models\Module;
@@ -11,12 +13,12 @@ use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
-class CmsLaravelSeeder extends Seeder
+class CmsLaravelWebsiteSeeder extends Seeder
 {
     public function run()
     {
-		$image_folder_name = '/storage/photos/';
-		$video_folder_name = '/storage/videos/';
+    	$photosFolder = 'temp-laravel-cms-static-files/photos/';
+        $videosFolder = 'temp-laravel-cms-static-files/videos/';
 
         // Category
         $categories = [
@@ -46,7 +48,8 @@ class CmsLaravelSeeder extends Seeder
             ],
         ];
 
-        foreach($categories as $category){
+        foreach ($categories as $category)
+        {
             $category['language'] = 'en';
             Category::firstOrCreate($category);
         }
@@ -78,11 +81,12 @@ class CmsLaravelSeeder extends Seeder
                 'url' => 'farid-shahidi',
                 'email' => 'farid.sh69@gmail.com',
                 'phone' => '+4915730275229',
-                'password' => bcrypt('1111'),
+                'password' => bcrypt('123456'),
                 'activated' => 1,
             ],
         ];
-        foreach($users as $user){
+        foreach ($users as $user)
+        {
             User::updateOrCreate(['id' => $user['id']], $user);
         }
 
@@ -91,112 +95,112 @@ class CmsLaravelSeeder extends Seeder
             [
                 'title' => 'Open Source Full-Featured CMS',
                 'url' => null,
-                'image' => asset($image_folder_name . 'setting-logo.png'),
+                'image' => asset($photosFolder . 'logo.png'),
                 'description' => 'CMS Laravel is an open source project with Laravel contains all usefull packages and services for developing in the fastest way.',
                 'view_code_url' => 'front.components.documents.laravel-cms',
             ],
             [
                 'title' => 'Document',
                 'url' => 'document',
-                'image' => asset($image_folder_name . 'setting-logo.png'),
+                'image' => asset($photosFolder . 'logo.png'),
                 'description' => 'How to use laravel cms and understand new design patterns that used in this cms.',
                 'view_code_url' => 'front.components.documents.getting-started',
             ],
             [
                 'title' => 'Getting Started',
                 'url' => 'getting-started',
-                'image' => asset($image_folder_name . 'setting-logo.png'),
+                'image' => asset($photosFolder . 'logo.png'),
                 'description' => 'How to use laravel cms and understand new design patterns that used in this cms.',
                 'view_code_url' => 'front.components.documents.getting-started',
             ],
             [
                 'title' => 'Model',
                 'url' => 'model',
-                'image' => asset($image_folder_name . 'documents/model.png'),
+                'image' => asset($photosFolder . 'documents/model.png'),
                 'description' => 'How to write your models in cms-laravel to see how whole project will run with just one array in your model and try to find out why this cms can help to develop more easier and faster.',
                 'view_code_url' => 'front.components.documents.model',
             ],
             [
                 'title' => 'Setting',
                 'url' => 'setting',
-                'image' => asset($image_folder_name . 'documents/setting.png'),
+                'image' => asset($photosFolder . 'documents/setting.png'),
                 'description' => 'Everything is configured in settings at laravel CMS. Feel free to check settings section.',
                 'view_code_url' => 'front.components.documents.setting',
             ],
             [
                 'title' => 'Migration',
                 'url' => 'migration',
-                'image' => asset($image_folder_name . 'documents/migration.png'),
+                'image' => asset($photosFolder . 'documents/migration.png'),
                 'description' => 'How to use migration service to create or modify tables based on model changes.',
                 'view_code_url' => 'front.components.documents.migration',
             ],
             [
                 'title' => 'Form',
                 'url' => 'form',
-                'image' => asset($image_folder_name . 'documents/form.png'),
+                'image' => asset($photosFolder . 'documents/form.png'),
                 'description' => 'Get familiar with all forms types and use them, all type of form inputs craeted and is ready to develop by laravel-form-builder',
                 'view_code_url' => 'front.components.documents.form',
             ],
             [
                 'title' => 'Factory',
                 'url' => 'factory',
-                'image' => asset($image_folder_name . 'documents/factory.png'),
+                'image' => asset($photosFolder . 'documents/factory.png'),
                 'description' => 'Factory is used for seed fake data in database and also it used in tests. factory will generate automatically based on your model columns.',
                 'view_code_url' => 'front.components.documents.factory',
             ],
             [
                 'title' => 'Seeder',
                 'url' => 'seeder',
-                'image' => asset($image_folder_name . 'documents/seeder.png'),
+                'image' => asset($photosFolder . 'documents/seeder.png'),
                 'description' => 'You dont need to write any seeders, just add models that you want to seed fake data to config/services.php file.',
                 'view_code_url' => 'front.components.documents.seeder',
             ],
             [
                 'title' => 'Route',
                 'url' => 'route',
-                'image' => asset($image_folder_name . 'documents/route.png'),
+                'image' => asset($photosFolder . 'documents/route.png'),
                 'description' => 'Routes seperated in admin, auth, api and front part and take a look they are easy to read and understand.',
                 'view_code_url' => 'front.components.documents.route',
             ],
             [
                 'title' => 'Controller',
                 'url' => 'controller',
-                'image' => asset($image_folder_name . 'documents/controller.png'),
+                'image' => asset($photosFolder . 'documents/controller.png'),
                 'description' => 'Every controller in cms admin is extended from baseListController and every thing will be ready.',
                 'view_code_url' => 'front.components.documents.controller',
             ],
             [
                 'title' => 'Export, Import, Print',
                 'url' => 'export-import-print',
-                'image' => asset($image_folder_name . 'documents/export-import-print.png'),
+                'image' => asset($photosFolder . 'documents/export-import-print.png'),
                 'description' => 'Admin panel contains three urls to import, export and print all the data in that table.',
                 'view_code_url' => 'front.components.documents.export-import-print',
             ],
             [
                 'title' => 'API',
                 'url' => 'api',
-                'image' => asset($image_folder_name . 'documents/api.png'),
+                'image' => asset($photosFolder . 'documents/api.png'),
                 'description' => 'All apis is ready! There is a powefull baseApiController that needed to be extended and your api is fully ready.',
                 'view_code_url' => 'front.components.documents.api',
             ],
             [
                 'title' => 'Notification',
                 'url' => 'notification',
-                'image' => asset($image_folder_name . 'documents/notification.png'),
+                'image' => asset($photosFolder . 'documents/notification.png'),
                 'description' => 'Sending notification for different events like login, register, update profile and create a factor with multilanuage support is ready to use.',
                 'view_code_url' => 'front.components.documents.notification',
             ],
             [
                 'title' => 'Test',
                 'url' => 'test',
-                'image' => asset($image_folder_name . 'documents/test.png'),
+                'image' => asset($photosFolder . 'documents/test.png'),
                 'description' => 'For all admin routes there are tests that can be run by vendor/bin/phpunit.',
                 'view_code_url' => 'front.components.documents.test',
             ],
             [
                 'title' => 'File',
                 'url' => 'file',
-                'image' => asset($image_folder_name . 'documents/file.png'),
+                'image' => asset($photosFolder . 'documents/file.png'),
                 'description' => 'Uploading video, multiple files, validation on it, create thumbnail for images is ready now.',
                 'view_code_url' => 'front.components.documents.file',
             ],
@@ -228,9 +232,9 @@ class CmsLaravelSeeder extends Seeder
             'app_title' => 'Laravel CMS',
             'default_meta_title' => 'Laravel CMS',
             'default_meta_description' => 'Laravel CMS is an open source project with Laravel developed by both basic and advanced services and packages.',
-            'logo' => asset($image_folder_name . 'setting-logo.png'),
-            'favicon' => asset($image_folder_name . 'setting-favicon.png'),
-            'default_meta_image' => asset($image_folder_name . 'setting-logo.png'),
+            'logo' => asset($photosFolder . 'setting-logo.png'),
+            'favicon' => asset($photosFolder . 'setting-favicon.png'),
+            'default_meta_image' => asset($photosFolder . 'setting-logo.png'),
             'android_application_url' => 'https://play.google.com/store/apps',
             'ios_application_url' => 'https://sibapp.com/applications',
             'google_map_code' => 'AIzaSyAwuyLRa1uKNtbgx6xAJVmWy-zADgegA2s',
@@ -388,19 +392,19 @@ class CmsLaravelSeeder extends Seeder
                 'title' => 'Laravel CMS',
                 'description' => 'Full Featured CMS',
                 'url' => 'document',
-                'image' => $image_folder_name . 'header-1.png',
+                'image' => $photosFolder . 'header-1.png',
             ],
             [
                 'type' => 'header',
                 'title' => 'Everything Is Ready!',
                 'description' => 'Just define your logic',
                 'url' => 'document-model',
-                'image' => $image_folder_name . 'header-2.png',
+                'image' => $photosFolder . 'header-2.png',
             ],
             // Breadcrumb
             [
                 'type' => 'breadcrumb',
-                'image' => $image_folder_name . 'breadcrumb.png',
+                'image' => $photosFolder . 'breadcrumb.png',
             ],
             // Main Feature
             [
@@ -472,13 +476,13 @@ Prepared services for notification, saving gallery images, creating backup, API 
 Provided structure for adding theme to Laravel project with blocks and widgets.
 ',
                 'url' => 'document',
-                'image' => $image_folder_name . 'introduce.png',
+                'image' => $photosFolder . 'introduce.png',
             ],
             // Video
             [
                 'type' => 'video',
                 'title' => 'Video Title',
-                'video' => $video_folder_name . 'video.mp4',
+                'video' => $videosFolder . 'video.mp4',
             ],
             // Counting
             [
@@ -515,25 +519,25 @@ Provided structure for adding theme to Laravel project with blocks and widgets.
                 'type' => 'service',
                 'title' => 'Model',
                 'url' => 'model',
-                'image' => $image_folder_name . 'documents/model.png',
+                'image' => $photosFolder . 'documents/model.png',
             ],
             [
                 'type' => 'service',
                 'title' => 'Form',
                 'url' => 'form',
-                'image' => $image_folder_name . 'documents/form.png',
+                'image' => $photosFolder . 'documents/form.png',
             ],
             [
                 'type' => 'service',
                 'title' => 'Migration',
                 'url' => 'form',
-                'image' => $image_folder_name . 'documents/migration.png',
+                'image' => $photosFolder . 'documents/migration.png',
             ],
             [
                 'type' => 'service',
                 'title' => 'Notification',
                 'url' => 'form',
-                'image' => $image_folder_name . 'documents/notification.png',
+                'image' => $photosFolder . 'documents/notification.png',
             ],
             // Pricing
             [
@@ -549,28 +553,28 @@ Provided structure for adding theme to Laravel project with blocks and widgets.
                 'title' => 'Consultant',
                 'full_name' => 'Taylor Otwell',
                 'description' => '“ I love this cms, it really complete and well designed. ”',
-                'image' => $image_folder_name . 'testimonial-1.png',
+                'image' => $photosFolder . 'testimonial-1.png',
             ],
             [
                 'type' => 'testimonial',
                 'title' => 'Manager',
                 'full_name' => 'Navid Ma',
                 'description' => '“ We used all of our experience in many enterprise projects in this cms ”',
-                'image' => $image_folder_name . 'testimonial-2.png',
+                'image' => $photosFolder . 'testimonial-2.png',
             ],
             [
                 'type' => 'testimonial',
                 'title' => 'Graphic Designer',
                 'full_name' => 'Elizabeth Sm',
                 'description' => '“ I desgined all of its themes on edge of technology ”',
-                'image' => $image_folder_name . 'testimonial-3.png',
+                'image' => $photosFolder . 'testimonial-3.png',
             ],
             [
                 'type' => 'testimonial',
                 'title' => 'Chief Technology Officer',
                 'full_name' => 'Farid Sh',
                 'description' => '“ Love beautifull code? I do too! ”',
-                'image' => $image_folder_name . 'testimonial-4.png',
+                'image' => $photosFolder . 'testimonial-4.png',
             ],
             // FAQ
             [
@@ -587,52 +591,52 @@ Provided structure for adding theme to Laravel project with blocks and widgets.
             [
                 'type' => 'partner',
                 'url' => '//menew.ir',
-                'image' => $image_folder_name . 'partner-1.png',
+                'image' => $photosFolder . 'partner-1.png',
             ],
             [
                 'type' => 'partner',
                 'url' => '//neuropmr.ir',
-                'image' => $image_folder_name . 'partner-2.png',
+                'image' => $photosFolder . 'partner-2.png',
             ],
             [
                 'type' => 'partner',
                 'url' => '//menew.ir',
-                'image' => $image_folder_name . 'partner-3.png',
+                'image' => $photosFolder . 'partner-3.png',
             ],
             [
                 'type' => 'partner',
                 'url' => '//menew.ir',
-                'image' => $image_folder_name . 'partner-4.png',
+                'image' => $photosFolder . 'partner-4.png',
             ],
             [
                 'type' => 'partner',
                 'url' => '//menew.ir',
-                'image' => $image_folder_name . 'partner-5.png',
+                'image' => $photosFolder . 'partner-5.png',
             ],
             // Team
             [
                 'type' => 'team',
                 'title' => 'Consultant',
                 'full_name' => 'Taylor Otwell',
-                'image' => $image_folder_name . 'team-1.png',
+                'image' => $photosFolder . 'team-1.png',
             ],
             [
                 'type' => 'team',
                 'title' => 'Manager',
                 'full_name' => 'Navid Ma',
-                'image' => $image_folder_name . 'team-2.png',
+                'image' => $photosFolder . 'team-2.png',
             ],
             [
                 'type' => 'team',
                 'title' => 'Graphic Designer',
                 'full_name' => 'Elizabeth Sm',
-                'image' => $image_folder_name . 'team-3.png',
+                'image' => $photosFolder . 'team-3.png',
             ],
             [
                 'type' => 'team',
                 'title' => 'Chief Technology Officer',
                 'full_name' => 'Farid Shahidi',
-                'image' => $image_folder_name . 'team-4.png',
+                'image' => $photosFolder . 'team-4.png',
             ],
         ];
 

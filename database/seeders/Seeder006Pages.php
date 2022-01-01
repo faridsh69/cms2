@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Models\Page;
 use Illuminate\Database\Seeder;
 
@@ -11,7 +13,7 @@ class Seeder006Pages extends Seeder
             [
             	'title' => 'Home',
             	'url' => null,
-            	'content' => null,
+            	'content' => 'This is home page content',
             	'description' => 'Home page description',
             	'activated' => 1,
             	'google_index' => 1,
@@ -42,7 +44,8 @@ class Seeder006Pages extends Seeder
             ],
         ];
 
-        foreach($pages as $page){
+        foreach ($pages as $page)
+        {
             $page['language'] = 'en';
             Page::firstOrCreate(
                 ['url' => $page['url']],

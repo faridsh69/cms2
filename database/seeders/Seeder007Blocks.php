@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Models\Block;
 use Illuminate\Database\Seeder;
 
@@ -10,7 +12,7 @@ class Seeder007Blocks extends Seeder
         $blocks = [
             [
             	'id' => 1,
-                'order' => 3,
+                'order' => 10,
                 'type' => 'menu',
                 'show_all_pages' => 1,
             	'pages_list' => [],
@@ -18,7 +20,7 @@ class Seeder007Blocks extends Seeder
             ],
             [
             	'id' => 2,
-                'order' => 6,
+                'order' => 20,
             	'type' => 'header',
                 'show_all_pages' => 0,
                 'pages_list' => [1],
@@ -26,7 +28,7 @@ class Seeder007Blocks extends Seeder
             ],
             [
                 'id' => 3,
-                'order' => 9,
+                'order' => 30,
                 'type' => 'breadcrumb',
                 'show_all_pages' => 1,
                 'pages_list' => [1],
@@ -34,7 +36,7 @@ class Seeder007Blocks extends Seeder
             ],
             [
                 'id' => 4,
-                'order' => 12,
+                'order' => 40,
                 'type' => 'main_feature',
                 'show_all_pages' => 0,
                 'pages_list' => [1],
@@ -42,7 +44,7 @@ class Seeder007Blocks extends Seeder
             ],
             [
                 'id' => 5,
-                'order' => 15,
+                'order' => 50,
                 'type' => 'feature',
                 'show_all_pages' => 0,
                 'pages_list' => [1],
@@ -50,7 +52,7 @@ class Seeder007Blocks extends Seeder
             ],
             [
             	'id' => 6,
-                'order' => 25,
+                'order' => 60,
             	'type' => 'content',
                 'show_all_pages' => 1,
                 'pages_list' => [],
@@ -58,7 +60,7 @@ class Seeder007Blocks extends Seeder
             ],
             [
                 'id' => 7,
-                'order' => 21,
+                'order' => 70,
                 'type' => 'introduce',
                 'show_all_pages' => 0,
                 'pages_list' => [1, 2],
@@ -66,7 +68,7 @@ class Seeder007Blocks extends Seeder
             ],
             [
             	'id' => 8,
-                'order' => 24,
+                'order' => 80,
             	'type' => 'video',
                 'show_all_pages' => 0,
                 'pages_list' => [1],
@@ -74,7 +76,7 @@ class Seeder007Blocks extends Seeder
             ],
             [
             	'id' => 9,
-                'order' => 27,
+                'order' => 90,
             	'type' => 'counting',
                 'show_all_pages' => 0,
                 'pages_list' => [1],
@@ -82,7 +84,7 @@ class Seeder007Blocks extends Seeder
             ],
             [
             	'id' => 10,
-                'order' => 30,
+                'order' => 100,
             	'type' => 'product',
                 'show_all_pages' => 0,
                 'pages_list' => [1],
@@ -90,7 +92,7 @@ class Seeder007Blocks extends Seeder
             ],
             [
                 'id' => 11,
-                'order' => 33,
+                'order' => 110,
                 'type' => 'service',
                 'show_all_pages' => 0,
                 'pages_list' => [1],
@@ -98,7 +100,7 @@ class Seeder007Blocks extends Seeder
             ],
             [
             	'id' => 12,
-                'order' => 36,
+                'order' => 120,
             	'type' => 'pricing',
                 'show_all_pages' => 0,
                 'pages_list' => [1],
@@ -106,7 +108,7 @@ class Seeder007Blocks extends Seeder
             ],
             [
             	'id' => 13,
-                'order' => 39,
+                'order' => 130,
             	'type' => 'testimonial',
                 'show_all_pages' => 0,
                 'pages_list' => [1],
@@ -114,7 +116,7 @@ class Seeder007Blocks extends Seeder
             ],
             [
                 'id' => 14,
-                'order' => 42,
+                'order' => 140,
                 'type' => 'faq',
                 'show_all_pages' => 0,
                 'pages_list' => [1],
@@ -122,7 +124,7 @@ class Seeder007Blocks extends Seeder
             ],
             [
                 'id' => 15,
-                'order' => 45,
+                'order' => 150,
                 'type' => 'partner',
                 'show_all_pages' => 0,
                 'pages_list' => [1],
@@ -130,7 +132,7 @@ class Seeder007Blocks extends Seeder
             ],
             [
                 'id' => 16,
-                'order' => 48,
+                'order' => 160,
                 'type' => 'team',
                 'show_all_pages' => 0,
                 'pages_list' => [2], // about page
@@ -138,7 +140,7 @@ class Seeder007Blocks extends Seeder
             ],
             [
                 'id' => 17,
-                'order' => 51,
+                'order' => 170,
                 'type' => 'blog',
                 'show_all_pages' => 0,
                 'pages_list' => [1],
@@ -146,7 +148,7 @@ class Seeder007Blocks extends Seeder
             ],
             [
             	'id' => 18,
-                'order' => 54,
+                'order' => 180,
             	'type' => 'subscribe',
                 'show_all_pages' => 1,
                 'pages_list' => [],
@@ -154,7 +156,7 @@ class Seeder007Blocks extends Seeder
             ],
             [
                 'id' => 19,
-                'order' => 57,
+                'order' => 190,
                 'type' => 'map',
                 'show_all_pages' => 0,
                 'pages_list' => [3], // contact page
@@ -162,7 +164,7 @@ class Seeder007Blocks extends Seeder
             ],
             [
             	'id' => 20,
-                'order' => 60,
+                'order' => 200,
             	'type' => 'contact',
                 'show_all_pages' => 0,
                 'pages_list' => [3], // contact page
@@ -170,7 +172,7 @@ class Seeder007Blocks extends Seeder
             ],
             [
             	'id' => 21,
-                'order' => 63,
+                'order' => 210,
             	'type' => 'footer',
                 'show_all_pages' => 1,
                 'pages_list' => [],
@@ -178,7 +180,7 @@ class Seeder007Blocks extends Seeder
             ],
             [
                 'id' => 22,
-                'order' => 66,
+                'order' => 220,
                 'type' => 'loading',
                 'show_all_pages' => 1,
                 'pages_list' => [],
@@ -186,7 +188,7 @@ class Seeder007Blocks extends Seeder
             ],
             [
                 'id' => 23,
-                'order' => 52,
+                'order' => 230,
                 'type' => 'form',
                 'show_all_pages' => 0,
                 'pages_list' => [4], // job page

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use Image;
 use Str;
 
-class FileService extends Service
+class FileService
 {
     const UPLOAD_PATH_PREFIX = 'public/upload/';
 

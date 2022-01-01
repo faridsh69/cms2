@@ -1,27 +1,27 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Models\Product;
 use App\Models\Tagend;
 use Illuminate\Database\Seeder;
+use Str;
 
 class Seeder005Products extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run()
     {
         $products = [
         	[
-        		'title' => 'Toman',
+        		'title' => 'Dollor',
         		'price' => '1',
         	],
         	[
-        		'title' => 'Teter USDT erc20',
+        		'title' => 'Teter USDT Erc20',
         		'price' => '13800',
         	],
         	[
-        		'title' => 'Eteriom',
+        		'title' => 'PolkaDot',
         		'price' => '8000',
         	],
         	[
@@ -33,10 +33,6 @@ class Seeder005Products extends Seeder
         		'price' => '11390',
         	],
         	[
-        		'title' => 'Voucher Perfect money',
-        		'price' => '10390',
-        	],
-        	[
         		'title' => 'Web money',
         		'price' => '8300',
         	],
@@ -45,7 +41,7 @@ class Seeder005Products extends Seeder
         		'price' => '6200',
         	],
         	[
-        		'title' => 'Light Coin',
+        		'title' => 'Ltc',
         		'price' => '3800',
         	],
         	[
@@ -55,22 +51,20 @@ class Seeder005Products extends Seeder
         ];
 
         $order = 1;
-    	foreach($products as $product){
-            $order += 3;
+    	foreach ($products as $product)
+    	{
             $product['order'] = $order;
             $product['language'] = 'en';
             $product['url'] = Str::slug($product['title']);
-    		$product['content'] = '';
             $product['category_id'] = 1;
-    		$product['discount_price'] = null;
+            $order ++;
 
             Product::firstOrCreate($product);
         }
 
         $tagends = [
             [
-                'title' => 'ارسال معمولی',
-                'description' => 'زمان ارسال بین ۱ الی ۲ روز است.',
+                'title' => 'Regular Shippment',
                 'value' => 8000,
                 'sign' => 1,
                 'value_type' => 0,
@@ -80,8 +74,7 @@ class Seeder005Products extends Seeder
                 'user_id' => null,
             ],
             [
-                'title' => 'ارسال سفارشی',
-                'description' => 'زمان ارسال کمتر از ۱ روز است.',
+                'title' => 'Advanced Shippment',
                 'value' => 10000,
                 'sign' => 1,
                 'value_type' => 0,
@@ -91,8 +84,7 @@ class Seeder005Products extends Seeder
                 'user_id' => null,
             ],
             [
-                'title' => 'ارسال با پیک موتوری',
-                'description' => 'زمان ارسال تا ساعاتی دیگر',
+                'title' => 'Special Shippment',
                 'value' => 12000,
                 'sign' => 1,
                 'value_type' => 0,
@@ -102,8 +94,7 @@ class Seeder005Products extends Seeder
                 'user_id' => null,
             ],
             [
-                'title' => 'مالیات',
-                'description' => 'مالیات برابر ۲ درصد می باشد.',
+                'title' => 'Tax',
                 'value' => 2,
                 'sign' => 1,
                 'value_type' => 1,
@@ -113,19 +104,7 @@ class Seeder005Products extends Seeder
                 'user_id' => null,
             ],
             [
-                'title' => 'ارزش افزوده',
-                'description' => 'ارزش افزوده برابر ۳ درصد می باشد.',
-                'value' => 3,
-                'sign' => 1,
-                'value_type' => 1,
-                'is_copon' => 0,
-                'code' => null,
-                'activated' => 0,
-                'user_id' => null,
-            ],
-            [
-                'title' => 'هزینه بسته بندی',
-                'description' => 'هزینه بسته بندی هزار تومان است.',
+                'title' => 'Pack cost',
                 'value' => 1000,
                 'sign' => 1,
                 'value_type' => 0,
@@ -136,7 +115,8 @@ class Seeder005Products extends Seeder
             ],
         ];
 
-        foreach($tagends as $tagend){
+        foreach ($tagends as $tagend)
+        {
             Tagend::updateOrCreate(['title' => $tagend['title']], $tagend);
         }
     }

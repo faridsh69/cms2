@@ -2,10 +2,10 @@
 
 namespace App\Cms;
 
-use Illuminate\Database\Seeder;
+use Illuminate\Database\Seeder as LaravelSeeder;
 use Str;
 
-class Seeder extends Seeder
+class Seeder extends LaravelSeeder
 {
 	public function run()
 	{
@@ -18,8 +18,8 @@ class Seeder extends Seeder
             $modelNamespace = config('cms.config.models_namespace') . $modelName;
             $modelRepository = new $modelNamespace();
     		for($i = 0; $i < 4; $i ++){
-                // create fake data for store in database
-                $factory = new BaseFactory();
+                // Create fake data and store them in database
+                $factory = new Factory();
                 $factory->setModelNameSlug($modelNameSlug);
                 $fakeModel = $factory->make();
                 $fakeData = $fakeModel->getAttributes();

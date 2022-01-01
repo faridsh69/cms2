@@ -6,6 +6,15 @@ use App\Cms\Model;
 
 class Activity extends Model
 {
+	public function setTitle(string $title = null)
+	{
+	    $activity = new Activity();
+	    $activity->title = $title;
+	    $activity->activated = 1;
+
+	    return $activity;
+	}
+
     public $columns = [
         ['name' => 'title'],
         ['name' => 'description'],

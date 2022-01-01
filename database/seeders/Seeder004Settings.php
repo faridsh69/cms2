@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Models\SettingContact;
 use App\Models\SettingDeveloper;
 use App\Models\SettingGeneral;
@@ -9,14 +11,15 @@ class Seeder004Settings extends Seeder
 {
 	public function run()
 	{
-		$image_folder_name = '/storage/photos/';
-		$general_settings = [
+		$photosFolder = 'temp-laravel-cms-static-files/photos/';
+
+		$generalSettings = [
 			'app_title' => 'App Title',
 			'default_meta_title' => 'App Title',
 			'default_meta_description' => 'App desciption about this website that will be show on social networks.',
-			'logo' => asset($image_folder_name . 'setting-logo.png'),
-			'favicon' => asset($image_folder_name . 'setting-favicon.png'),
-			'default_meta_image' => asset($image_folder_name . 'setting-logo.png'),
+			'logo' => asset($photosFolder . 'logo.png'),
+			'favicon' => asset($photosFolder . 'favicon.png'),
+			'default_meta_image' => asset($photosFolder . 'logo.png'),
 			'google_index' => '1',
 			'pagination_number' => '6',
 			'android_application_url' => 'https://play.google.com/store/apps',
@@ -28,7 +31,7 @@ class Seeder004Settings extends Seeder
 			'crisp_id' => null,
         ];
 
-        $contact_settings = [
+        $contactSettings = [
 			'email' => 'farid.sh69@gmail.com',
 			'phone' => '09120568203',
 			'whatsapp' => '+989120568203',
@@ -48,7 +51,7 @@ class Seeder004Settings extends Seeder
 			'stackoverflow' => 'fullstackphpjs',
         ];
 
-        $developer_settings = [
+        $developerSettings = [
 			'app_debug' => true,
 			'app_env' => 'development',
 			'app_language' => 'en',
@@ -79,9 +82,9 @@ class Seeder004Settings extends Seeder
 				'form_submitted_sms',
 			],
         ];
-        SettingGeneral::updateOrCreate(['id' => 1], $general_settings);
-        SettingDeveloper::updateOrCreate(['id' => 1], $developer_settings);
-        SettingContact::updateOrCreate(['id' => 1], $contact_settings);
+        SettingGeneral::updateOrCreate(['id' => 1], $generalSettings);
+        SettingDeveloper::updateOrCreate(['id' => 1], $developerSettings);
+        SettingContact::updateOrCreate(['id' => 1], $contactSettings);
     }
 
     private function random_color_part() {

@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Models\Field;
 use App\Models\Form;
 use Illuminate\Database\Seeder;

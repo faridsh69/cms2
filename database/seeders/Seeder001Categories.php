@@ -1,8 +1,9 @@
 <?php
 
+namespace Database\Seeders;
+
 use App\Models\Category;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 
 class Seeder001Categories extends Seeder
 {
@@ -24,10 +25,11 @@ class Seeder001Categories extends Seeder
         ];
 
         $order = 1;
-        foreach($categories as $category){
+        foreach ($categories as $category)
+        {
+            $category['type'] = 'Blog';
             $category['language'] = 'en';
             $category['order'] = $order;
-            $category['url'] = Str::slug($category['title']);
             Category::firstOrCreate($category);
             $order ++;
         }
