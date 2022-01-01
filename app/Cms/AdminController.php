@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Cms;
 
 use App\Http\Controllers\Controller;
 
-class BaseAdminController extends Controller
+class AdminController extends Controller
 {
     use BaseCmsTrait;
 

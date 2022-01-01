@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Cms;
 
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
@@ -14,7 +14,7 @@ use Route;
 use Str;
 use Cache;
 
-class BaseFrontController extends Controller
+class FrontController extends Controller
 {
     use BaseCmsTrait;
 

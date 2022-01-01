@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Services;
+namespace App\Cms;
 
 use Illuminate\Database\Seeder;
 use Str;
 
-class BaseSeeder extends Seeder
+class Seeder extends Seeder
 {
 	public function run()
 	{

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Cms;
 
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Str;
 
-class BaseApiController extends Controller
+class ApiController extends Controller
 {
     use BaseCmsTrait;
 

@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Services;
+namespace App\Cms;
 
 use App\Notifications\Channels\DatabaseChannel;
 use App\Notifications\Channels\SmsChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
-use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Notification as LaravelNotification;
 use Str;
 use URL;
 
-class BaseNotification extends Notification
+class Notification extends LaravelNotification
 {
 	use Queueable;
 

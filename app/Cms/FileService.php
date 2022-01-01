@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Services;
+namespace App\Cms;
 
 use App\Models\File;
 use Illuminate\Support\Facades\Storage;
 use Image;
 use Str;
 
-class BaseFileService extends BaseService
+class FileService extends Service
 {
     const UPLOAD_PATH_PREFIX = 'public/upload/';
 

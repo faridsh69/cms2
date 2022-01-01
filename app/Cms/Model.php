@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Services;
+namespace App\Cms;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model as LaravelModel;
 
-class BaseModel extends Model
+class Model extends LaravelModel
 {
-    use BaseModelTrait;
+    use ModelTrait;
 
 	protected $guarded = [];
 

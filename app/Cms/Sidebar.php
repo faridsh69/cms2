@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Services;
+namespace App\Cms;
 
 use Auth;
 use Cache;
 use Route;
 use Str;
 
-class SidebarService
+class Sidebar
 {
 	private static $cachingTime = 1;
 

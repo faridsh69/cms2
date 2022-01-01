@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Services;
+namespace App\Cms;
 
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class BaseAuthPolicy
+class AuthPolicy
 {
     use HandlesAuthorization;
 

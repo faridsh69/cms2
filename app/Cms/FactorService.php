@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Cms;
 
 use App\Models\Basket;
 use App\Models\Category;
@@ -8,7 +8,7 @@ use App\Models\Factor;
 use App\Models\Product;
 use Auth;
 
-class FactorService extends BaseService
+class FactorService extends Service
 {
     public function _sendNotifications()
     {

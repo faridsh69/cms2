@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Services;
+namespace App\Cms;
 
 use Auth;
 use Str;
 use Illuminate\View\View;
 
-class BaseResourceController extends BaseAdminController
+class ResourceController extends BaseAdminController
 {
     public function index() : View
     {

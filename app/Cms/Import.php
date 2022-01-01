@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Cms;
 
 use Maatwebsite\Excel\Concerns\ToModel;
 
-class BaseImport implements ToModel
+class Import implements ToModel
 {
     use BaseCmsTrait;
 

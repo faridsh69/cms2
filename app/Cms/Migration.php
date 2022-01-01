@@ -18,54 +18,59 @@ class Migration extends LaravelMigration
     // Create backup before update or rebuild
     public bool $backup = false;
 
-    private $_migrations = [];
+    private $migrationModels = [];
 
     public function __construct()
     {
-        dd(config('cms.migration'));
         if ($this->modelNameSlugs === [])
         {
             $this->modelNameSlugs = config('cms.migration');
         }
 
-
-        foreach($this->modelNameSlugs as $modelNameSlug){
+        foreach($this->modelNameSlugs as $modelNameSlug)
+        {
             $modelName = Str::studly($modelNameSlug);
             $modelNamespace = config('cms.config.models_namespace') . $modelName;
             $modelRepository = new $modelNamespace();
             $modelColumns = $modelRepository->getColumns();
-            $model_table = $modelRepository->getTable();
-            $this->_migrations[] = (object) [
-                'model_slug' => $modelNameSlug,
-                'model_name' => $modelName,
-                'model_namespace' => $modelNamespace,
-                'model_repository' => $modelRepository,
-                'model_columns' => $modelColumns,
-                'model_table' => $model_table,
+            $modelTable = $modelRepository->getTable();
+            $this->migrationModels[] = (object) [
+                'modelRepository' => $modelRepository,
+                'modelColumns' => $modelColumns,
+                'modelTable' => $modelTable,
             ];
         }
     }
 
     public function up()
     {
-        Schema::defaultStringLength(191); // if you are using mariaDB you need this.
-        foreach($this->_migrations as $_migration)
+        // If you are using mariaDB you need this.
+        Schema::defaultStringLength(191); 
+        foreach($this->migrationModels as $migrationModel)
         {
-            if(Schema::hasTable($_migration->model_table) === false){
-                echo 'creating ' . $_migration->model_table;
-                $this->_createMigration($_migration->model_table, $_migration->model_columns);
-            }else{
-                if($this->backup === true){
-                    echo 'backuping ' . $_migration->model_table;
-                    $this->_createBackupTable($_migration->model_table, $_migration->model_repository);
+            if(Schema::hasTable($migrationModel->modelTable) === false)
+            {
+                echo 'creating ' . $migrationModel->modelTable;
+                $this->createMigration($migrationModel->modelTable, $migrationModel->modelColumns);
+            }
+            else
+            {
+                if ($this->backup === true)
+                {
+                    echo 'backuping ' . $migrationModel->modelTable;
+                    $this->createBackupTable($migrationModel->modelTable, $migrationModel->modelRepository);
                 }
-                if($this->update === true){
-                    echo 'updating ' . $_migration->model_table;
-                    $this->_updateMigration($_migration->model_table, $_migration->model_columns);
-                }else{
-                    echo 'rebuilding ' . $_migration->model_table;
-                    $this->_dropTable($_migration->model_table);
-                    $this->_createMigration($_migration->model_table, $_migration->model_columns);
+
+                if ($this->update === true)
+                {
+                    echo 'updating ' . $migrationModel->modelTable;
+                    $this->updateMigration($migrationModel->modelTable, $migrationModel->modelColumns);
+                }
+                else
+                {
+                    echo 'rebuilding ' . $migrationModel->modelTable;
+                    $this->dropTable($migrationModel->modelTable);
+                    $this->createMigration($migrationModel->modelTable, $migrationModel->modelColumns);
                 }
             }
             echo "\n";
@@ -74,21 +79,21 @@ class Migration extends LaravelMigration
 
     public function down()
     {
-        $reversed_migrations = collect($this->_migrations)->reverse();
-        foreach($reversed_migrations as $_migration)
+        $reversedmigrationModels = collect($this->migrationModels)->reverse();
+        foreach($reversedmigrationModels as $migrationModel)
         {
-            $this->_dropTable($_migration->model_table);
+            $this->dropTable($migrationModel->modelTable);
         }
     }
 
-    private function _dropTable($model_table)
+    private function dropTable($modelTable)
     {
-        Schema::dropIfExists($model_table);
+        Schema::dropIfExists($modelTable);
     }
 
-    private function _createMigration($model_table, $modelColumns)
+    private function createMigration($modelTable, $modelColumns)
     {
-        Schema::create($model_table, function (Blueprint $table) use ($modelColumns) {
+        Schema::create($modelTable, function (Blueprint $table) use ($modelColumns) {
             $table->bigIncrements('id');
             foreach($modelColumns as $column){
                 $name = $column['name'];
@@ -108,32 +113,32 @@ class Migration extends LaravelMigration
         });
     }
 
-    private function _updateMigration($model_table, $modelColumns)
+    private function updateMigration($modelTable, $modelColumns)
     {
-        $old_database_columns = Schema::getColumnListing($model_table);
-        $extra_columns = ['id', 'created_at', 'updated_at', 'deleted_at'];
-        $drop_columns = $old_database_columns;
-        $add_columns = collect($modelColumns)->where('database', '!=', 'none')->toArray();
-        foreach($old_database_columns as $column_key => $old_database_column){
-            $array_index = array_search($old_database_column, collect($modelColumns)->pluck('name')->toArray(), true);
-            if($array_index !== false){
-                unset($drop_columns[$column_key]);
-                unset($add_columns[$array_index]);
+        $oldDatabaseColumns = Schema::getColumnListing($modelTable);
+        $extraColumns = ['id', 'created_at', 'updated_at', 'deleted_at'];
+        $dropColumns = $oldDatabaseColumns;
+        $addColumns = collect($modelColumns)->where('database', '!=', 'none')->toArray();
+        foreach($oldDatabaseColumns as $columnKey => $oldDatabaseColumn){
+            $arrayIndex = array_search($oldDatabaseColumn, collect($modelColumns)->pluck('name')->toArray(), true);
+            if($arrayIndex !== false){
+                unset($dropColumns[$columnKey]);
+                unset($addColumns[$arrayIndex]);
             }
-            if(array_search($old_database_column, $extra_columns, true) !== false){
-                unset($drop_columns[$column_key]);
+            if(array_search($oldDatabaseColumn, $extraColumns, true) !== false){
+                unset($dropColumns[$columnKey]);
             }
         }
-        echo ' droping ' . count($drop_columns) . ' columns. ';
-        echo 'adding ' . count($add_columns) . ' columns.';
-        Schema::table($model_table, function (Blueprint $table) use ($add_columns, $drop_columns) {
-            foreach($drop_columns as $drop_column){
-                if(strpos($drop_column, '_id') !== false){
-                    $table->dropForeign([$drop_column]);
+        echo ' droping ' . count($dropColumns) . ' columns. ';
+        echo 'adding ' . count($addColumns) . ' columns.';
+        Schema::table($modelTable, function (Blueprint $table) use ($addColumns, $dropColumns) {
+            foreach($dropColumns as $dropColumn){
+                if(strpos($dropColumn, '_id') !== false){
+                    $table->dropForeign([$dropColumn]);
                 }
-                $table->dropColumn($drop_column);
+                $table->dropColumn($dropColumn);
             }
-            foreach($add_columns as $column){
+            foreach($addColumns as $column){
                 $name = $column['name'];
                 $type = $column['type'];
                 $database = isset($column['database']) ? $column['database'] : '';
@@ -149,26 +154,26 @@ class Migration extends LaravelMigration
         });
     }
 
-    private function _createBackupTable($model_table, $modelRepository)
+    private function createBackupTable($modelTable, $modelRepository)
     {
-        $modelRepository_list = $modelRepository->withTrashed()
+        $modelRepositoryList = $modelRepository->withTrashed()
             ->get()
             ->makeVisible('deleted_at')
             ->toArray();
-        $backup_table_name = $model_table . '_backup_' . strtotime('now');
-        Schema::create($backup_table_name, function (Blueprint $table) {
+        $backupTableName = $modelTable . '_backup_' . strtotime('now');
+        Schema::create($backupTableName, function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->text('row_data')->nullabe();
             $table->timestamps();
             $table->softDeletes();
         });
-        foreach($modelRepository_list as $modelRepository_item){
-            \DB::table($backup_table_name)->insert([
-                'id' => $modelRepository_item['id'],
-                'created_at' => $modelRepository_item['created_at'],
-                'updated_at' => $modelRepository_item['updated_at'],
-                'deleted_at' => $modelRepository_item['deleted_at'],
-                'row_data' => serialize($modelRepository_item),
+        foreach($modelRepositoryList as $modelRepositoryItem){
+            \DB::table($backupTableName)->insert([
+                'id' => $modelRepositoryItem['id'],
+                'created_at' => $modelRepositoryItem['created_at'],
+                'updated_at' => $modelRepositoryItem['updated_at'],
+                'deleted_at' => $modelRepositoryItem['deleted_at'],
+                'row_data' => serialize($modelRepositoryItem),
             ]);
         }
     }

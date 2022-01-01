@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Cms;
 
 use Auth;
 use Cache;
@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\morphMany;
 use Illuminate\Database\Eloquent\Relations\morphToMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-trait BaseModelTrait
+trait ModelTrait
 {
 	use HasFactory;
 	use SoftDeletes;

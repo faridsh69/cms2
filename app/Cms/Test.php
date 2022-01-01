@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Cms;
 
 use App\Models\Category;
 use App\Models\Tag;
@@ -9,7 +9,7 @@ use Str;
 use Tests\TestCase;
 use App\Services\BaseFactory;
 
-class BaseTest extends TestCase
+class Test extends TestCase
 {
     // an aray of models that want to test
     public array $modelNameSlugs;

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Services;
+namespace App\Cms;
 
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class BaseExport implements FromCollection, WithHeadings
+class Export implements FromCollection, WithHeadings
 {
     public $model_columns;
 

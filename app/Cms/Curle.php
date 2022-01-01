@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace App\Cms;
 
-class BaseCurlService extends BaseService
+class Curl extends Service
 {
     public function call_curl($url, $method = 'get', $body = null, $authorization = null, $user_password = null)
     {

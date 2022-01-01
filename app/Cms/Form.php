@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Cms;
 
-use Kris\LaravelFormBuilder\Form;
+use Kris\LaravelFormBuilder\Form as LaravelForm;
 
-class BaseForm extends Form
+class Form extends LaravelForm
 {
     use BaseCmsTrait;
 
