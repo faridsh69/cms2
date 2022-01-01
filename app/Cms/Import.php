@@ -6,7 +6,7 @@ use Maatwebsite\Excel\Concerns\ToModel;
 
 class Import implements ToModel
 {
-    use BaseCmsTrait;
+    use CmsMainTrait;
 
     public $modelFields;
 

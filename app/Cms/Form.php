@@ -6,7 +6,7 @@ use Kris\LaravelFormBuilder\Form as LaravelForm;
 
 class Form extends LaravelForm
 {
-    use BaseCmsTrait;
+    use CmsMainTrait;
 
     public int $id = 0;
 

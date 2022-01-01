@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 
 class AdminController extends Controller
 {
-    use BaseCmsTrait;
+    use CmsMainTrait;
 
     /*
     * Meta to use in page header.

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Cms;
 
 use Auth;
 use Illuminate\Http\Request;
@@ -8,7 +8,7 @@ use Kris\LaravelFormBuilder\FormBuilder;
 use Route;
 use Str;
 
-trait BaseCmsTrait
+trait CmsMainTrait
 {
     // GymProgram
     public string $modelName = '';

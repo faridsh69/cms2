@@ -11,13 +11,12 @@ use Str;
 
 class ApiController extends Controller
 {
-    use BaseCmsTrait;
+    use CmsMainTrait;
 
     public function index()
     {
-        // dd(Auth::user());
-        // $this->authorize('index', $this->modelNamespace);
-        $list = $this->modelRepository->orderBy('updated_at', 'desc')->get(); // orderBy
+        $this->authorize('index', $this->modelNamespace);
+        $list = $this->modelRepository->orderBy('updated_at', 'desc')->get();
 
         $this->response['message'] = $this->modelNameTranslate . __('list_successfully');
         $this->response['data'] = $list;
@@ -61,7 +60,7 @@ class ApiController extends Controller
             $this->response['message'] = $this->notFoundMessage;
             return response()->json($this->response);
         }
-        // $this->authorize('view', $model_view);
+        $this->authorize('view', $model_view);
 
         $main_data = $model_view->getAttributes();
 
@@ -82,7 +81,7 @@ class ApiController extends Controller
             $this->response['message'] = $this->notFoundMessage;
             return response()->json($this->response);
         }
-        // $this->authorize('update', $model_edit);
+        $this->authorize('update', $model_edit);
 
         $main_data = $model_edit->getAttributes();
 
@@ -100,7 +99,7 @@ class ApiController extends Controller
             $this->response['message'] = $this->notFoundMessage;
             return response()->json($this->response);
         }
-        // $this->authorize('update', $model_update);
+        $this->authorize('update', $model_update);
 
         $main_data = $this->httpRequest->all();
         $validator = \Validator::make($main_data, $this->model_rules);

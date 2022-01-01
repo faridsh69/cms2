@@ -16,7 +16,7 @@ use Cache;
 
 class FrontController extends Controller
 {
-    use BaseCmsTrait;
+    use CmsMainTrait;
 
     public function __construct(Request $httpRequest)
     {
