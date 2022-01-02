@@ -6,13 +6,14 @@ use App\Models\User;
 use App\Notifications\SiteNotification;
 use App\Cms\AdminResourceController;
 use Auth;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class ResourceController extends AdminResourceController
 {
     public string $modelNameSlug = 'notification';
 
-    public function store()
+    public function store() : RedirectResponse
     {
         $this->authorize('create', $this->modelNamespace);
         $form = $this->laravelFormBuilder->create($this->modelForm);
@@ -40,14 +41,14 @@ class ResourceController extends AdminResourceController
         return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
     }
 
-    public function edit(int $id) : View
+    public function edit(int $id)
     {
         $this->httpRequest->session()->flash('alert-danger', $this->modelNameTranslate . __(' edit does not exist!'));
 
         return $this->redirect();
     }
 
-    public function update(int $id)
+    public function update(int $id) : RedirectResponse
     {
         $this->httpRequest->session()->flash('alert-danger', $this->modelNameTranslate . __(' update does not exist!'));
 

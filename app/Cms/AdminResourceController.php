@@ -4,6 +4,7 @@ namespace App\Cms;
 
 use Auth;
 use Str;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class AdminResourceController extends AdminController
@@ -42,7 +43,7 @@ class AdminResourceController extends AdminController
         return view('admin.list.form', ['form' => $form, 'meta' => $this->meta]);
     }
 
-    public function store()
+    public function store() : RedirectResponse
     {
         $this->authorize('create', $this->modelNamespace);
         $form = $this->laravelFormBuilder->create($this->modelForm);
@@ -79,7 +80,7 @@ class AdminResourceController extends AdminController
         return view('admin.list.show', ['data' => $data, 'meta' => $this->meta, 'activities' => $activities]);
     }
 
-    public function edit(int $id) : View
+    public function edit(int $id)
     {
         $model = $this->modelRepository->findOrFail($id);
         $this->authorize('update', $model);
@@ -96,7 +97,7 @@ class AdminResourceController extends AdminController
         return view('admin.list.form', ['form' => $form, 'meta' => $this->meta]);
     }
 
-    public function update(int $id)
+    public function update(int $id) : RedirectResponse
     {
         $model = $this->modelRepository->findOrFail($id);
         $this->authorize('update', $model);
@@ -125,7 +126,7 @@ class AdminResourceController extends AdminController
         return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
     }
 
-    public function destroy(int $id)
+    public function destroy(int $id) : RedirectResponse
     {
         $model = $this->modelRepository->findOrFail($id);
         $this->authorize('delete', $model);
@@ -141,7 +142,7 @@ class AdminResourceController extends AdminController
         return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
     }
 
-    public function restore(int $id)
+    public function restore(int $id) : RedirectResponse
     {
         $model = $this->modelRepository->withTrashed()->findOrFail($id);
         $this->authorize('delete', $model);
@@ -209,7 +210,7 @@ class AdminResourceController extends AdminController
         ]);
     }
 
-    public function redirect()
+    public function redirect() : RedirectResponse
     {
         return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
     }

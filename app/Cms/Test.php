@@ -24,7 +24,7 @@ class Test extends TestCase
         'list.create',
     ];
 
-    public $front_methods = [
+    public $frontMethods = [
         'index',
         'category.index',
         'tag.index',
@@ -61,35 +61,35 @@ class Test extends TestCase
                 ->assertRedirect(route('admin.' . $modelNameSlug . '.list.index'));
 
             // get fake model that created at this test
-            $fake_model = $modelRepository->orderBy('id', 'desc')->first();
+            $fakeModel = $modelRepository->orderBy('id', 'desc')->first();
 
             // show fake model
             $this
-                ->get(route('admin.' . $modelNameSlug . '.list.show', $fake_model))
+                ->get(route('admin.' . $modelNameSlug . '.list.show', $fakeModel))
                 ->assertOk();
 
             // edit fake model
             $this
-                ->get(route('admin.' . $modelNameSlug . '.list.edit', $fake_model))
+                ->get(route('admin.' . $modelNameSlug . '.list.edit', $fakeModel))
                 ->assertOk();
 
             // update fake model
             $this
-                ->put(route('admin.' . $modelNameSlug . '.list.update', $fake_model), $fakeData)
+                ->put(route('admin.' . $modelNameSlug . '.list.update', $fakeModel), $fakeData)
                 ->assertRedirect(route('admin.' . $modelNameSlug . '.list.index'));
 
             // delete fake model
             $this
-                ->delete(route('admin.' . $modelNameSlug . '.list.destroy', $fake_model))
+                ->delete(route('admin.' . $modelNameSlug . '.list.destroy', $fakeModel))
                 ->assertRedirect(route('admin.' . $modelNameSlug . '.list.index'));
 
             // restore fake model
             $this
-                ->get(route('admin.' . $modelNameSlug . '.list.restore', $fake_model))
+                ->get(route('admin.' . $modelNameSlug . '.list.restore', $fakeModel))
                 ->assertRedirect(route('admin.' . $modelNameSlug . '.list.index'));
 
             // force delete fake model
-            $fake_model->forceDelete();
+            $fakeModel->forceDelete();
 
             foreach($this->resource_methods as $method)
             {
@@ -116,37 +116,37 @@ class Test extends TestCase
             $this->actingAs($user);
 
             // get fake model that created at this test
-            $fake_model = $modelRepository->orderBy('id', 'desc')->first();
+            $fakeModel = $modelRepository->orderBy('id', 'desc')->first();
 
             // show fake model
-            if($fake_model && isset($fake_model->url)) {
+            if($fakeModel && isset($fakeModel->url) && $fakeModel->url) {
                 $this
-                    ->get(route('front.' . $modelNameSlug . '.show', $fake_model->url))
+                    ->get(route('front.' . $modelNameSlug . '.show', $fakeModel->url))
                     ->assertOk();
             }
 
             // get model category
-            $category_model = Category::ofType($modelName)->first();
+            $categoryModel = Category::ofType($modelName)->first();
             // show category of model
-            if($category_model){
+            if($categoryModel){
                 $this
-                    ->get(route('front.' . $modelNameSlug . '.category.show', $category_model->url))
+                    ->get(route('front.' . $modelNameSlug . '.category.show', $categoryModel->url))
                     ->assertOk();
                 echo 'With Category...';
             }
 
             // get model tag
-            $tag_model = Tag::ofType($modelName)->first();
+            $tagModel = Tag::ofType($modelName)->first();
 
             // show tag of model
-            if($tag_model){
+            if($tagModel){
                 $this
-                    ->get(route('front.' . $modelNameSlug . '.tag.show', $tag_model->url))
+                    ->get(route('front.' . $modelNameSlug . '.tag.show', $tagModel->url))
                     ->assertOk();
                 echo 'With Tag...';
             }
 
-            foreach($this->front_methods as $method)
+            foreach($this->frontMethods as $method)
             {
                 $this
                     ->get(route('front.' . $modelNameSlug . '.' . $method))

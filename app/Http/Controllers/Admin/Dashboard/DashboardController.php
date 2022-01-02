@@ -13,6 +13,7 @@ use Auth;
 use Carbon\Carbon;
 use Illuminate\View\View;
 use Route;
+use Illuminate\Http\RedirectResponse;
 
 class DashboardController extends AdminResourceController
 {
@@ -24,12 +25,12 @@ class DashboardController extends AdminResourceController
         return view('admin.page.dashboard.index', ['meta' => $this->meta]);
     }
 
-    public function redirect()
+    public function redirect() : RedirectResponse
     {
         return redirect()->route('admin.dashboard.index');
     }
 
-    public function postAddress()
+    public function postAddress() : RedirectResponse
     {
         $data = $this->httpRequest->all();
         $data['user_id'] = Auth::id();
@@ -56,7 +57,7 @@ class DashboardController extends AdminResourceController
     	return view('admin.list.form', ['form' => $form, 'meta' => $this->meta]);
     }
 
-    public function updateProfile()
+    public function updateProfile() : RedirectResponse
     {
         $model = Auth::user();
 
@@ -98,7 +99,7 @@ class DashboardController extends AdminResourceController
         return view('admin.page.dashboard.identify', ['meta' => $this->meta]);
     }
 
-    public function identifyEmail()
+    public function identifyEmail() : view
     {
         $authUser = Auth::user();
         if($authUser->email_verified_at){
@@ -117,7 +118,7 @@ class DashboardController extends AdminResourceController
         return view('admin.dashboard.identify-email', ['meta' => $this->meta]);
     }
 
-    public function postIdentifyEmail()
+    public function postIdentifyEmail() : RedirectResponse
     {
         $authUser = Auth::user();
         if($authUser->email_verified_at){
@@ -157,7 +158,7 @@ class DashboardController extends AdminResourceController
         return view('admin.dashboard.identify-phone', ['meta' => $this->meta]);
     }
 
-    public function postIdentifyPhone()
+    public function postIdentifyPhone() : RedirectResponse
     {
         $authUser = Auth::user();
         if($authUser->phone_verified_at){
@@ -177,7 +178,7 @@ class DashboardController extends AdminResourceController
         return redirect()->back();
     }
 
-    public function postIdentifyDocument($documentTitle = 'national_card')
+    public function postIdentifyDocument($documentTitle = 'national_card') : RedirectResponse
     {
         $authUser = Auth::user();
         $fileService = new FileService();

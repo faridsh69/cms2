@@ -23,7 +23,8 @@ class ResourceController extends AdminResourceController
     	return $this->redirect();
     }
 
-    public function update(int $id){
+    public function update(int $id)
+    {
     	$this->httpRequest->session()->flash('alert-danger', $this->modelNameTranslate . __(' update does not exist!'));
 
     	return $this->redirect();
