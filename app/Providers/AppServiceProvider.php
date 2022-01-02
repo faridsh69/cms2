@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // $this->bootCms();
+        $this->bootCms();
     }
 
     private function bootCms()
