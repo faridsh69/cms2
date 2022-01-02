@@ -144,6 +144,7 @@ class User extends Authenticatable
             'form_type' => '',
             'table' => true,
         ],
+        ['name' => 'url'],
         ['name' => 'email'],
         ['name' => 'phone'],
         ['name' => 'activated'],
