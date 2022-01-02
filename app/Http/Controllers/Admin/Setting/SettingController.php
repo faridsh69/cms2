@@ -6,6 +6,7 @@ use App\Cms\AdminResourceController;
 use Artisan;
 use Auth;
 use Cache;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Rap2hpoutre\LaravelLogViewer\LogViewerController;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -59,7 +60,7 @@ class SettingController extends AdminResourceController
         return redirect()->route('admin.setting.' . $section);
     }
 
-	public function redirect()
+	public function redirect() : RedirectResponse
 	{
 		return redirect()->route('admin.setting.general');
 	}
@@ -86,7 +87,7 @@ class SettingController extends AdminResourceController
 		return view('admin.page.setting.api', ['meta' => $this->meta]);
 	}
 
-	public function command($command)
+	public function command($command) : void
 	{
 		$this->authorize('manage', 'setting_advance');
         echo '<br> php artisan ' . $command . ' is running...';

@@ -114,17 +114,22 @@ trait ModelTrait
 		// Files will upload using BaseFileService and saving to files table.
 		return $this->files()
 			->where('title', $fileColumnName)
+			->select('src', 'src_thumbnail')
 			->get()
-			->pluck('src')
 			->toArray();
 	}
 
 	// Get the first file or return default image for this model.
-	public function src(string $fileColumnName) : string
+	public function src(string $fileColumnName, $thumbnail = false) : string
 	{
 		$srcs = $this->srcs($fileColumnName);
 		if (count($srcs) > 0)
-			return $srcs[0];
+		{
+			if ($thumbnail)
+				return $srcs[0]['src_thumbnail'];
+
+			return $srcs[0]['src']; 
+		}
 
 		// If there is no file, we need to return default image for each model.
 		return asset('css/front/general/default/' .
