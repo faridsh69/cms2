@@ -184,7 +184,6 @@ class User extends Authenticatable
             'form_type' => 'none',
             'table' => false,
         ],
-        ['name' => 'url'],
         [
             'name' => 'website',
             'type' => 'string',

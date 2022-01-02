@@ -10,7 +10,7 @@ class Category extends Model
         [
             'name' => 'type',
             'type' => 'string',
-            'database' => 'nullable',
+            'database' => 'required',
             'rule' => 'required',
             'help' => 'This category is for which models?',
             'form_type' => 'enum',
@@ -49,7 +49,7 @@ class Category extends Model
         ['name' => 'language'],
     ];
 
-    public function models()
+    public function modelsWithThisType()
     {
         return $this->hasMany(config('cms.config.models_namespace') . $this->type, 'category_id', 'id');
     }

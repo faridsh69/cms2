@@ -102,7 +102,7 @@ class FrontController extends Controller
         $this->meta['title'] = $this->modelNameTranslate . ' | Category | ' . $category->title;
         $this->meta['description'] = $category->description;
 
-        $list = $category->models()->active()->language()
+        $list = $category->modelsWithThisType()->active()->language()
             ->orderBy('updated_at', 'desc')
             ->paginate(config('setting-general.pagination_number'));
 
@@ -139,8 +139,7 @@ class FrontController extends Controller
 
         $this->meta['title'] = $this->modelNameTranslate . ' | Tag | ' . $tag->title;
         $this->meta['description'] = $tag->description;
-
-        $list = $tag->models()->active()->language()
+        $list = $tag->modelsWithThisType()->active()->language()
             ->orderBy('updated_at', 'desc')
             ->paginate(config('setting-general.pagination_number'));
 

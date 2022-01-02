@@ -25,13 +25,10 @@ class RegisterController extends Controller
     public function postRegister(Request $request)
     {   
         $request->validate([
-            // 'first_name' => ['required', 'string', 'max:191'],
-            // 'last_name' => ['required', 'string', 'max:191'],
-            // 'mobile' => ['required', 'phone:AUTO,US,BE'],
-            // 'phone' => ['required', 'string', 'max:30', 'min:5'],
+            // 'phone' => ['required', 'phone:AUTO,US,BE'],
             'email' => 'required|email|max:191|unique:users,email',
             'password' => 'required|string|min:4|confirmed',
-            'g-recaptcha-response' => 'required|captcha',
+            // 'g-recaptcha-response' => 'required|captcha',
         ]);
 
         $authUser = User::create([

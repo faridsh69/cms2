@@ -12,6 +12,7 @@ use App\Models\SettingGeneral;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Str;
 
 class CmsLaravelWebsiteSeeder extends Seeder
 {
@@ -51,6 +52,8 @@ class CmsLaravelWebsiteSeeder extends Seeder
         foreach ($categories as $category)
         {
             $category['language'] = 'en';
+            $category['type'] = 'Blog';
+        	$category['url'] = Str::slug($category['title']);
             Category::firstOrCreate($category);
         }
 
@@ -69,6 +72,9 @@ class CmsLaravelWebsiteSeeder extends Seeder
 
         foreach($tags as $tag)
         {
+        	$tag['language'] = 'en';
+            $tag['type'] = 'Blog';
+        	$tag['url'] = Str::slug($category['title']);
             Tag::firstOrCreate($tag);
         }
 
@@ -232,9 +238,9 @@ class CmsLaravelWebsiteSeeder extends Seeder
             'app_title' => 'Laravel CMS',
             'default_meta_title' => 'Laravel CMS',
             'default_meta_description' => 'Laravel CMS is an open source project with Laravel developed by both basic and advanced services and packages.',
-            'logo' => asset($photosFolder . 'setting-logo.png'),
-            'favicon' => asset($photosFolder . 'setting-favicon.png'),
-            'default_meta_image' => asset($photosFolder . 'setting-logo.png'),
+            'logo' => asset($photosFolder . 'logo.png'),
+            'favicon' => asset($photosFolder . 'favicon.png'),
+            'default_meta_image' => asset($photosFolder . 'logo.png'),
             'android_application_url' => 'https://play.google.com/store/apps',
             'ios_application_url' => 'https://sibapp.com/applications',
             'google_map_code' => 'AIzaSyAwuyLRa1uKNtbgx6xAJVmWy-zADgegA2s',

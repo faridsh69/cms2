@@ -10,7 +10,7 @@ class Tag extends Model
         [
             'name' => 'type',
             'type' => 'string',
-            'database' => 'nullable',
+            'database' => 'required',
             'rule' => 'required',
             'help' => 'This tag is for which models?',
             'form_type' => 'enum',
@@ -24,7 +24,7 @@ class Tag extends Model
         ['name' => 'language'],
     ];
 
-    public function models()
+    public function modelsWithThisType()
     {
         return $this->belongsToMany(config('cms.config.models_namespace') . $this->type, 'taggables', 'tag_id', 'taggable_id');
     }

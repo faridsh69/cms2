@@ -41,7 +41,6 @@
                                 <a href="{{ route('front.'. Str::kebab($category->type). '.category.show', $category->url) }}" class="post-title">
                                     <h6>{{ $category->title }}</h6>
                                 </a>
-                                <a href="#" class="post-date">19 actions</a>
                                 <br>
                                 {{ __('description') }}: {{ $category->description }}
                                 <br>
@@ -65,8 +64,6 @@
                                 <a href="{{ route('front.'. Str::kebab($tag->type). '.tag.show', $tag->url) }}" class="post-title">
                                     <h6>{{ $tag->title }}</h6>
                                 </a>
-                                <a href="#" class="post-date">19 actions</a>
-                                <br>
                                 {{ __('description') }}: {{ $tag->description }}
                                 <br>
                                 {{ __('created at') }}:
@@ -91,7 +88,6 @@
                                 <a href="{{ route('front.'. Str::kebab($category->type). '.category.show', $category->url) }}" class="post-title">
                                     <h6>{{ $category->title }}</h6>
                                 </a>
-                                <a href="#" class="post-date">19 actions</a>
                             </div>
                         </div>
                         @endforeach
@@ -110,7 +106,6 @@
                                 <a href="{{ route('front.'. Str::kebab($tag->type). '.tag.show', $tag->url) }}" class="post-title">
                                     <h6>{{ $tag->title }}</h6>
                                 </a>
-                                <a href="#" class="post-date">19 actions</a>
                             </div>
                         </div>
                         @endforeach

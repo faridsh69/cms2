@@ -17,7 +17,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/home';
+    public const HOME = '/';
 
     /**
      * The controller namespace for the application.
@@ -35,18 +35,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->configureRateLimiting();
-
-        // $this->routes(function () {
-        //     Route::prefix('api')
-        //         ->middleware('api')
-        //         ->namespace($this->namespace)
-        //         ->group(base_path('routes/api.php'));
-
-        //     Route::middleware('web')
-        //         ->namespace($this->namespace)
-        //         ->group(base_path('routes/web.php'));
-        // });
+        // $this->configureRateLimiting();
 
         $this->bootAdminRoutes();
         $this->bootApiRoutes();
@@ -55,19 +44,14 @@ class RouteServiceProvider extends ServiceProvider
         $this->bootFrontRoutes();
     }
 
-    /**
-     * Configure the rate limiters for the application.
-     *
-     * @return void
-     */
-    protected function configureRateLimiting()
+    protected function configureRateLimiting() : void
     {
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
         });
     }
 
-    protected function bootAdminRoutes()
+    protected function bootAdminRoutes() : void
     {
         Route::namespace($this->namespace . '\Admin')
             ->as('admin.')
@@ -76,7 +60,7 @@ class RouteServiceProvider extends ServiceProvider
             ->group(base_path('routes/admin.php'));
     }
 
-    protected function bootApiRoutes()
+    protected function bootApiRoutes() : void
     {
         Route::namespace($this->namespace . '\Api')
             ->as('api.')
@@ -85,7 +69,7 @@ class RouteServiceProvider extends ServiceProvider
             ->group(base_path('routes/api.php'));
     }
 
-    protected function bootAuthRoutes()
+    protected function bootAuthRoutes() : void
     {
         Route::namespace($this->namespace . '\Auth')
             ->as('auth.')
@@ -94,7 +78,7 @@ class RouteServiceProvider extends ServiceProvider
             ->group(base_path('routes/auth.php'));
     }
 
-    protected function bootFrontRoutes()
+    protected function bootFrontRoutes() : void
     {
         Route::namespace($this->namespace . '\Front')
             ->as('front.')
@@ -102,7 +86,7 @@ class RouteServiceProvider extends ServiceProvider
             ->group(base_path('routes/front.php'));
     }
 
-    protected function bootFilemanagerRoutes()
+    protected function bootFilemanagerRoutes() : void
     {
         Route::group(['prefix' => 'admin/filemanager', 'middleware' => ['web', 'auth', 'can:index,App\Models\File']], function () {
             \UniSharp\LaravelFilemanager\Lfm::routes();

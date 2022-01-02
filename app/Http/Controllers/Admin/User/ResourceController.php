@@ -7,7 +7,7 @@ use Carbon\Carbon;
 
 class ResourceController extends AdminResourceController
 {
-    public function login(int $id)
+	public function login(int $id)
 	{
         $this->authorize('index', $this->modelNamespace);
         if (\Auth::loginUsingId($id)){

@@ -127,12 +127,8 @@ trait ModelTrait
 			return $srcs[0];
 
 		// If there is no file, we need to return default image for each model.
-		$defaultModelImage = asset('/images/front/general/default/' . class_basename($this) . '.png');
-		if (File::exists(public_path() . $defaultModelImage))
-			return $defaultModelImage;
-
-		// If there is no image for that model we will return default image for all models.
-		return asset('/images/front/general/default/model.png');
+		return asset('css/front/general/default/' .
+			class_basename($this) . '.png');
 	}
 
 	public function saveWithRelations(array $data, Model $model = null) : Model
@@ -245,7 +241,7 @@ trait ModelTrait
 					'name' => 'url',
 					'type' => 'string',
 					'database' => 'nullable',
-					'rule' => 'required|max:'. config('setting-developer.seo_url_max') . 'unique:'. $constructor['table_name']. ',url,',
+					'rule' => 'nullable|max:'. config('setting-developer.seo_url_max') . 'unique:'. $constructor['table_name']. ',url,',
 					'help' => 'Url should be unique, contain [a-z, 0-9, -], required for seo',
 					'form_type' => '',
 					'table' => false,

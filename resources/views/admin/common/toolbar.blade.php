@@ -12,7 +12,7 @@
 					<span class="m-dropdown__arrow m-dropdown__arrow--center"></span>
 					<div class="m-dropdown__inner">
 						<div class="m-dropdown__header m--align-center" style="background: url(
-							{{ asset('images/admin/notification_bg.jpg') }}) ; background-size: cover;">
+							{{ asset('css/admin/images/notification.jpg') }}) ; background-size: cover;">
 							<span class="m-dropdown__header-title">
 								3 New
 							</span>
@@ -141,7 +141,7 @@
 					<span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
 					<div class="m-dropdown__inner">
 						<div class="m-dropdown__header m--align-center" 
-							style= "background: url( {{ asset('images/admin/user_profile_bg.jpg') }}); background-size: cover;">
+							style= "background: url( {{ asset('css/admin/images/user_profile.jpg') }}); background-size: cover;">
 							<div class="m-card-user m-card-user--skin-dark">
 								<div class="m-card-user__pic">
 									<img class="m--img-rounded m--marginless" src="{{ Auth::user()->src('profile_picture') }}"/>

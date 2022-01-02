@@ -50,7 +50,7 @@ class Migration extends LaravelMigration
         {
             if(Schema::hasTable($migrationModel->modelTable) === false)
             {
-                echo 'creating ' . $migrationModel->modelTable;
+                echo 'CREATING ' . $migrationModel->modelTable;
                 $this->createMigration($migrationModel->modelTable, $migrationModel->modelColumns);
             }
             else
@@ -63,7 +63,7 @@ class Migration extends LaravelMigration
 
                 if ($this->update === true)
                 {
-                    echo 'updating ' . $migrationModel->modelTable;
+                    echo 'UPDATING: ';
                     $this->updateMigration($migrationModel->modelTable, $migrationModel->modelColumns);
                 }
                 else
@@ -73,7 +73,7 @@ class Migration extends LaravelMigration
                     $this->createMigration($migrationModel->modelTable, $migrationModel->modelColumns);
                 }
             }
-            echo "\n";
+            echo " Table Done! \n";
         }
     }
 
@@ -131,6 +131,7 @@ class Migration extends LaravelMigration
         }
         echo ' droping ' . count($dropColumns) . ' columns. ';
         echo 'adding ' . count($addColumns) . ' columns.';
+        echo ' IN ' . $modelTable;
         Schema::table($modelTable, function (Blueprint $table) use ($addColumns, $dropColumns) {
             foreach($dropColumns as $dropColumn){
                 if(strpos($dropColumn, '_id') !== false){

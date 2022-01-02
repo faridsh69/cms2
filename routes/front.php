@@ -12,9 +12,9 @@ foreach($modelNameSlugs as $modelNameSlug)
 	Route::group(['prefix' => $modelNameSlug, 'as' => $modelNameSlug . '.'], function () use ($controller_name) {
 		Route::get('', $controller_name . '@index')->name('index');
 		Route::get('category', $controller_name . '@getCategories')->name('category.index');
-		Route::get('category/{url}', $controller_name . '@getCategory')->name('category.show');
+		Route::get('category/{url?}', $controller_name . '@getCategory')->name('category.show');
 		Route::get('tag', $controller_name . '@getTags')->name('tag.index');
-		Route::get('tag/{url}', $controller_name . '@getTag')->name('tag.show');
+		Route::get('tag/{url?}', $controller_name . '@getTag')->name('tag.show');
 		Route::get('{url}', $controller_name . '@show')->name('show');
 		Route::post('{url}/comment', $controller_name . '@comment')->name('comment');
 		Route::post('{url}/like', $controller_name . '@like')->name('like');
