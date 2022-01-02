@@ -233,7 +233,6 @@ $cms = [
         // 'hotel',
         // 'movie',
         // 'music',
-        'page',
         // 'post',
         'product',
         // 'restaurant',

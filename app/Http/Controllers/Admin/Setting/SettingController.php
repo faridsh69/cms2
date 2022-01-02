@@ -155,7 +155,7 @@ class SettingController extends AdminResourceController
 			[
 				'id' => 10,
 				'description' => 'run lastest migrations',
-				'command' => 'migrate',
+				'command' => 'cms:migration',
 			],
 			[
 				'id' => 11,

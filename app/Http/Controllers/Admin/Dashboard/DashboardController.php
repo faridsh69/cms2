@@ -115,7 +115,7 @@ class DashboardController extends AdminResourceController
         }
         $this->meta['title'] = __('identify email');
 
-        return view('admin.dashboard.identify-email', ['meta' => $this->meta]);
+        return view('admin.page.dashboard.identify-email', ['meta' => $this->meta]);
     }
 
     public function postIdentifyEmail() : RedirectResponse

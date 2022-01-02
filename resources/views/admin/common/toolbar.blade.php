@@ -130,7 +130,7 @@
 			<li class="m-nav__item m-topbar__user-profile m-topbar__user-profile--img  m-dropdown m-dropdown--medium m-dropdown--arrow m-dropdown--header-bg-fill m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light" data-dropdown-toggle="click">
 				<a href="#" class="m-nav__link m-dropdown__toggle">
 					<span class="m-topbar__userpic">
-						<img class="m--img-rounded m--marginless m--img-centered" src="{{ Auth::user()->src('profile_picture', true) }}"
+						<img class="m--img-rounded m--marginless m--img-centered" src="{{ Auth::user()->thumbnailSrc('profile_picture') }}"
 						style="height: 50px !important; width: 50px !important" 
 						/>
 					</span>
