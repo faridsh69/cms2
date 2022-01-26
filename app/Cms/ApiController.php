@@ -3,19 +3,17 @@
 namespace App\Cms;
 
 use App\Http\Controllers\Controller;
-use App\Models\Activity;
 use Auth;
-use Illuminate\Http\Request;
-use Kris\LaravelFormBuilder\FormBuilder;
-use Str;
+use Illuminate\Http\JsonResponse;
 
 class ApiController extends Controller
 {
     use CmsMainTrait;
 
-    public function index()
+    public function index() : JsonResponse
     {
-        $this->authorize('index', $this->modelNamespace);
+    	abort(500, "Noooo");
+        // $this->authorize('index', $this->modelNamespace);
         $list = $this->modelRepository->orderBy('updated_at', 'desc')->get();
 
         $this->response['message'] = $this->modelNameTranslate . __('list_successfully');
@@ -32,117 +30,118 @@ class ApiController extends Controller
     public function store()
     {
         $this->authorize('create', $this->modelNamespace);
-        $main_data = $this->httpRequest->all();
-        $validator = \Validator::make($main_data, $this->model_rules);
+        $mainData = $this->httpRequest->all();
+        $validator = \Validator::make($mainData, $this->modelRules);
         if ($validator->fails()) {
             return response()->json($validator->messages(), 200);
         }
-        $model_store = $this->modelRepository->create($main_data);
+        $modelStore = $this->modelRepository->create($mainData);
 
         if(env('APP_ENV') !== 'testing'){
             activity($this->modelName)
-                ->performedOn($model_store)
+                ->performedOn($modelStore)
                 ->causedBy(Auth::user())
                 ->log($this->modelName . ' Created');
         }
 
         $this->response['message'] = $this->modelNameTranslate . __('created_successfully');
-        $this->response['data'] = $model_store;
+        $this->response['data'] = $modelStore;
 
         return response()->json($this->response);
     }
 
-    public function show($id)
+    public function show(string $url) : JsonResponse
     {
-        $model_view = $this->modelRepository->where('id', $id)->first();
-        if(! $model_view){
+        $model = $this->modelRepository->where('url', $url)->first();
+        if(! $model)
+        {
             $this->response['status'] = 404;
             $this->response['message'] = $this->notFoundMessage;
-            return response()->json($this->response);
+            return response()->json($this->response, 404);
         }
-        $this->authorize('view', $model_view);
+        // $this->authorize('view', $model);
 
-        $main_data = $model_view->getAttributes();
+        $mainData = $model->getAttributes();
 
         $this->response['message'] = __('show_successfully');
-        $this->response['data'] = $main_data;
+        $this->response['data'] = $mainData;
 
         return response()->json($this->response);
     }
 
     public function edit($id)
     {
-        $model_edit = $this->modelRepository
+        $modelEdit = $this->modelRepository
             ->where('id', $id)
             ->first();
 
-        if(! $model_edit){
+        if(! $modelEdit){
             $this->response['status'] = 404;
             $this->response['message'] = $this->notFoundMessage;
             return response()->json($this->response);
         }
-        $this->authorize('update', $model_edit);
+        $this->authorize('update', $modelEdit);
 
-        $main_data = $model_edit->getAttributes();
+        $mainData = $modelEdit->getAttributes();
 
         $this->response['message'] = __('show_successfully');
-        $this->response['data'] = $main_data;
+        $this->response['data'] = $mainData;
 
         return response()->json($this->response);
     }
 
     public function update($id)
     {
-        $model_update = $this->modelRepository->where('id', $id)->first();
-        if(! $model_update){
+        $modelUpdate = $this->modelRepository->where('id', $id)->first();
+        if(! $modelUpdate){
             $this->response['status'] = 404;
             $this->response['message'] = $this->notFoundMessage;
             return response()->json($this->response);
         }
-        $this->authorize('update', $model_update);
+        $this->authorize('update', $modelUpdate);
 
-        $main_data = $this->httpRequest->all();
-        $validator = \Validator::make($main_data, $this->model_rules);
+        $mainData = $this->httpRequest->all();
+        $validator = \Validator::make($mainData, $this->modelRules);
         if ($validator->fails()) {
             return response()->json($validator->messages(), 200);
         }
 
-        $model_update->update($main_data);
+        $modelUpdate->update($mainData);
 
         if(env('APP_ENV') !== 'testing'){
             activity($this->modelName)
-                ->performedOn($model_update)
+                ->performedOn($modelUpdate)
                 ->causedBy(Auth::user())
                 ->log($this->modelName . ' Updated');
         }
 
         $this->response['message'] = $this->modelNameTranslate . __('updated_successfully');
-        $this->response['data'] = $model_update;
+        $this->response['data'] = $modelUpdate;
 
         return response()->json($this->response);
     }
 
     public function destroy($id)
     {
-        $model_delete = $this->modelRepository->where('id', $id)->first();
-        if(! $model_delete){
+        $modelDelete = $this->modelRepository->where('id', $id)->first();
+        if(! $modelDelete){
             $this->response['status'] = 404;
             $this->response['message'] = $this->notFoundMessage;
             return response()->json($this->response);
         }
-        $this->authorize('delete', $model_delete);
+        $this->authorize('delete', $modelDelete);
 
-        $model_delete->delete();
+        $modelDelete->delete();
 
         if(env('APP_ENV') !== 'testing'){
             activity($this->modelName)
-                ->performedOn($model_delete)
+                ->performedOn($modelDelete)
                 ->causedBy(Auth::user())
                 ->log($this->modelName . ' Deleted');
         }
 
         $this->response['message'] = $this->modelNameTranslate . __('deleted_successfully');
-        $this->response['data'] = $model_delete;
+        $this->response['data'] = $modelDelete;
 
         return response()->json($this->response);
     }

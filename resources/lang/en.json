@@ -520,6 +520,6 @@
     "no_file_existed" : "No file uploaded.",
     "not_found" : "Not Found.",
     "list_is_empty" : "This list is empty.",
-    "list_successfully" : "List Found Successfully.",
-    "show_successfully" : "Item Found Successfully."
+    "list_successfully" : " List is ready.",
+    "show_successfully" : "Item loaded Successfully."
 }

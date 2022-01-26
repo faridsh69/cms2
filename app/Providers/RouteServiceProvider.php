@@ -35,19 +35,19 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // $this->configureRateLimiting();
+        $this->configureRateLimiting();
 
         $this->bootAdminRoutes();
-        $this->bootApiRoutes();
         $this->bootAuthRoutes();
         $this->bootFilemanagerRoutes();
         $this->bootFrontRoutes();
+        $this->bootApiRoutes();
     }
 
     protected function configureRateLimiting() : void
     {
         RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
+            return Limit::perMinute(360)->by(optional($request->user())->id ?: $request->ip());
         });
     }
 
@@ -65,7 +65,8 @@ class RouteServiceProvider extends ServiceProvider
         Route::namespace($this->namespace . '\Api')
             ->as('api.')
             ->prefix('api')
-            ->middleware(['api', 'throttle:' . config('setting-developer.throttle')])
+            // ->middleware(['api', 'throttle:' . config('setting-developer.throttle')])
+            ->middleware(['api'])
             ->group(base_path('routes/api.php'));
     }
 
