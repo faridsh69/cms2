@@ -97,7 +97,11 @@ trait ModelTrait
 	// Get file srcs from that column, array can be empty
 	public function srcs(string $fileColumnName) : array
 	{
-		$fileColumn = collect($this->getColumns())->where('name', $fileColumnName)->first();
+		// Get the file column based on $fileColumnName
+		$fileColumn = collect($this->getColumns())
+			->where('name', $fileColumnName)
+			->first();
+
 		if (! $fileColumn)
 			return [];
 
@@ -680,7 +684,7 @@ trait ModelTrait
 					'rule' => 'nullable|numeric',
 					'help' => '',
 					'form_type' => '',
-					'table' => true,
+					'table' => false,
 				],
 				'singer' => [
 					'name' => 'singer',

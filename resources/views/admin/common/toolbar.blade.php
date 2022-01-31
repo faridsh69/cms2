@@ -131,7 +131,7 @@
 				<a href="#" class="m-nav__link m-dropdown__toggle">
 					<span class="m-topbar__userpic">
 						<img class="m--img-rounded m--marginless m--img-centered" src="{{ Auth::user()->thumbnailSrc('profile_picture') }}"
-						style="height: 50px !important; width: 50px !important" 
+						style="height: 41px !important; width: 41px !important" 
 						/>
 					</span>
 					<span class="m-topbar__username m--hide">

@@ -137,7 +137,7 @@ class AdminResourceController extends AdminController
             activity('Deleted')->performedOn($model)->causedBy(Auth::user())
                 ->log($this->modelName . ' Deleted');
         }
-        $this->httpRequest->session()->flash('alert-success', $this->modelNameTranslate . __('deleted_successfully'));
+        // $this->httpRequest->session()->flash('alert-success', $this->modelNameTranslate . __('deleted_successfully'));
 
         return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
     }

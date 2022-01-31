@@ -5,6 +5,7 @@ namespace App\Cms;
 use App\Http\Controllers\Controller;
 use Auth;
 use Illuminate\Http\JsonResponse;
+use App\Models\Category;
 
 class ApiController extends Controller
 {
@@ -12,7 +13,7 @@ class ApiController extends Controller
 
     public function index() : JsonResponse
     {
-    	abort(500, "Noooo");
+    	// abort(500, "Noooo");
         // $this->authorize('index', $this->modelNamespace);
         $list = $this->modelRepository->orderBy('updated_at', 'desc')->get();
 
@@ -142,6 +143,22 @@ class ApiController extends Controller
 
         $this->response['message'] = $this->modelNameTranslate . __('deleted_successfully');
         $this->response['data'] = $modelDelete;
+
+        return response()->json($this->response);
+    }
+
+    public function getCategories ()
+    {
+        $list = Category::ofType($this->modelName)
+        	->active()
+        	->language()
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
+        dd($list);
+
+        $this->response['message'] = 'Category' . __('list_successfully');
+        $this->response['data'] = $list;
 
         return response()->json($this->response);
     }

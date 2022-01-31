@@ -48,6 +48,7 @@ class FileService
                     $constraint->aspectRatio();
                 });
                 $intervationUploadPath = storage_path('app/' . $uploadFolderPath);
+                $intervationImage->orientate();
                 $intervationImage->save($intervationUploadPath . $thumbnailFileName, 100);
             }
             // save file model record
