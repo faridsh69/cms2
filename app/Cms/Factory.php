@@ -90,11 +90,11 @@ class Factory extends LaravelFactory
 
                 if ($file_manager)
                 {
-                    $fakeData = asset('/seeder-test-files/' . $fileName);
+                    $fakeData = asset('/temp/seeder-test-files/' . $fileName);
                 }
                 else
                 {
-                    $uploadFileTest = public_path() . '/seeder-test-files/' . $fileName;
+                    $uploadFileTest = storage_path() . '/app/public/temp/seeder-test-files/' . $fileName;
                     $fakeData = new UploadedFile($uploadFileTest, $uploadFileTest);
                 }
             }

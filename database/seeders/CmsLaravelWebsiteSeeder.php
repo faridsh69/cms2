@@ -18,8 +18,8 @@ class CmsLaravelWebsiteSeeder extends Seeder
 {
     public function run()
     {
-    	$photosFolder = 'temp-laravel-cms-static-files/photos/';
-        $videosFolder = 'temp-laravel-cms-static-files/videos/';
+    	$photosFolder = 'temp/temp-laravel-cms-static-files/photos/';
+        $videosFolder = 'temp/temp-laravel-cms-static-files/videos/';
 
         // Category
         $categories = [

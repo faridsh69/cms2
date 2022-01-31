@@ -15,7 +15,11 @@ class ApiController extends Controller
     {
     	// abort(500, "Noooo");
         // $this->authorize('index', $this->modelNamespace);
-        $list = $this->modelRepository->orderBy('updated_at', 'desc')->get();
+        $list = $this->modelRepository
+        	->active()
+        	->language()
+        	->orderBy('updated_at', 'desc')
+        	->get();
 
         $this->response['message'] = $this->modelNameTranslate . __('list_successfully');
         $this->response['data'] = $list;
@@ -154,8 +158,6 @@ class ApiController extends Controller
         	->language()
             ->orderBy('updated_at', 'desc')
             ->get();
-
-        dd($list);
 
         $this->response['message'] = 'Category' . __('list_successfully');
         $this->response['data'] = $list;

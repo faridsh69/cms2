@@ -223,7 +223,7 @@ $cms = [
         'factor',
         'field',
         'follow',
-        // 'food',
+        'food',
         // 'food-program',
         'form',
         // 'gym',
