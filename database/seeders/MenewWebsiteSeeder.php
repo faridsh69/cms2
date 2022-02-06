@@ -123,16 +123,17 @@ class MenewWebsiteSeeder extends Seeder
         	],
         ];
 
-        foreach (Food::get() as $food)
-        {
-        	$food->activated = 0;
-        	$food->save();
-        }
+        // foreach (Food::get() as $food)
+        // {
+        // 	$food->activated = 0;
+        // 	$food->save();
+        // }
 
         foreach($foods as $food)
         {
         	$food['activated'] = 1;
         	$food['language'] = 'en';
+        	$food['description'] = 'test';
         	$food['url'] = Str::slug($food['title']);
             Food::firstOrCreate($food);
         }

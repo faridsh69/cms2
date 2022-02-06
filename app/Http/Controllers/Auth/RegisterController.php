@@ -28,7 +28,7 @@ class RegisterController extends Controller
             // 'phone' => ['required', 'phone:AUTO,US,BE'],
             'email' => 'required|email|max:191|unique:users,email',
             'password' => 'required|string|min:4|confirmed',
-            // 'g-recaptcha-response' => 'required|captcha',
+            'g-recaptcha-response' => 'required|captcha',
         ]);
 
         $authUser = User::create([

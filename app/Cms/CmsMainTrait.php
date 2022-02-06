@@ -38,7 +38,7 @@ trait CmsMainTrait
     public $notFoundMessage;
 
     public $response = [
-        'status' => 200,
+        'status' => 'success',
         'message' => '',
         'data' => '',
     ];

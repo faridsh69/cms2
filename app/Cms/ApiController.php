@@ -21,6 +21,21 @@ class ApiController extends Controller
         	->orderBy('updated_at', 'desc')
         	->get();
 
+        foreach($list as $listItem)
+        {
+        	$item = clone $listItem;
+        	$item['id'] = $item['id'] + 100;
+        	$list[] = $item;
+
+        	$item = clone $listItem;
+        	$item['id'] = $item['id'] + 200;
+        	$list[] = $item;
+
+        	$item = clone $listItem;
+        	$item['id'] = $item['id'] + 300;
+        	$list[] = $item;
+        }
+
         $this->response['message'] = $this->modelNameTranslate . __('list_successfully');
         $this->response['data'] = $list;
 
@@ -57,19 +72,28 @@ class ApiController extends Controller
 
     public function show(string $url) : JsonResponse
     {
-        $model = $this->modelRepository->where('url', $url)->first();
+        $model = $this->modelRepository
+        	->where('url', $url)
+        	->active()
+        	->language()
+        	->first();
+
         if(! $model)
         {
-            $this->response['status'] = 404;
+            $this->response['status'] = 'error';
             $this->response['message'] = $this->notFoundMessage;
-            return response()->json($this->response, 404);
+            return response()->json($this->response);
         }
         // $this->authorize('view', $model);
 
-        $mainData = $model->getAttributes();
+        // $mainData = $model->getAttributes();
+        $model->category = $model->category;
+        $model->tags = $model->tags;
+        $model->relateds = $model->relateds;
+
 
         $this->response['message'] = __('show_successfully');
-        $this->response['data'] = $mainData;
+        $this->response['data'] = $model;
 
         return response()->json($this->response);
     }
@@ -81,7 +105,7 @@ class ApiController extends Controller
             ->first();
 
         if(! $modelEdit){
-            $this->response['status'] = 404;
+            $this->response['status'] = 'error';
             $this->response['message'] = $this->notFoundMessage;
             return response()->json($this->response);
         }
@@ -99,7 +123,7 @@ class ApiController extends Controller
     {
         $modelUpdate = $this->modelRepository->where('id', $id)->first();
         if(! $modelUpdate){
-            $this->response['status'] = 404;
+            $this->response['status'] = 'error';
             $this->response['message'] = $this->notFoundMessage;
             return response()->json($this->response);
         }
@@ -130,7 +154,7 @@ class ApiController extends Controller
     {
         $modelDelete = $this->modelRepository->where('id', $id)->first();
         if(! $modelDelete){
-            $this->response['status'] = 404;
+            $this->response['status'] = 'error';
             $this->response['message'] = $this->notFoundMessage;
             return response()->json($this->response);
         }

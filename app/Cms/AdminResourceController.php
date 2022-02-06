@@ -9,7 +9,7 @@ use Illuminate\View\View;
 
 class AdminResourceController extends AdminController
 {
-    public function index() : View
+    public function index(): view
     {
         $this->authorize('index', $this->modelNamespace);
         $this->meta['link_route'] = route('admin.' . $this->modelNameSlug . '.list.create');
@@ -17,8 +17,7 @@ class AdminResourceController extends AdminController
         $this->meta['title'] = $this->modelNameTranslate . __('manager');
         $this->meta['search'] = 1;
         $columns = [];
-        foreach(collect($this->modelColumns)->where('table', true) as $column)
-        {
+        foreach (collect($this->modelColumns)->where('table', true) as $column) {
             $columns[] = [
                 'field' => $column['name'],
                 'title' => preg_replace('/([a-z])([A-Z])/s', '$1 $2', Str::studly($column['name'])),
@@ -28,7 +27,7 @@ class AdminResourceController extends AdminController
         return view('admin.list.index', ['meta' => $this->meta, 'columns' => $columns]);
     }
 
-    public function create() : View
+    public function create(): View
     {
         $this->authorize('create', $this->modelNamespace);
         $this->meta['title'] = __('create_new') . $this->modelNameTranslate;
@@ -43,19 +42,19 @@ class AdminResourceController extends AdminController
         return view('admin.list.form', ['form' => $form, 'meta' => $this->meta]);
     }
 
-    public function store() : RedirectResponse
+    public function store(): RedirectResponse
     {
         $this->authorize('create', $this->modelNamespace);
         $form = $this->laravelFormBuilder->create($this->modelForm);
-        if (! $form->isValid()) {
-            if(env('APP_ENV') === 'testing'){
+        if (!$form->isValid()) {
+            if (env('APP_ENV') === 'testing') {
                 dd($form->getErrors(), $this->modelName, $form->getFieldValues());
             }
             return redirect()->back()->withErrors($form->getErrors())->withInput();
         }
         $model = $this->modelRepository->saveWithRelations($form->getFieldValues());
 
-        if(env('APP_ENV') !== 'testing'){
+        if (env('APP_ENV') !== 'testing') {
             activity('Created')->performedOn($model)->causedBy(Auth::user())
                 ->log($this->modelName . ' Created');
         }
@@ -64,7 +63,7 @@ class AdminResourceController extends AdminController
         return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
     }
 
-    public function show(int $id) : View
+    public function show(int $id): View
     {
         $model = $this->modelRepository->findOrFail($id);
         $this->authorize('view', $model);
@@ -97,7 +96,7 @@ class AdminResourceController extends AdminController
         return view('admin.list.form', ['form' => $form, 'meta' => $this->meta]);
     }
 
-    public function update(int $id) : RedirectResponse
+    public function update(int $id): RedirectResponse
     {
         $model = $this->modelRepository->findOrFail($id);
         $this->authorize('update', $model);
@@ -105,19 +104,19 @@ class AdminResourceController extends AdminController
         $form = $this->laravelFormBuilder->create($this->modelForm, [
             'model' => $model,
         ]);
-        if (! $form->isValid()){
-            if(env('APP_ENV') === 'testing'){
+        if (!$form->isValid()) {
+            if (env('APP_ENV') === 'testing') {
                 $errors = $form->getErrors();
-                if(strpos(json_encode($errors), 'file') === false){
+                if (strpos(json_encode($errors), 'file') === false) {
                     dd($errors);
                 }
-            }else{
+            } else {
                 return redirect()->back()->withErrors($form->getErrors())->withInput();
             }
         }
         $this->modelRepository->saveWithRelations($form->getFieldValues(), $model);
 
-        if(env('APP_ENV') !== 'testing'){
+        if (env('APP_ENV') !== 'testing') {
             activity('Updated')->performedOn($model)->causedBy(Auth::user())
                 ->log($this->modelName . ' Updated');
         }
@@ -126,14 +125,14 @@ class AdminResourceController extends AdminController
         return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
     }
 
-    public function destroy(int $id) : RedirectResponse
+    public function destroy(int $id): RedirectResponse
     {
         $model = $this->modelRepository->findOrFail($id);
         $this->authorize('delete', $model);
 
         $model->delete();
 
-        if(env('APP_ENV') !== 'testing'){
+        if (env('APP_ENV') !== 'testing') {
             activity('Deleted')->performedOn($model)->causedBy(Auth::user())
                 ->log($this->modelName . ' Deleted');
         }
@@ -142,14 +141,14 @@ class AdminResourceController extends AdminController
         return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
     }
 
-    public function restore(int $id) : RedirectResponse
+    public function restore(int $id): RedirectResponse
     {
         $model = $this->modelRepository->withTrashed()->findOrFail($id);
         $this->authorize('delete', $model);
 
         $model->restore();
 
-        if(env('APP_ENV') !== 'testing'){
+        if (env('APP_ENV') !== 'testing') {
             activity('Restored')->performedOn($model)->causedBy(Auth::user())
                 ->log($this->modelName . ' Restored');
         }
@@ -158,7 +157,7 @@ class AdminResourceController extends AdminController
         return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
     }
 
-    public function print() : View
+    public function print(): View
     {
         $this->authorize('index', $this->modelNamespace);
         $list = $this->modelRepository->all();
@@ -202,7 +201,7 @@ class AdminResourceController extends AdminController
     {
         $model = $this->modelRepository->findOrFail($id);
         $this->authorize('update', $model);
-        $model->activated = ! $model->activated;
+        $model->activated = !$model->activated;
         $model->update();
 
         return response()->json([
@@ -210,7 +209,7 @@ class AdminResourceController extends AdminController
         ]);
     }
 
-    public function redirect() : RedirectResponse
+    public function redirect(): RedirectResponse
     {
         return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
     }
@@ -222,61 +221,59 @@ class AdminResourceController extends AdminController
 
         $datatable = datatables()
             ->of($list)
-            ->addColumn('show_url', function($model) {
+            ->addColumn('show_url', function ($model) {
                 return route('admin.' . $this->modelNameSlug . '.list.show', $model);
             })
-            ->addColumn('edit_url', function($model) {
+            ->addColumn('edit_url', function ($model) {
                 return route('admin.' . $this->modelNameSlug . '.list.edit', $model);
             })
-            ->addColumn('delete_url', function($model) {
+            ->addColumn('delete_url', function ($model) {
                 return route('admin.' . $this->modelNameSlug . '.list.destroy', $model);
             });
-        if($this->modelName === 'Notification') {
-            $datatable->addColumn('user', function($model) {
+        if ($this->modelName === 'Notification') {
+            $datatable->addColumn('user', function ($model) {
                 return $model->user->name;
-            })->addColumn('type', function($model) {
+            })->addColumn('type', function ($model) {
                 return str_replace('App\Notifications\\', '', $model->type);
-            })->addColumn('data', function($model) {
+            })->addColumn('data', function ($model) {
                 return json_decode($model->data)->data;
             });
-        }
-        elseif($this->modelName === 'Block') {
-            $datatable->addColumn('pages', function($model) {
+        } elseif ($this->modelName === 'Block') {
+            $datatable->addColumn('pages', function ($model) {
                 $pages = $model->pages()->pluck('title')->toArray();
                 $output = 'Only: ';
-                if($model->show_all_pages){
+                if ($model->show_all_pages) {
                     $output = 'Except: ';
                 }
-                if($pages){
-                    $output.= implode(',<br>', $pages);
-                }else{
-                    $output.= '-';
+                if ($pages) {
+                    $output .= implode(',<br>', $pages);
+                } else {
+                    $output .= '-';
                 }
                 return $output;
             });
-        }
-        elseif($this->modelName === 'Role') {
-            $datatable->addColumn('permissions', function($model) {
+        } elseif ($this->modelName === 'Role') {
+            $datatable->addColumn('permissions', function ($model) {
                 return implode(',<br>', $model->permissions()->pluck('name')->toArray());
             })
-                ->addColumn('users', function($model) {
-                return implode(',<br>', \App\Models\User::role($model->name)->select('email')->pluck('email')->toArray());
-            });
+                ->addColumn('users', function ($model) {
+                    return implode(',<br>', \App\Models\User::role($model->name)->select('email')->pluck('email')->toArray());
+                });
         }
-        if(collect($this->modelColumns)->where('name', 'tags')->count() > 0){
-            $datatable->addColumn('tags', function($model) {
+        if (collect($this->modelColumns)->where('name', 'tags')->count() > 0) {
+            $datatable->addColumn('tags', function ($model) {
                 return implode(', ', $model->tags->pluck('title')->toArray());
             });
         }
-        $datatable->addColumn('user_id', function($model) {
+        $datatable->addColumn('user_id', function ($model) {
             return $model->user ? $model->user->id . ' ' . $model->user->name : '';
         });
-        $datatable->addColumn('category_id', function($model) {
+        $datatable->addColumn('category_id', function ($model) {
             return $model->category ? $model->category->id . '-' . $model->category->title : '';
         });
-        $datatable->addColumn('image', function($model) {
+        $datatable->addColumn('image', function ($model) {
             if (method_exists($model, 'src'))
-                return '<img style="width:80%" src="'. $model->src('image'). '">';
+                return '<img style="width:80%" src="' . $model->src('image') . '">';
             return '';
         });
 

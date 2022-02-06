@@ -761,7 +761,13 @@ trait ModelTrait
 			}
 
 			return $columns;
-		});
+
+		}
+	
+	
+	);
+
+
 	}
 
 }

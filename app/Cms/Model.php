@@ -13,4 +13,8 @@ class Model extends LaravelModel
 	protected $hidden = [
 		'deleted_at',
 	];
+
+	protected $casts = [
+        'activated' => 'boolean',
+    ];
 }
