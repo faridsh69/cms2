@@ -92,7 +92,7 @@ class Factor extends Model
             'form_type' => 'textarea',
             'table' => false,
         ],
-    	[
+        [
             'name' => 'total_price',
             'type' => 'unsignedBigInteger',
             'database' => 'nullable',
@@ -188,7 +188,7 @@ class Factor extends Model
         return $this->belongsToMany('App\Models\Product')->withPivot('count')->withPivot('price')->withPivot('discount_price');
     }
 
-	public function address()
+    public function address()
     {
         return $this->belongsTo(Address::class, 'address_id', 'id');
     }
@@ -203,9 +203,8 @@ class Factor extends Model
         $this->products()->sync([]);
         $basket = FactorService::_getUserBasket();
 
-        foreach($basket->products as $product)
-        {
-            if($product->activated !== 1){
+        foreach ($basket->products as $product) {
+            if ($product->activated !== 1) {
                 continue;
             }
             $count = $product->pivot->count;
@@ -226,23 +225,21 @@ class Factor extends Model
         $tagends = Tagend::forced()
             ->get();
 
-        foreach ($tagends as $tagend)
-        {
+        foreach ($tagends as $tagend) {
             $this->addTagendToFactor($tagend);
         }
 
         return $this;
     }
 
-	public function calculateTotalPriceWithTagends()
+    public function calculateTotalPriceWithTagends()
     {
         $total_price = $this->total_price_products();
 
-        foreach($this->tagends as $tagend)
-        {
+        foreach ($this->tagends as $tagend) {
             $total_price += $tagend->pivot->value;
         }
-        if($total_price < 0){
+        if ($total_price < 0) {
             $total_price = 0;
         }
         return $total_price;
@@ -252,11 +249,10 @@ class Factor extends Model
     {
         $factor_product = $this->products()->get();
         $total_price = 0;
-        foreach($factor_product as $item)
-        {
-            if($item->pivot->discount_price){
+        foreach ($factor_product as $item) {
+            if ($item->pivot->discount_price) {
                 $total_price += $item->pivot->count * $item->pivot->discount_price;
-            }else{
+            } else {
                 $total_price += $item->pivot->count * $item->pivot->price;
             }
         }
@@ -268,28 +264,26 @@ class Factor extends Model
         $tagends = Tagend::shipping()
             ->get();
 
-        foreach ($tagends as $tagend)
-        {
+        foreach ($tagends as $tagend) {
             $this->tagends()->detach([$tagend->id]);
         }
 
         return $this;
     }
 
-        public function addTagendToFactor($tagend)
+    public function addTagendToFactor($tagend)
     {
-        if($tagend->type === 0)
-        { // absolute
-            if($tagend->sign === 1){
+        if ($tagend->type === 0) { // absolute
+            if ($tagend->sign === 1) {
                 $value = $tagend->value;
-            }else{
+            } else {
                 $value = (-1) * $tagend->value;
             }
-        }else{ // percent
-            if($tagend->sign === 1){
+        } else { // percent
+            if ($tagend->sign === 1) {
                 $value = $tagend->value * $this->total_price / 100;
-            }else{
-                $value = ( (-1) * $tagend->value * $this->total_price) / 100;
+            } else {
+                $value = ((-1) * $tagend->value * $this->total_price) / 100;
             }
         }
         $this->tagends()->syncWithoutDetaching([

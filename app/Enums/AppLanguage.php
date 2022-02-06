@@ -4,7 +4,7 @@ namespace App\Enums;
 
 final class AppLanguage
 {
-    const data = [
+	const data = [
 		'en' => 'English',
 		'fa' => 'Persian',
 		'ar' => 'Arabic',

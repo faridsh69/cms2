@@ -7,7 +7,9 @@ use App\Cms\AdminController;
 
 class ReportController extends AdminController
 {
-    public function __construct() {}
+    public function __construct()
+    {
+    }
 
     public function index()
     {

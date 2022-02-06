@@ -9,20 +9,18 @@ use Str;
 
 class FileService
 {
-	const UPLOAD_PATH_PREFIX = 'public/upload/';
+    const UPLOAD_PATH_PREFIX = 'public/upload/';
 
-	const DATABASE_SRC_PREFIX = 'storage/upload/';
+    const DATABASE_SRC_PREFIX = 'storage/upload/';
 
     public function save($file, $model, $title = 'file')
     {
         // This service can upload both single and array of files
         $gallery = $file;
-        if (!is_array($file))
-        {
+        if (!is_array($file)) {
             $gallery = [$file];
         }
-        foreach ($gallery as $file)
-        {
+        foreach ($gallery as $file) {
             $modelName = class_basename($model);
             $modelNameSlug = Str::kebab($modelName);
             $fileableType = config('cms.config.models_namespace') . $modelName;
@@ -40,7 +38,7 @@ class FileService
 
             // save thumbnail if its image
             $thumbnailSrc = null;
-            if(strpos($mimeType, 'image') === 0){
+            if (strpos($mimeType, 'image') === 0) {
                 $thumbnailFileName = $title . '-' . $randomCode . '-' . 'thumbnail' . '.' . $extension;
                 $thumbnailSrc = asset($uploadFolderSrc . '/' . $thumbnailFileName);
                 $intervationImage = Image::make($file);
@@ -65,9 +63,9 @@ class FileService
             ];
 
             $column = collect($model->getColumns())->where('name', $title)->first();
-            if(isset($column['file_multiple']) && $column['file_multiple'] === true){
-                    File::updateOrCreate($fileModelData);
-            }else{
+            if (isset($column['file_multiple']) && $column['file_multiple'] === true) {
+                File::updateOrCreate($fileModelData);
+            } else {
                 // for single file upload this 3 columns is unique.
                 File::updateOrCreate(
                     [

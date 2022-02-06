@@ -23,7 +23,7 @@ class RegisterController extends Controller
     }
 
     public function postRegister(Request $request)
-    {   
+    {
         $request->validate([
             // 'phone' => ['required', 'phone:AUTO,US,BE'],
             'email' => 'required|email|max:191|unique:users,email',

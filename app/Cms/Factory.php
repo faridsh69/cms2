@@ -30,169 +30,102 @@ class Factory extends LaravelFactory
 
         $output = [];
         $randomNumber = rand(100000, 999999);
-        foreach ($modelColumns as $column)
-        {
+        foreach ($modelColumns as $column) {
             $fakeData = null;
             $name = $column['name'];
             $type = $column['type'];
             $form_type = isset($column['form_type']) ? $column['form_type'] : '';
             $database = isset($column['database']) ? $column['database'] : null;
 
-            if ($name === 'url')
-            {
+            if ($name === 'url') {
                 $fakeData = $this->modelNameSlug . '-url-' . $randomNumber;
-            }
-            elseif ($name === 'title')
-            {
+            } elseif ($name === 'title') {
                 $fakeData = $modelName . ' title ' . $randomNumber;
-            }
-            elseif ($name === 'description')
-            {
+            } elseif ($name === 'description') {
                 $fakeData = $this->faker->realText(100);
-            }
-            elseif ($name === 'content')
-            {
+            } elseif ($name === 'content') {
                 $fakeData = '<h1>h1</h1><h2>h2</h2>' . $this->faker->realText(400);
-            }
-            elseif ($name === 'canonical_url')
-            {
+            } elseif ($name === 'canonical_url') {
                 $fakeData = null;
-            }
-            elseif ($name === 'google_index')
-            {
+            } elseif ($name === 'google_index') {
                 $fakeData = 0;
-            }
-            elseif ($name === 'activated')
-            {
+            } elseif ($name === 'activated') {
                 $fakeData = 1;
-            }
-            elseif ($form_type === 'file')
-            {
+            } elseif ($form_type === 'file') {
                 $file_accept = isset($column['file_accept']) ? $column['file_accept'] : null;
                 $file_manager = isset($column['file_manager']) ? $column['file_manager'] : null;
-                
-                if ($file_accept === 'image')
-                {
+
+                if ($file_accept === 'image') {
                     $fileName = 'image.png';
-                }
-                elseif ($file_accept === 'video')
-                {
+                } elseif ($file_accept === 'video') {
                     $fileName = 'video.mp4';
-                }
-                elseif ($file_accept === 'audio')
-                {
+                } elseif ($file_accept === 'audio') {
                     $fileName = 'audio.mp3';
-                }
-                else
-                {
+                } else {
                     $fileName = 'pdf.pdf';
                 }
 
-                if ($file_manager)
-                {
+                if ($file_manager) {
                     $fakeData = asset('/temp/seeder-test-files/' . $fileName);
-                }
-                else
-                {
+                } else {
                     $uploadFileTest = storage_path() . '/app/public/temp/seeder-test-files/' . $fileName;
                     $fakeData = new UploadedFile($uploadFileTest, $uploadFileTest);
                 }
-            }
-            elseif ($name === 'keywords')
-            {
+            } elseif ($name === 'keywords') {
                 $fakeData = $this->faker->realText(100);
-            }
-            elseif ($name === 'icon')
-            {
+            } elseif ($name === 'icon') {
                 $fakeData = 'fa fa-book';
-            }
-            elseif ($name === 'full_name')
-            {
+            } elseif ($name === 'full_name') {
                 $fakeData = $this->faker->name();
-            }
-            elseif ($name === 'phone' || $name === 'telephone')
-            {
+            } elseif ($name === 'phone' || $name === 'telephone') {
                 $fakeData = '+49153000';
-            }
-            elseif ($name === 'national_code')
-            {
+            } elseif ($name === 'national_code') {
                 $fakeData = '1270739034';
-            }
-            elseif ($name === 'postal_code')
-            {
+            } elseif ($name === 'postal_code') {
                 $fakeData = '18321';
-            }
-            elseif ($name === 'country')
-            {
+            } elseif ($name === 'country') {
                 $fakeData = $this->faker->countryCode();
-            }
-            elseif ($name === 'province')
-            {
+            } elseif ($name === 'province') {
                 $fakeData = $this->faker->state();
-            }
-            elseif ($name === 'city')
-            {
+            } elseif ($name === 'city') {
                 $fakeData = $this->faker->city();
-            }
-            elseif ($name === 'address')
-            {
+            } elseif ($name === 'address') {
                 $fakeData = $this->faker->address();
-            }
-            elseif ($name === 'latitude')
-            {
+            } elseif ($name === 'latitude') {
                 $fakeData = $this->faker->latitude();
-            }
-            elseif ($name === 'longitude')
-            {
+            } elseif ($name === 'longitude') {
                 $fakeData = $this->faker->longitude();
-            }
-            elseif ($name === 'email')
-            {
+            } elseif ($name === 'email') {
                 $fakeData = $this->faker->email();
-            }
-            elseif ($name === 'language')
-            {
+            } elseif ($name === 'language') {
                 $fakeData = 'en';
-            }
-            elseif ($name === 'password')
-            {
+            } elseif ($name === 'password') {
                 $password = '1111';
                 $fakeData = $password;
-            }
-            elseif ($type === 'array')
-            {
+            } elseif ($type === 'array') {
                 $random_related_count = rand(2, 4);
                 $fakeData = range(1, $random_related_count);
-            }
-            elseif ($database === 'none')
-            {
+            } elseif ($database === 'none') {
                 continue;
-            }
-            elseif ($type === 'text')
-            {
+            } elseif ($type === 'text') {
                 $fakeData = 'Fake ' . $this->faker->realText(400);
-            }
-            elseif ($type === 'boolean')
-            {
+            } elseif ($type === 'boolean') {
                 $fakeData = 0;
-            }
-            elseif ($type === '' ||
-            		$type === 'bigInteger' || 
-            		$type === 'integer' || 
-            		$type === 'tinyInteger' || 
-            		$type === 'unsignedBigInteger')
-            {
+            } elseif (
+                $type === '' ||
+                $type === 'bigInteger' ||
+                $type === 'integer' ||
+                $type === 'tinyInteger' ||
+                $type === 'unsignedBigInteger'
+            ) {
                 $fakeData = 1;
-            }
-            elseif ($type === 'string')
-            {
+            } elseif ($type === 'string') {
                 $fakeData = 'Fake ' . $this->faker->realText(15);
             }
 
             $output[$name] = $fakeData;
         }
-        if (isset($password))
-        {
+        if (isset($password)) {
             $output['password_confirmation'] = $password;
         }
 

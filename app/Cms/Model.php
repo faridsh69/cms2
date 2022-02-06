@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model as LaravelModel;
 
 class Model extends LaravelModel
 {
-    use ModelTrait;
+	use ModelTrait;
 
 	protected $guarded = [];
 
@@ -15,6 +15,6 @@ class Model extends LaravelModel
 	];
 
 	protected $casts = [
-        'activated' => 'boolean',
-    ];
+		'activated' => 'boolean',
+	];
 }

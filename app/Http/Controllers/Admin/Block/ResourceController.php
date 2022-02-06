@@ -11,7 +11,7 @@ class ResourceController extends AdminResourceController
 {
     public string $modelNameSlug = 'block';
 
-    public function index() : View
+    public function index(): View
     {
         $this->authorize('index', $this->modelNamespace);
         $this->meta['link_route'] = route('admin.' . $this->modelNameSlug . '.list.create');
@@ -19,8 +19,7 @@ class ResourceController extends AdminResourceController
         $this->meta['title'] = $this->modelNameTranslate . __('manager');
         $this->meta['search'] = 1;
         $columns = [];
-        foreach(collect($this->modelColumns)->where('table', true) as $column)
-        {
+        foreach (collect($this->modelColumns)->where('table', true) as $column) {
             $columns[] = [
                 'field' => $column['name'],
                 'title' => preg_replace('/([a-z])([A-Z])/s', '$1 $2', Str::studly($column['name'])),
@@ -37,21 +36,20 @@ class ResourceController extends AdminResourceController
     public function postSort()
     {
         $this->authorize('index', $this->modelNamespace);
-    	$block_sort_json = $this->httpRequest->blockSort;
-    	$block_sort = json_decode($block_sort_json);
-    	$this->_saveSort($block_sort);
-    	$this->httpRequest->session()->flash('alert-success', $this->modelName . ' Order Updated Successfully!');
+        $block_sort_json = $this->httpRequest->blockSort;
+        $block_sort = json_decode($block_sort_json);
+        $this->_saveSort($block_sort);
+        $this->httpRequest->session()->flash('alert-success', $this->modelName . ' Order Updated Successfully!');
 
         return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
     }
 
-    private function _saveSort(array $block_ids) : void
+    private function _saveSort(array $block_ids): void
     {
-    	foreach($block_ids as $block_order => $block_id)
-    	{
-    		$block = Block::find($block_id);
-    		$block->order = (3 * $block_order) + 1;
-    		$block->save();
-    	}
+        foreach ($block_ids as $block_order => $block_id) {
+            $block = Block::find($block_id);
+            $block->order = (3 * $block_order) + 1;
+            $block->save();
+        }
     }
 }

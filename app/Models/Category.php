@@ -59,8 +59,8 @@ class Category extends Model
     public static function boot()
     {
         parent::boot();
-        self::updating(function($model){
-            if($model->parent_id === $model->id){
+        self::updating(function ($model) {
+            if ($model->parent_id === $model->id) {
                 abort(500);
             }
         });

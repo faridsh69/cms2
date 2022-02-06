@@ -55,9 +55,9 @@ class Role extends RoleSpatie
     public function saveWithRelations($data, $model = null)
     {
         $data_without_file_and_array = $this->_clearFilesAndArrays($data);
-        if($model){
+        if ($model) {
             $this->update($data_without_file_and_array);
-        }else{
+        } else {
             $model = $this->create($data_without_file_and_array);
         }
         $this->_saveRelatedDataAfterCreate($data, $model);
@@ -68,8 +68,7 @@ class Role extends RoleSpatie
     private function _clearFilesAndArrays($data)
     {
         // unset file and array attributes before saving
-        foreach(collect($this->getColumns())->whereIn('type', ['file', 'array', 'captcha'])->pluck('name') as $file_or_array_column)
-        {
+        foreach (collect($this->getColumns())->whereIn('type', ['file', 'array', 'captcha'])->pluck('name') as $file_or_array_column) {
             unset($data[$file_or_array_column]);
         }
 
@@ -78,27 +77,27 @@ class Role extends RoleSpatie
 
     private function _saveRelatedDataAfterCreate($data, $model)
     {
-        if(! isset($data['permissions'])){
+        if (!isset($data['permissions'])) {
             $data['permissions'] = [];
         }
         $permissions = \App\Models\Permission::whereIn('id', $data['permissions'])->get();
         $model->syncPermissions($permissions);
 
         $role_name = $model->name;
-        $old_users = \App\Models\User::whereHas('roles', function($q) use($role_name){
+        $old_users = \App\Models\User::whereHas('roles', function ($q) use ($role_name) {
             $q->where('name', $role_name);
         })->get();
         // remove role from old users
-        foreach($old_users as $old_user){
+        foreach ($old_users as $old_user) {
             $old_user->removeRole($role_name);
         }
 
         // add role to new selected users
-        if(! isset($data['users'])){
+        if (!isset($data['users'])) {
             $data['users'] = [];
         }
         $users = \App\Models\User::whereIn('id', $data['users'])->get();
-        foreach($users as $user){
+        foreach ($users as $user) {
             $user->assignRole($model->name);
         }
     }

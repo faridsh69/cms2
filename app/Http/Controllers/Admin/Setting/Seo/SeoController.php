@@ -6,7 +6,7 @@ use App\Models\Blog;
 use App\Cms\AdminController;
 
 class SeoController extends AdminController
-{	
+{
 	public string $modelNameSlug = 'setting-general';
 
 	public function redirectToCrowl()
@@ -50,68 +50,67 @@ class SeoController extends AdminController
 		$seo_url_max = config('setting-developer.seo_url_max');
 		$seo_url_regex = '/^[a-z0-9-]+$/';
 
-		foreach($blogs as $blog)
-		{
-			if(strlen($blog->title) < $seo_title_min){
+		foreach ($blogs as $blog) {
+			if (strlen($blog->title) < $seo_title_min) {
 				$title_range[] = [
 					'id' => $blog->id,
 					'description' => 'blog ' . $blog->id . ' title length is ' . strlen($blog->title),
 				];
 			}
-			if(strlen($blog->title) > $seo_title_max){
+			if (strlen($blog->title) > $seo_title_max) {
 				$title_range[] = [
 					'id' => $blog->id,
 					'description' => 'blog ' . $blog->id . ' title length is ' . strlen($blog->title),
 				];
 			}
-			if(false){
+			if (false) {
 				$title_unique[] = [
 					'id' => $blog->id,
 					'description' => 'blog ' . $blog->id . ' title duplicated with ' . 13,
 				];
 			}
-			if(strlen($blog->url) > $seo_url_max){
+			if (strlen($blog->url) > $seo_url_max) {
 				$url_range[] = [
 					'id' => $blog->id,
 					'description' => 'blog ' . $blog->id . ' url length is ' . strlen($blog->url),
 				];
 			}
-			if(false){
+			if (false) {
 				$url_unique[] = [
 					'id' => $blog->id,
 					'description' => 'blog ' . $blog->id . ' url duplicated with ' . 13,
 				];
 			}
-			if(preg_match($seo_url_regex, $blog->url) === false){
+			if (preg_match($seo_url_regex, $blog->url) === false) {
 				$url_format[] = [
 					'id' => $blog->id,
 					'description' => 'blog ' . $blog->id . ' url format is invalid',
 				];
 			}
-			if(strlen($blog->description) < 20){
+			if (strlen($blog->description) < 20) {
 				$description_range[] = [
 					'id' => $blog->id,
 					'description' => 'blog ' . $blog->id . ' description length is ' . strlen($blog->description),
 				];
 			}
-			if(strlen($blog->description) > 170){
+			if (strlen($blog->description) > 170) {
 				$description_range[] = [
 					'id' => $blog->id,
 					'description' => 'blog ' . $blog->id . ' description length is ' . strlen($blog->description),
 				];
 			}
-			if(false){
+			if (false) {
 				$content_unique[] = [
 					'id' => $blog->id,
 					'description' => 'blog ' . $blog->id . ' content duplicated with ' . 13,
 				];
 			}
-			if(strpos($blog->content, '<h1') === false){
-	            $content_header[] = [
+			if (strpos($blog->content, '<h1') === false) {
+				$content_header[] = [
 					'id' => $blog->id,
 					'description' => 'blog ' . $blog->id . ' content has not H1',
 				];
-	        }
+			}
 		}
 
 		$faults = [

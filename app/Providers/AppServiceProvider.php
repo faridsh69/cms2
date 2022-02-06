@@ -36,23 +36,29 @@ class AppServiceProvider extends ServiceProvider
 
     private function bootCms()
     {
-    	$seconds = 1;
-        if(! Schema::hasTable('setting_generals') || SettingGeneral::first() === null){
+        $seconds = 1;
+        if (!Schema::hasTable('setting_generals') || SettingGeneral::first() === null) {
             return 'general settings does not exist!';
         }
         $general_settings = Cache::remember('setting.general', $seconds, function () {
             $general_setings_database = SettingGeneral::first();
-            if($general_setings_database) {return $general_setings_database->toArray(); }
+            if ($general_setings_database) {
+                return $general_setings_database->toArray();
+            }
             return [];
         });
         $contact_settings = Cache::remember('setting.contact', $seconds, function () {
             $contact_setings_database = SettingContact::first();
-            if($contact_setings_database) {return $contact_setings_database->toArray(); }
+            if ($contact_setings_database) {
+                return $contact_setings_database->toArray();
+            }
             return [];
         });
         $developer_settings = Cache::remember('setting.developer', $seconds, function () {
             $developer_setings_database = SettingDeveloper::first();
-            if($developer_setings_database) {return $developer_setings_database->toArray(); }
+            if ($developer_setings_database) {
+                return $developer_setings_database->toArray();
+            }
             return [];
         });
         config(['setting-general' => $general_settings]);
@@ -71,7 +77,7 @@ class AppServiceProvider extends ServiceProvider
         config(['mail.from.address' => config('setting-developer.email_username')]);
         config(['mail.reply_to.name' => config('setting-general.app_title')]);
         config(['mail.reply_to.address' => config('setting-developer.email_username')]);
-        if(config('setting-developer.auto_language')){
+        if (config('setting-developer.auto_language')) {
             $language = 'en';
             // you can check the user ip and set language here
             App::setLocale($language);

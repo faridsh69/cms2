@@ -8,13 +8,13 @@ class Gallery extends FormField
 {
     public function render(array $options = [], $showLabel = true, $showField = true, $showError = true)
     {
-		$options['attr']['multiple'] = true;
-		$model = $this->parent->getModel();
-		if($model){
-			$options['images'] = $model->images->toArray();
-		}else{
-			$options['images'] = [];
-		}
+        $options['attr']['multiple'] = true;
+        $model = $this->parent->getModel();
+        if ($model) {
+            $options['images'] = $model->images->toArray();
+        } else {
+            $options['images'] = [];
+        }
 
         return parent::render($options, $showLabel, $showField, $showError);
     }

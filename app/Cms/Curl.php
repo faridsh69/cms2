@@ -11,15 +11,14 @@ class Curl extends Service
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_TIMEOUT, 30);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        if($method === 'POST'){
+        if ($method === 'POST') {
             curl_setopt($curl, CURLOPT_POST, 1);
             curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
-        }
-        else{
+        } else {
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method);
         }
 
-        if($authorization){
+        if ($authorization) {
             curl_setopt($curl, CURLOPT_HTTPHEADER, [
                 'Content-Type: application/json',
                 'accept: application/json',
@@ -27,7 +26,7 @@ class Curl extends Service
             ]);
         }
 
-        if($user_password){
+        if ($user_password) {
             curl_setopt($curl, CURLOPT_USERPWD, $user_password);
             curl_setopt($curl, CURLOPT_HTTPHEADER, [
                 'Content-Type: application/json',

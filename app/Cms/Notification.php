@@ -13,9 +13,9 @@ use URL;
 
 class Notification extends LaravelNotification
 {
-	use Queueable;
+    use Queueable;
 
-	public $modelSnakeClassName; // user_logined
+    public $modelSnakeClassName; // user_logined
 
     public $headingTitle; // dear customer
 
@@ -46,7 +46,7 @@ class Notification extends LaravelNotification
 
     public function via($notifiable)
     {
-        if(! $notifiable->subscribe){
+        if (!$notifiable->subscribe) {
             return [];
         }
 
@@ -54,13 +54,13 @@ class Notification extends LaravelNotification
             DatabaseChannel::class,
         ];
 
-        if(! config('setting-developer.notification_events'))
+        if (!config('setting-developer.notification_events'))
             return $channelList;
 
-        if ($notifiable->phone && array_search($this->modelSnakeClassName. '_sms', config('setting-developer.notification_events')) !== false){
+        if ($notifiable->phone && array_search($this->modelSnakeClassName . '_sms', config('setting-developer.notification_events')) !== false) {
             $channelList[] = SmsChannel::class;
         }
-        if($notifiable->email && array_search($this->modelSnakeClassName. '_mail', config('setting-developer.notification_events')) !== false){
+        if ($notifiable->email && array_search($this->modelSnakeClassName . '_mail', config('setting-developer.notification_events')) !== false) {
             $channelList[] = 'mail';
         }
 
@@ -69,7 +69,7 @@ class Notification extends LaravelNotification
 
     public function setMessage($message)
     {
-    	$this->message = $message;
+        $this->message = $message;
         $this->smsMessage = sprintf(" %s \n %s \n %s", $this->headingTitle, $this->message, $this->appTitle);
     }
 
@@ -96,10 +96,10 @@ class Notification extends LaravelNotification
     }
 
     public function toSlack($notifiable)
-	{
-	    return (new SlackMessage())
-	        ->content('user_id: ' . $notifiable->id . ' - ' . $this->smsMessage);
-	}
+    {
+        return (new SlackMessage())
+            ->content('user_id: ' . $notifiable->id . ' - ' . $this->smsMessage);
+    }
 
     public function editContent()
     {

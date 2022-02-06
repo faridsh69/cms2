@@ -4,7 +4,7 @@ namespace App\Enums;
 
 final class AppEnv
 {
-    const data = [
+	const data = [
 		'production' => 'Production',
 		'development' => 'Development',
 		'testing' => 'Testing',

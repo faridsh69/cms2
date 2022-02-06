@@ -13,24 +13,24 @@ class ResourceController extends AdminResourceController
 {
     public string $modelNameSlug = 'notification';
 
-    public function store() : RedirectResponse
+    public function store(): RedirectResponse
     {
         $this->authorize('create', $this->modelNamespace);
         $form = $this->laravelFormBuilder->create($this->modelForm);
 
-        if (! $form->isValid()) {
+        if (!$form->isValid()) {
             return redirect()->back()->withErrors($form->getErrors())->withInput();
         }
         $data = $form->getFieldValues();
 
-    	$users = User::where('id', $data['users'])->get();
+        $users = User::where('id', $data['users'])->get();
         $site_notification = new SiteNotification();
         $site_notification->setMessage($data['data']);
-        foreach($users as $user){
+        foreach ($users as $user) {
             $user->notify($site_notification);
         }
 
-    	$model = $this->modelRepository->orderBy('id', 'desc')->first();
+        $model = $this->modelRepository->orderBy('id', 'desc')->first();
         activity($this->modelName)
             ->performedOn($model)
             ->causedBy(Auth::user())
@@ -48,7 +48,7 @@ class ResourceController extends AdminResourceController
         return $this->redirect();
     }
 
-    public function update(int $id) : RedirectResponse
+    public function update(int $id): RedirectResponse
     {
         $this->httpRequest->session()->flash('alert-danger', $this->modelNameTranslate . __(' update does not exist!'));
 

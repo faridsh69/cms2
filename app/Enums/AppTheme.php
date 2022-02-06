@@ -4,7 +4,7 @@ namespace App\Enums;
 
 final class AppTheme
 {
-    const data = [
+	const data = [
 		'classic' => 'Classic',
 		// 'default' => 'Default',
 		// '2-shop' => 'Shop',

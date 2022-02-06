@@ -4,7 +4,7 @@ namespace App\Enums;
 
 final class BlockType
 {
-    const data = [
+	const data = [
 		'menu' => 'Menu',
 		'header' => 'Header',
 		'breadcrumb' => 'Breadcrumb',

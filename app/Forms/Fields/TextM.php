@@ -18,7 +18,7 @@ class TextM extends FormField
     public function render(array $options = [], $showLabel = true, $showField = true, $showError = true)
     {
         $field_icons = Config::get('laravel-form-builder.field_icons');
-        if(isset($field_icons[$this->name])){
+        if (isset($field_icons[$this->name])) {
             $options['left_icon'] = $field_icons[$this->name];
         }
 

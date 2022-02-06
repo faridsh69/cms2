@@ -6,14 +6,14 @@ use App\Cms\Model;
 
 class Activity extends Model
 {
-	public function setTitle(string $title = null)
-	{
-	    $activity = new Activity();
-	    $activity->title = $title;
-	    $activity->activated = 1;
+    public function setTitle(string $title = null)
+    {
+        $activity = new Activity();
+        $activity->title = $title;
+        $activity->activated = 1;
 
-	    return $activity;
-	}
+        return $activity;
+    }
 
     public $columns = [
         ['name' => 'title'],
@@ -64,7 +64,7 @@ class Activity extends Model
 
     public function causedBy($user)
     {
-        if($user){
+        if ($user) {
             $this->user_id = $user->id;
         }
 

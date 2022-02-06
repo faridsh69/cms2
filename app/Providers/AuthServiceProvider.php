@@ -31,7 +31,7 @@ class AuthServiceProvider extends ServiceProvider
             $modelNameSlugs = config('cms.policies');
             $models_namespace = config('cms.config.models_namespace');
             $policies = [];
-            foreach($modelNameSlugs as $modelNameSlug){
+            foreach ($modelNameSlugs as $modelNameSlug) {
                 $modelName = Str::studly($modelNameSlug);
                 $modelNamespace = $models_namespace . $modelName;
                 $model_policy = 'App\Policies\\' . $modelName . 'Policy';

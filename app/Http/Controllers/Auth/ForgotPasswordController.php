@@ -24,8 +24,7 @@ class ForgotPasswordController extends Controller
     {
         $email = $request->input('email');
         $user = User::where('email', $email)->first();
-        if(! $user)
-        {
+        if (!$user) {
             $request->session()->flash('alert-danger', __('user not found'));
             return redirect()->back();
         }

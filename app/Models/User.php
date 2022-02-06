@@ -31,78 +31,73 @@ class User extends Authenticatable
         return 'https://hooks.slack.com/services/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';
     }
 
-    public function addresses() : hasMany
+    public function addresses(): hasMany
     {
         return $this->hasMany(Address::class, 'user_id', 'id');
     }
 
-    public function activities() : hasMany
+    public function activities(): hasMany
     {
         return $this->hasMany(Activity::class, 'user_id', 'id');
     }
 
-    public function likes() : hasMany
+    public function likes(): hasMany
     {
         return $this->hasMany(Like::class, 'user_id', 'id');
     }
 
-    public function comments() : hasMany
+    public function comments(): hasMany
     {
         return $this->hasMany(Comment::class, 'user_id', 'id');
     }
 
-    public function rates() : hasMany
+    public function rates(): hasMany
     {
         return $this->hasMany(Rate::class, 'user_id', 'id');
     }
 
-    public function followings() : hasMany
+    public function followings(): hasMany
     {
         return $this->hasMany(Follow::class, 'user_id', 'id');
     }
 
-    public function followers() : morphMany
+    public function followers(): morphMany
     {
         return $this->morphMany(Follow::class, 'followable');
     }
 
-    public function scopeLanguage($query) : Builder
+    public function scopeLanguage($query): Builder
     {
         return $query;
     }
 
     private function clearFilesAndArrays(array $data, $model)
     {
-        foreach(collect($this->getColumns())->where('type', 'boolean')->pluck('name') as $boolean_column)
-        {
-            if(! isset($data[$boolean_column]))
-            {
+        foreach (collect($this->getColumns())->where('type', 'boolean')->pluck('name') as $boolean_column) {
+            if (!isset($data[$boolean_column])) {
                 $data[$boolean_column] = 0;
             }
         }
-        foreach(collect($this->getColumns())->whereIn('type', ['file', 'array', 'captcha'])->pluck('name') as $file_or_array_column)
-        {
+        foreach (collect($this->getColumns())->whereIn('type', ['file', 'array', 'captcha'])->pluck('name') as $file_or_array_column) {
             unset($data[$file_or_array_column]);
         }
         unset($data['password_confirmation']);
-        if(isset($data['password'])) {
+        if (isset($data['password'])) {
             $data['password'] = \Hash::make($data['password']);
-        }
-        else{
-            if($model){ // update mode
+        } else {
+            if ($model) { // update mode
                 $data['password'] = $model->password;
-                 if($model->email !== $data['email']){
+                if ($model->email !== $data['email']) {
                     $model->activation_code = null;
                     $model->email_verified_at = null;
                 }
 
-                if($model->phone !== $data['phone']){
+                if ($model->phone !== $data['phone']) {
                     $model->activation_code = null;
                     $model->phone_verified_at = null;
                 }
-            }
-            else{ // create mode
-                if($data['password'] === ''){
+            } else { // create mode
+                if ($data['password'] === '') {
                     $data['password'] = \Hash::make($data['email']);
                 }
             }

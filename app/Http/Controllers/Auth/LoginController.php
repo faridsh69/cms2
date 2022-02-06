@@ -22,7 +22,7 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    public function logout(Request $request) : RedirectResponse
+    public function logout(Request $request): RedirectResponse
     {
         Auth::logout();
         $request->session()->invalidate();
@@ -46,24 +46,20 @@ class LoginController extends Controller
             return redirect()->route('admin.dashboard.profile');
         }
 
-        if (! User::where('email', $request->input('email'))->first())
-        {
+        if (!User::where('email', $request->input('email'))->first()) {
             $request->session()->flash('alert-danger', __('user not found'));
-        } 
-        else
-        {
+        } else {
             $request->session()->flash('alert-danger', __('user_logined_message_failed'));
         }
 
         return redirect()->route('auth.login');
-
     }
 
     public function redirectToProvider($social_company)
     {
         $social_companies = ['google', 'github', 'gitlab', 'linkedin', 'twitter', 'facebook', 'bitbucket'];
 
-        if(array_search($social_company, $social_companies, true) !== false){
+        if (array_search($social_company, $social_companies, true) !== false) {
             return Socialite::driver($social_company)->redirect();
         }
 
@@ -75,7 +71,7 @@ class LoginController extends Controller
         $userSocial = Socialite::driver('google')->user();
         $user = User::where(['email' => $userSocial->getEmail()])->first();
 
-        if($user){
+        if ($user) {
             Auth::login($user);
             activity('User Login')
                 ->performedOn($user)

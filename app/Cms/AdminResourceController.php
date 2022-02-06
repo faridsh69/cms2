@@ -3,9 +3,10 @@
 namespace App\Cms;
 
 use Auth;
-use Str;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use Maatwebsite\Excel\Facades\Excel;
+use Str;
 
 class AdminResourceController extends AdminController
 {
@@ -182,7 +183,7 @@ class AdminResourceController extends AdminController
         $exportRepository = new $exportClassName();
         $exportRepository->setModelName($this->modelName);
 
-        return \Maatwebsite\Excel\Facades\Excel::download($exportRepository, $this->modelName . '.xlsx');
+        return Excel::download($exportRepository, $this->modelName . '.xlsx');
     }
 
     public function import()
@@ -191,8 +192,7 @@ class AdminResourceController extends AdminController
         $importClassName = 'App\Cms\Import';
         $importRepository = new $importClassName();
         $importRepository->setModelName($this->modelName);
-
-        \Maatwebsite\Excel\Facades\Excel::import($importRepository, storage_path('app/public/import.xlsx'));
+        Excel::import($importRepository, storage_path('app/public/import.xlsx'));
 
         return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
     }

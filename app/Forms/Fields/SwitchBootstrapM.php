@@ -24,26 +24,22 @@ class SwitchBootstrapM extends FormField
     public function render(array $options = [], $showLabel = true, $showField = true, $showError = true)
     {
         $model = $this->parent->getModel();
-        if($model){
-            if($model[$this->name] === 0){
+        if ($model) {
+            if ($model[$this->name] === 0) {
                 $options['checked'] = false;
             }
         }
 
         $options['choices'] = ['on', 'off'];
-        if($this->name === 'gender'){
+        if ($this->name === 'gender') {
             $options['choices'] = ['male', 'female'];
-        }
-        elseif($this->name === 'direction'){
+        } elseif ($this->name === 'direction') {
             $options['choices'] = ['LTR', 'RTL'];
-        }
-        elseif($this->name === 'notification'){
+        } elseif ($this->name === 'notification') {
             $options['choices'] = ['YES', 'NO'];
-        }
-        elseif($this->name === 'sign'){
+        } elseif ($this->name === 'sign') {
             $options['choices'] = ['positive', 'negative'];
-        }
-        elseif($this->name === 'value_type'){
+        } elseif ($this->name === 'value_type') {
             $options['choices'] = ['percent', 'absolute'];
         }
 

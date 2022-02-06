@@ -7,7 +7,7 @@ use App\Cms\Model;
 class Tagend extends Model
 {
     public $columns = [
-    	['name' => 'title'],
+        ['name' => 'title'],
         ['name' => 'description'],
         [
             'name' => 'sign',
@@ -95,7 +95,7 @@ class Tagend extends Model
         ['name' => 'language'],
     ];
 
-	public function scopeForced($query)
+    public function scopeForced($query)
     {
         return $query->where('title', 'NOT LIKE', '%post%')
             ->where('is_copon', 0)

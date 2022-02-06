@@ -34,8 +34,7 @@ class Test extends TestCase
     {
         $this->modelNameSlugs = config('cms.admin_tests');
 
-        foreach($this->modelNameSlugs as $modelNameSlug)
-        {
+        foreach ($this->modelNameSlugs as $modelNameSlug) {
             echo "\nResource Testing " . $modelNameSlug . '...';
             $modelName = Str::studly($modelNameSlug);
             $modelNamespace = config('cms.config.models_namespace') . $modelName;
@@ -91,8 +90,7 @@ class Test extends TestCase
             // force delete fake model
             $fakeModel->forceDelete();
 
-            foreach($this->resource_methods as $method)
-            {
+            foreach ($this->resource_methods as $method) {
                 $this
                     ->get(route('admin.' . $modelNameSlug . '.' . $method))
                     ->assertOk();
@@ -105,8 +103,7 @@ class Test extends TestCase
     {
         $this->modelNameSlugs = config('cms.front_tests');
 
-        foreach($this->modelNameSlugs as $modelNameSlug)
-        {
+        foreach ($this->modelNameSlugs as $modelNameSlug) {
             echo "\nFront Testing " . $modelNameSlug . '...';
             $modelName = Str::studly($modelNameSlug);
             $modelNamespace = config('cms.config.models_namespace') . $modelName;
@@ -119,7 +116,7 @@ class Test extends TestCase
             $fakeModel = $modelRepository->orderBy('id', 'desc')->first();
 
             // show fake model
-            if($fakeModel && isset($fakeModel->url) && $fakeModel->url) {
+            if ($fakeModel && isset($fakeModel->url) && $fakeModel->url) {
                 $this
                     ->get(route('front.' . $modelNameSlug . '.show', $fakeModel->url))
                     ->assertOk();
@@ -128,7 +125,7 @@ class Test extends TestCase
             // get model category
             $categoryModel = Category::ofType($modelName)->first();
             // show category of model
-            if($categoryModel){
+            if ($categoryModel) {
                 $this
                     ->get(route('front.' . $modelNameSlug . '.category.show', $categoryModel->url))
                     ->assertOk();
@@ -139,15 +136,14 @@ class Test extends TestCase
             $tagModel = Tag::ofType($modelName)->first();
 
             // show tag of model
-            if($tagModel){
+            if ($tagModel) {
                 $this
                     ->get(route('front.' . $modelNameSlug . '.tag.show', $tagModel->url))
                     ->assertOk();
                 echo 'With Tag...';
             }
 
-            foreach($this->frontMethods as $method)
-            {
+            foreach ($this->frontMethods as $method) {
                 $this
                     ->get(route('front.' . $modelNameSlug . '.' . $method))
                     ->assertOk();

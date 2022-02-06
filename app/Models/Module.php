@@ -41,7 +41,7 @@ class Module extends Model
             'table' => false,
         ],
         [
-        	'name' => 'product_id',
+            'name' => 'product_id',
             'type' => 'unsignedBigInteger',
             'database' => 'nullable',
             'rule' => 'nullable',

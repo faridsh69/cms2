@@ -4,7 +4,7 @@ namespace App\Enums;
 
 final class FieldType
 {
-    const data = [
+	const data = [
 		'text' => 'Text',
 		'textarea' => 'Textarea',
 		'number' => 'Number',

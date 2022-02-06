@@ -28,9 +28,9 @@ class Permission extends PermissionSpatie
 
     public function saveWithRelations($data, $model = null)
     {
-        if($model){
+        if ($model) {
             $this->update($data);
-        }else{
+        } else {
             $model = $this->create($data);
         }
         return $model;

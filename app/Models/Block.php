@@ -57,16 +57,15 @@ class Block extends Model
             ->get();
 
         $output_blocks = [];
-        foreach($blocks as $block)
-        {
+        foreach ($blocks as $block) {
             $block_pages = $block->pages;
             if ($block_pages == null)
                 continue;
-            if($block->show_all_pages && array_search($page_id, $block_pages->pluck('id')->toArray(), true) === false){
+            if ($block->show_all_pages && array_search($page_id, $block_pages->pluck('id')->toArray(), true) === false) {
                 $output_blocks[] = $block;
             }
 
-            if(! $block->show_all_pages && array_search($page_id, $block_pages->pluck('id')->toArray(), true) !== false){
+            if (!$block->show_all_pages && array_search($page_id, $block_pages->pluck('id')->toArray(), true) !== false) {
                 $output_blocks[] = $block;
             }
         }

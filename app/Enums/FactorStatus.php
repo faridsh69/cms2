@@ -4,7 +4,7 @@ namespace App\Enums;
 
 final class FactorStatus
 {
-    const data = [
+	const data = [
 		1 => 'Initial',
 		2 => 'Payment',
 		3 => 'Proccessing',

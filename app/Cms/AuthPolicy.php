@@ -14,39 +14,39 @@ class AuthPolicy
     */
     public string $modelNameSlug;
 
-    public function index(User $user) : bool
-    {
-    	return true;
-    }
-
-    public function view(User $user, $list) : bool
-    {
-    	if($user->can($this->modelNameSlug . '_view')){
-    		return true;
-    	}
-
-        return $user->id === $list->user_id;
-    }
-
-    public function create(User $user) : bool
+    public function index(User $user): bool
     {
         return true;
     }
 
-    public function update(User $user, $list) : bool
+    public function view(User $user, $list): bool
     {
-    	if($user->can($this->modelNameSlug . '_update')){
-    		return true;
-    	}
+        if ($user->can($this->modelNameSlug . '_view')) {
+            return true;
+        }
 
         return $user->id === $list->user_id;
     }
 
-    public function delete(User $user, $list) : bool
+    public function create(User $user): bool
     {
-    	if($user->can($this->modelNameSlug . '_delete')){
-    		return true;
-    	}
+        return true;
+    }
+
+    public function update(User $user, $list): bool
+    {
+        if ($user->can($this->modelNameSlug . '_update')) {
+            return true;
+        }
+
+        return $user->id === $list->user_id;
+    }
+
+    public function delete(User $user, $list): bool
+    {
+        if ($user->can($this->modelNameSlug . '_delete')) {
+            return true;
+        }
 
         return $user->id === $list->user_id;
     }

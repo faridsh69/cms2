@@ -4,7 +4,7 @@ namespace App\Enums;
 
 final class ModelType
 {
-    const data = [
+	const data = [
 		'Advertise' => 'Advertise',
 		'Blog' => 'Blog',
 		'Car' => 'Car',

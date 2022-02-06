@@ -15,60 +15,60 @@ class SettingController extends AdminResourceController
 {
 	public string $modelNameSlug = 'setting-general';
 
-    public function index() : View
-    {
-    	$section = explode('-', $this->modelNameSlug)[1];
-    	$this->meta['title'] = __($section . '_manager');
-    	$this->authorize('manage', 'setting_' . $section);
-        $model = $this->modelRepository->first();
-        $form = $this->laravelFormBuilder->create($this->modelForm, [
-            'method' => 'PUT',
-            'url' => route('admin.setting.' . $section),
-            'class' => 'm-form m-form--state',
-            'id' =>  'admin_form',
-            'model' => $model,
-        ]);
+	public function index(): View
+	{
+		$section = explode('-', $this->modelNameSlug)[1];
+		$this->meta['title'] = __($section . '_manager');
+		$this->authorize('manage', 'setting_' . $section);
+		$model = $this->modelRepository->first();
+		$form = $this->laravelFormBuilder->create($this->modelForm, [
+			'method' => 'PUT',
+			'url' => route('admin.setting.' . $section),
+			'class' => 'm-form m-form--state',
+			'id' =>  'admin_form',
+			'model' => $model,
+		]);
 
-        return view('admin.list.form', ['form' => $form, 'meta' => $this->meta]);
-    }
+		return view('admin.list.form', ['form' => $form, 'meta' => $this->meta]);
+	}
 
-    public function putUpdate()
-    {
-    	$section = explode('-', $this->modelNameSlug)[1];
-    	$this->authorize('manage', 'setting_' . $section);
-        $model = $this->modelRepository->first();
-        $form = $this->laravelFormBuilder->create($this->modelForm, [
-            'model' => $model,
-        ]);
-        if (! $form->isValid()) {
-            return redirect()->back()->withErrors($form->getErrors())->withInput();
-        }
+	public function putUpdate()
+	{
+		$section = explode('-', $this->modelNameSlug)[1];
+		$this->authorize('manage', 'setting_' . $section);
+		$model = $this->modelRepository->first();
+		$form = $this->laravelFormBuilder->create($this->modelForm, [
+			'model' => $model,
+		]);
+		if (!$form->isValid()) {
+			return redirect()->back()->withErrors($form->getErrors())->withInput();
+		}
 
-        $this->modelRepository->saveWithRelations($form->getFieldValues(), $model);
+		$this->modelRepository->saveWithRelations($form->getFieldValues(), $model);
 
-        foreach(['developer', 'general', 'contact'] as $cache_section){
-	        Cache::forget('setting.' . $cache_section);
-	    }
-        activity('Update')
-            ->performedOn($model)
-            ->causedBy(Auth::user())
-            ->log($this->modelName . ' Updated');
+		foreach (['developer', 'general', 'contact'] as $cache_section) {
+			Cache::forget('setting.' . $cache_section);
+		}
+		activity('Update')
+			->performedOn($model)
+			->causedBy(Auth::user())
+			->log($this->modelName . ' Updated');
 
-        $this->httpRequest->session()->flash('alert-success', $this->modelNameTranslate . ' Updated Successfully!');
-        sleep(1);
+		$this->httpRequest->session()->flash('alert-success', $this->modelNameTranslate . ' Updated Successfully!');
+		sleep(1);
 
-        return redirect()->route('admin.setting.' . $section);
-    }
+		return redirect()->route('admin.setting.' . $section);
+	}
 
-	public function redirect() : RedirectResponse
+	public function redirect(): RedirectResponse
 	{
 		return redirect()->route('admin.setting.general');
 	}
 
-	public function log() : View
+	public function log(): View
 	{
-        $this->authorize('manage', 'log');
-        $this->meta['title'] = __('log_manager');
+		$this->authorize('manage', 'log');
+		$this->meta['title'] = __('log_manager');
 
 		return view('admin.page.setting.log', ['meta' => $this->meta]);
 	}
@@ -79,31 +79,31 @@ class SettingController extends AdminResourceController
 		return $LogViewerController->index();
 	}
 
-	public function api() : View
+	public function api(): View
 	{
 		$this->authorize('manage', 'api');
-        $this->meta['title'] = __('api_manager');
+		$this->meta['title'] = __('api_manager');
 
 		return view('admin.page.setting.api', ['meta' => $this->meta]);
 	}
 
-	public function command($command) : void
+	public function command($command): void
 	{
 		$this->authorize('manage', 'setting_advance');
-        echo '<br> php artisan ' . $command . ' is running...';
+		echo '<br> php artisan ' . $command . ' is running...';
 		$output = new BufferedOutput();
-		if(strpos($command, 'api') === false && strpos($command, 'passport') === false){
-	        Artisan::call($command, [], $output);
-	    }else{
+		if (strpos($command, 'api') === false && strpos($command, 'passport') === false) {
+			Artisan::call($command, [], $output);
+		} else {
 			shell_exec('php ../artisan ' . $command);
 			dump('php ../artisan ' . $command);
 		}
-        dump($output->fetch());
-        echo 'php artisan ' . $command . ' completed.';
-        echo '<br><br><a href="/admin/setting/advance">Go back</a>';
+		dump($output->fetch());
+		echo 'php artisan ' . $command . ' completed.';
+		echo '<br><br><a href="/admin/setting/advance">Go back</a>';
 	}
 
-	public function advance() : View
+	public function advance(): View
 	{
 		$this->authorize('manage', 'setting_advance');
 		$commands = [
@@ -189,7 +189,7 @@ class SettingController extends AdminResourceController
 			],
 		];
 
-        $this->meta['title'] = __('advance_setting');
+		$this->meta['title'] = __('advance_setting');
 
 		return view('admin.page.setting.advance', ['meta' => $this->meta, 'commands' => $commands]);
 	}

@@ -3,14 +3,12 @@
 namespace App\Cms;
 
 use App\Http\Controllers\Controller;
-use App\Models\Activity;
 use App\Models\Category;
 use App\Models\Tag;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
-use Route;
 use Str;
 use Cache;
 
@@ -21,7 +19,7 @@ class FrontController extends Controller
     public function __construct(Request $httpRequest)
     {
         $this->httpRequest = $httpRequest;
-        if(! $this->modelNameSlug){
+        if (!$this->modelNameSlug) {
             $this->modelNameSlug = $this->httpRequest->segment(1) ?: 'user';
         }
         $this->modelName = Str::studly($this->modelNameSlug);
@@ -38,7 +36,7 @@ class FrontController extends Controller
         ];
     }
 
-    public function index() : View
+    public function index(): View
     {
         $list = $this->modelRepository->active()->language()
             ->orderBy('updated_at', 'desc')
@@ -46,25 +44,25 @@ class FrontController extends Controller
 
         $CategoryAndTags = $this->getCategoryAndTags();
         return view('front.list.index', [
-            'meta' => $this->meta, 
-            'list' => $list, 
-            'categories' => $CategoryAndTags['categories'], 
+            'meta' => $this->meta,
+            'list' => $list,
+            'categories' => $CategoryAndTags['categories'],
             'tags' => $CategoryAndTags['tags']
         ]);
     }
 
-    private function getCategoryAndTags() : array
+    private function getCategoryAndTags(): array
     {
-        $categories = Cache::remember('category.'. $this->modelNameSlug, 10, function () {
+        $categories = Cache::remember('category.' . $this->modelNameSlug, 10, function () {
             return Category::ofType($this->modelName)->active()->language()
-            ->orderBy('updated_at', 'desc')
-            ->get();
+                ->orderBy('updated_at', 'desc')
+                ->get();
         });
 
-        $tags = Cache::remember('tag.'. $this->modelNameSlug, 10, function () {
+        $tags = Cache::remember('tag.' . $this->modelNameSlug, 10, function () {
             return Tag::ofType($this->modelName)->active()->language()
-            ->orderBy('updated_at', 'desc')
-            ->get();
+                ->orderBy('updated_at', 'desc')
+                ->get();
         });
 
         return [
@@ -73,11 +71,11 @@ class FrontController extends Controller
         ];
     }
 
-    public function show(string $url) : View
+    public function show(string $url): View
     {
         $item = $this->modelRepository->where('url', $url)->firstOrFail();
 
-        if(env('APP_ENV') !== 'testing'){
+        if (env('APP_ENV') !== 'testing') {
             activity($this->modelName)->performedOn($item)->causedBy(Auth::user())
                 ->log($this->modelName . ' View');
         }
@@ -86,7 +84,9 @@ class FrontController extends Controller
         $this->meta['description'] = $item->description;
         $this->meta['google_index'] = $item->google_index;
         $this->meta['image'] = $item->image;
-        if($item->canonical_url){ $this->meta['canonical_url'] = $item->canonical_url; }
+        if ($item->canonical_url) {
+            $this->meta['canonical_url'] = $item->canonical_url;
+        }
 
         return view('front.list.show', ['item' => $item, 'meta' => $this->meta]);
     }
@@ -95,7 +95,7 @@ class FrontController extends Controller
     {
         $category = Category::where('url', $url)->firstOrFail();
 
-        if(env('APP_ENV') !== 'testing'){
+        if (env('APP_ENV') !== 'testing') {
             activity('Category')->performedOn($category)->causedBy(Auth::user())
                 ->log('Category View');
         }
@@ -107,13 +107,13 @@ class FrontController extends Controller
             ->paginate(config('setting-general.pagination_number'));
 
         return view('front.list.index', [
-            'meta' => $this->meta, 
-            'list' => $list, 
-            'category' => $category, 
+            'meta' => $this->meta,
+            'list' => $list,
+            'category' => $category,
         ]);
     }
 
-    public function getCategories ()
+    public function getCategories()
     {
         $categories = Category::ofType($this->modelName)->active()->language()
             ->orderBy('updated_at', 'desc')
@@ -132,7 +132,7 @@ class FrontController extends Controller
     public function getTag($url)
     {
         $tag = Tag::where('url', $url)->firstOrFail();
-        if(env('APP_ENV') !== 'testing'){
+        if (env('APP_ENV') !== 'testing') {
             activity('Tag')->performedOn($tag)->causedBy(Auth::user())
                 ->log('Tag View');
         }
@@ -146,7 +146,7 @@ class FrontController extends Controller
         return view('front.list.index', ['meta' => $this->meta, 'list' => $list, 'tag' => $tag]);
     }
 
-    public function getTags ()
+    public function getTags()
     {
         $tags = Tag::ofType($this->modelName)->active()->language()
             ->orderBy('updated_at', 'desc')
@@ -174,7 +174,7 @@ class FrontController extends Controller
 
         $commentModel->save();
 
-        if(env('APP_ENV') !== 'testing'){
+        if (env('APP_ENV') !== 'testing') {
             activity($this->modelName)->performedOn($item)->causedBy(Auth::user())
                 ->log($this->modelName . ' Comment');
         }
@@ -198,12 +198,9 @@ class FrontController extends Controller
     {
         $item = $this->modelRepository->where('url', $url)->firstOrFail();
 
-        if ($item->likes()->authUser()->first())
-        {
+        if ($item->likes()->authUser()->first()) {
             $item->likes()->authUser()->delete();
-        }
-        else
-        {
+        } else {
             $likeModel->user_id = Auth::id();
             $likeModel->likeable_type = $this->modelNamespace;
             $likeModel->likeable_id = $item->id;

@@ -6,21 +6,21 @@ use App\Services\BaseChannel;
 use Log;
 use SoapClient;
 
-class SmsChannel extends BaseChannel
+class SmsChannel
 {
-	public function send($notifiable, $notification)
-	{
+    public function send($notifiable, $notification)
+    {
         $phone = $notifiable->phone;
         $message = $notification->smsMessage;
         $sender = config('sms.sender');
         $api_key = config('sms.api_key');
         $driver = config('sms.driver');
 
-        if($driver === 'kavenegar'){
-            try{
+        if ($driver === 'kavenegar') {
+            try {
                 $kavenegar_api = new \Kavenegar\KavenegarApi($api_key);
                 $kavenegar_api->Send($sender, $phone, $message);
-            }catch(\Kavenegar\Exceptions\ApiException $e){
+            } catch (\Kavenegar\Exceptions\ApiException $e) {
                 Log::error([
                     'error' => $e->errorMessage(),
                     'phone' => $phone,
@@ -29,8 +29,7 @@ class SmsChannel extends BaseChannel
                     'api_key' => $api_key,
                     'driver' => $driver,
                 ]);
-            }
-            catch(\Kavenegar\Exceptions\HttpException $e){
+            } catch (\Kavenegar\Exceptions\HttpException $e) {
                 Log::error([
                     'error' => $e->errorMessage(),
                     'info' => 'در زمانی که مشکلی در برقرای ارتباط با وب سرویس وجود داشته باشد این خطا رخ می دهد',
@@ -41,9 +40,7 @@ class SmsChannel extends BaseChannel
                     'driver' => $driver,
                 ]);
             }
-        }
-        elseif($driver === 'raygansms')
-        {
+        } elseif ($driver === 'raygansms') {
             $url = 'http://smspanel.trez.ir/api/smsAPI/SendMessage';
             $post_data = json_encode([
                 'PhoneNumber' => $sender,
@@ -56,7 +53,7 @@ class SmsChannel extends BaseChannel
             $curl_service = new \App\Services\BaseCurlService();
             $raygansms_api = $curl_service->call_curl($url, 'POST', $post_data, null, $api_key);
             $result = json_decode($raygansms_api, true);
-            if($result === null || $result['Code'] !== 0){
+            if ($result === null || $result['Code'] !== 0) {
                 Log::error([
                     'error' => $raygansms_api,
                     'info' => 'نام کاربری یا کلمه عبور صحیح نمی باشد',

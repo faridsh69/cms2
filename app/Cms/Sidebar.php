@@ -311,29 +311,29 @@ class Sidebar
 		],
 	];
 
-	public static function getItems() : array
+	public static function getItems(): array
 	{
 		$sidebarMenuItems = self::$sidebarMenuItems;
-		$sidebarItems = Cache::remember('sidebar', self::$cachingTime, function () use($sidebarMenuItems)
-		{
+		$sidebarItems = Cache::remember('sidebar', self::$cachingTime, function () use ($sidebarMenuItems) {
 			$list = [];
-			foreach(collect($sidebarMenuItems)->sortBy('order') as $menuItems)
-			{
+			foreach (collect($sidebarMenuItems)->sortBy('order') as $menuItems) {
 				$authUser = Auth::user();
 				if (!isset($menuItems['type']))
 					$menuItems['type'] = 'submenu';
 
-				$menuItems['route'] = 'admin.'. $menuItems['title']. '.list.index';
+				$menuItems['route'] = 'admin.' . $menuItems['title'] . '.list.index';
 				if (!Route::has($menuItems['route']))
-					$menuItems['route'] = 'admin.' . $menuItems['title']. '.index';
+					$menuItems['route'] = 'admin.' . $menuItems['title'] . '.index';
 
 				$menuItems['model_name'] = Str::studly($menuItems['title']);
 				$menuItems['model_namespace'] = config('cms.config.models_namespace') . $menuItems['model_name'];
-				$menuItems['permission'] = $authUser->can('index', $menuItems['model_namespace']) 
+				$menuItems['permission'] = $authUser->can('index', $menuItems['model_namespace'])
 					|| $authUser->can('manage', $menuItems['title']);
 
-				if ($menuItems['type'] === 'submenu' && $menuItems['title'] !== 'dashboard' && 
-					(!$menuItems['permission'] || !Route::has($menuItems['route'])))
+				if (
+					$menuItems['type'] === 'submenu' && $menuItems['title'] !== 'dashboard' &&
+					(!$menuItems['permission'] || !Route::has($menuItems['route']))
+				)
 					continue;
 
 				$list[] = $menuItems;

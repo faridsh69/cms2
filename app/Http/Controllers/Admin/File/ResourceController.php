@@ -10,13 +10,13 @@ class ResourceController extends AdminResourceController
 
     public function removeBySrc()
     {
-		$src = $this->httpRequest->input('src');
-		$file = $this->modelRepository->where('src', $src)->first();
-		$file_model_namespace = $file->fileable_type;
-		$this->authorize('index', $file_model_namespace);
-		$this->destroy($file->id);
+        $src = $this->httpRequest->input('src');
+        $file = $this->modelRepository->where('src', $src)->first();
+        $file_model_namespace = $file->fileable_type;
+        $this->authorize('index', $file_model_namespace);
+        $this->destroy($file->id);
 
-		return response()->json([
+        return response()->json([
             'data' => ['message' => __('File deleted successfully!')],
         ]);
     }

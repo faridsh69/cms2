@@ -21,8 +21,8 @@ class SwitchM extends FormField
     public function render(array $options = [], $showLabel = true, $showField = true, $showError = true)
     {
         $model = $this->parent->getModel();
-        if($model){
-            if($model[$this->name] === 0){
+        if ($model) {
+            if ($model[$this->name] === 0) {
                 $options['checked'] = false;
             }
         }

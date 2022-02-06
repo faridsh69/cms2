@@ -14,8 +14,7 @@ class Import implements ToModel
 
     public function model(array $row)
     {
-        foreach($this->modelFields as $key => $modelField)
-        {
+        foreach ($this->modelFields as $key => $modelField) {
             $this->excelFields[$modelField] = $row[$key];
         }
         return new $this->modelNamespace($this->excelFields);

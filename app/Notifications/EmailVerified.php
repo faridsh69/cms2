@@ -7,7 +7,7 @@ use App\Cms\Notification;
 
 class EmailVerified extends Notification
 {
-	public function via($notifiable)
+    public function via($notifiable)
     {
         return [
             DatabaseChannel::class,
