@@ -326,19 +326,24 @@ class Seeder008Modules extends Seeder
         ];
 
         $order = 3;
-        foreach($modules as $module){
+        foreach ($modules as $module) {
+            // $uploadFileTest = storage_path() . '/app/public/temp/seeder-test-files/' . $fileName;
+            //     $fakeData = new UploadedFile($uploadFileTest, $uploadFileTest);
             $order += 3;
-            $module['order'] = $order;
-            $module['language'] = 'en';
-            if(isset($module['image'])){
-                $module['image'] = asset($module['image']);
-            }
-            if(isset($module['video'])){
-                $module['video'] = asset($module['video']);
-            }
-            if(! isset($module['title'])){
+            if (!isset($module['title'])) {
                 $module['title'] = $module['type'];
             }
+            $module['order'] = $order;
+            $module['language'] = 'en';
+
+            unset($module['image']);
+            unset($module['video']);
+            // if (isset($module['image'])) {
+            //     $module['image'] = asset($module['image']);
+            // }
+            // if (isset($module['video'])) {
+            //     $module['video'] = asset($module['video']);
+            // }
             Module::firstOrCreate($module);
             // if( isset($module['parent_url']) ){
             //     $parent = Module::where('url', $module['parent_url'])->first();

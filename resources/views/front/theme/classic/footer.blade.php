@@ -87,25 +87,25 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 @if(false)
     @if(config('setting-contact.instagram'))
     <a target="_blank" title="Instagram" href="http://instagram.com/{{ config('setting-contact.instagram') }}" >
-        <img src="{{ asset('/images/front/general/instagram.png') }}">
+        <img src="{{ asset(config('cms.config.default_images') . 'instagram.png') }}">
     </a>
     <br>
     @endif
     @if(config('setting-contact.telegram'))
     <a target="_blank" title="Telegram" href="http://t.me/{{ config('setting-contact.telegram') }}" >
-        <img src="{{ asset('/images/front/general/telegram.png') }}">
+        <img src="{{ asset(config('cms.config.default_images') . 'telegram.png') }}">
     </a>
     <br>
     @endif
     @if(config('setting-contact.phone'))
     <a target="_blank" title="Call" href="tel:{{ config('setting-contact.phone') }}" >
-        <img src="{{ asset('/images/front/general/phone.png') }}">
+        <img src="{{ asset(config('cms.config.default_images') . 'phone.png') }}">
     </a>
     <br>
     @endif
     @if(config('setting-contact.whatsapp'))
     <a target="_blank" title="Whatsapp" href="https://api.whatsapp.com/send?phone={{ config('setting-contact.whatsapp') }}" >
-        <img src="{{ asset('/images/front/general/whatsapp.png') }}">
+        <img src="{{ asset(config('cms.config.default_images') . 'whatsapp.png') }}">
     </a>
     @endif
 @endif

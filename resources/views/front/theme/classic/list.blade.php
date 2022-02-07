@@ -81,7 +81,6 @@
                         @foreach($categories as $category)
                         <div class="single-latest-blog-post d-flex mb-30">
                             <div class="latest-blog-post-thumb">
-                                <!-- <img src="{{ $category->image }}" alt=""> -->
                                 <i class="fa {{ $category->icon }}" style="font-size: 30px"></i>
                             </div>
                             <div class="latest-blog-post-content">

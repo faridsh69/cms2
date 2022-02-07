@@ -83,6 +83,25 @@ trait ModelTrait
 		return $this->morphMany('App\Models\File', 'fileable');
 	}
 
+	// Get file srcs from that column
+	public function srcs(string $fileColumnName): array
+	{
+		return $this->files()
+			->where('title', $fileColumnName)
+			->get()
+			->pluck('src')
+			->toArray();
+	}
+
+	public function avatar(): string
+	{
+		$srcs = $this->srcs('image');
+		if (count($srcs)) {
+			return preg_replace('/(\.[^.]+)$/', sprintf('%s$1', '-thumbnail'), $srcs[0]);
+		}
+		return asset(config('cms.default_images') . class_basename($this) . '.png');
+	}
+
 	public function saveWithRelations(array $data, Model $model = null): Model
 	{
 		$formDataWitoutUploadFilesAndArrays = $this->clearFilesAndArrays($data, $model);
@@ -153,57 +172,6 @@ trait ModelTrait
 			$model->{$arrayColumn}()->sync($data[$arrayColumn], true);
 		}
 	}
-
-
-	// append
-	// methods
-
-	// Get file srcs from that column
-	public function srcs(string $fileColumnName): array
-	{
-		return $this->files()
-			->where('title', $fileColumnName)
-			->get()
-			->pluck('src')
-			->toArray();
-	}
-
-	// // Get the first file or return default image for this model.
-	// public function src(string $fileColumnName): string
-	// {
-	// 	$srcs = $this->srcs($fileColumnName);
-	// 	if (count($srcs) > 0)
-	// 		return $srcs[0];
-
-	// 	// If there is no file, we need to return default image for each model.
-	// 	return $this->defaultImage();
-	// }
-
-	// public function thumbnailSrc(string $fileColumnName): string
-	// {
-	// 	$fileColumn = collect($this->getColumns())->where('name', $fileColumnName)->first();
-	// 	if (!$fileColumn)
-	// 		return $this->defaultImage();
-
-	// 	$file = $this->files()
-	// 		->where('title', $fileColumnName)
-	// 		->first();
-
-	// 	if ($file && $file->src_thumbnail)
-	// 		return $file->src_thumbnail;
-
-	// 	return $this->defaultImage();
-	// }
-
-	// private function defaultImage(): string
-	// {
-	// 	return asset('css/front/general/default/' . class_basename($this) . '.png');
-	// }
-
-
-
-
-
 
 	/*
 	* This is the main method in this cms, we are defining all models columns here, 

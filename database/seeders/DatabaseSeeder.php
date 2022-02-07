@@ -27,6 +27,6 @@ class DatabaseSeeder extends LaravelSeeder
 		$this->call(CmsSeeder::class);
 
 		// This line will automatically generate all data for Laravel CMS website
-		$this->call(CmsLaravelWebsiteSeeder::class);
+		// $this->call(CmsLaravelWebsiteSeeder::class);
 	}
 }

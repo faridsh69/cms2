@@ -10,8 +10,8 @@ use Str;
 class FileService
 {
     const UPLOAD_PATH_PREFIX = 'public/upload/';
-
     const DATABASE_SRC_PREFIX = 'storage/upload/';
+    const THUMBNAIL_WIDTH = 200;
 
     public function save($file, $model, $title = 'file')
     {
@@ -36,30 +36,27 @@ class FileService
             $src = asset($uploadFolderSrc . '/' . $fileName);
             Storage::putFileAs($uploadFolderPath, $file, $fileName);
 
-            // save thumbnail if its image
-            $thumbnailSrc = null;
+            // save thumbnail if it is an image
             if (strpos($mimeType, 'image') === 0) {
                 $thumbnailFileName = $title . '-' . $randomCode . '-' . 'thumbnail' . '.' . $extension;
-                $thumbnailSrc = asset($uploadFolderSrc . '/' . $thumbnailFileName);
                 $intervationImage = Image::make($file);
-                $intervationImage->resize(null, 200, function ($constraint) {
+                $intervationImage->resize(null, self::THUMBNAIL_WIDTH, function ($constraint) {
                     $constraint->aspectRatio();
                 });
                 $intervationUploadPath = storage_path('app/' . $uploadFolderPath);
                 $intervationImage->orientate();
-                $intervationImage->save($intervationUploadPath . $thumbnailFileName, 100);
+                $intervationImage->save($intervationUploadPath . $thumbnailFileName, 90);
             }
             // save file model record
             $fileModelData = [
-                'title' => $title,
-                'extension' => $extension,
-                'file_name' => $fileName,
-                'mime_type' => $mimeType,
-                'size' => $size,
-                'src' => $src,
-                'src_thumbnail' => $thumbnailSrc,
                 'fileable_type' => $fileableType,
                 'fileable_id' => $fileableId,
+                'title' => $title,
+                'src' => $src,
+                'file_name' => $fileName,
+                'extension' => $extension,
+                'mime_type' => $mimeType,
+                'size' => $size,
             ];
 
             $column = collect($model->getColumns())->where('name', $title)->first();

@@ -84,10 +84,13 @@ class ApiController extends Controller
         // $this->authorize('view', $model);
 
         // $mainData = $model->getAttributes();
-        $model->images = $model->srcs('image');
         $model->category = $model->category;
         $model->tags = $model->tags;
         $model->relateds = $model->relateds;
+        $model->images = $model->srcs('image');
+        $model->videos = $model->srcs('video');
+        $model->audios = $model->srcs('audio');
+        $model->avatar = $model->avatar();
 
         return $this->setSuccessStatus()
             ->setMessage(__('show_successfully'))

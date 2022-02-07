@@ -12,9 +12,7 @@ class Factory extends LaravelFactory
 
     private string $modelNameSlug = '';
 
-    private string $photosFolder = 'temp-laravel-cms-static-files/photos/';
-
-    public function setModelNameSlug(string $modelNameSlug)
+    public function setModelNameSlug(string $modelNameSlug): self
     {
         $this->modelNameSlug = $modelNameSlug;
 
@@ -53,24 +51,17 @@ class Factory extends LaravelFactory
                 $fakeData = 1;
             } elseif ($form_type === 'file') {
                 $file_accept = isset($column['file_accept']) ? $column['file_accept'] : null;
-                $file_manager = isset($column['file_manager']) ? $column['file_manager'] : null;
-
-                if ($file_accept === 'image') {
+                if ($file_accept === 'image/*') {
                     $fileName = 'image.png';
-                } elseif ($file_accept === 'video') {
+                } elseif ($file_accept === 'video/*') {
                     $fileName = 'video.mp4';
-                } elseif ($file_accept === 'audio') {
+                } elseif ($file_accept === 'audio/*') {
                     $fileName = 'audio.mp3';
                 } else {
                     $fileName = 'pdf.pdf';
                 }
-
-                if ($file_manager) {
-                    $fakeData = asset('/temp/seeder-test-files/' . $fileName);
-                } else {
-                    $uploadFileTest = storage_path() . '/app/public/temp/seeder-test-files/' . $fileName;
-                    $fakeData = new UploadedFile($uploadFileTest, $uploadFileTest);
-                }
+                $uploadFileTest = storage_path() . config('cms.config.faker_files') . $fileName;
+                $fakeData = new UploadedFile($uploadFileTest, $uploadFileTest);
             } elseif ($name === 'keywords') {
                 $fakeData = $this->faker->realText(100);
             } elseif ($name === 'icon') {

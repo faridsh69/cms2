@@ -7,6 +7,6 @@
             <a href="{{ route('front.'. Str::kebab(class_basename($item)). '.show', $item->url) }}" class="btn academy-btn btn-sm">{{ __('See More') }}</a>
             @endif
         </div>
-        <div class="popular-course-thumb bg-img" style="background-image: url({{ $item->src('image') }});"></div>
+        <div class="popular-course-thumb bg-img" style="background-image: url({{ $item->avatar() }});"></div>
     </div>
 </div>
