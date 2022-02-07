@@ -15,7 +15,6 @@ class ApiController extends Controller
 
     public function index(): JsonResponse
     {
-        // abort(500, "Noooo");
         // $this->authorize('index', $this->modelNamespace);
         $list = $this->modelRepository
             ->active()
@@ -58,12 +57,13 @@ class ApiController extends Controller
         }
         $modelStore = $this->modelRepository->create($mainData);
 
-        if (env('APP_ENV') !== 'testing') {
-            activity($this->modelName)
-                ->performedOn($modelStore)
-                ->causedBy(Auth::user())
-                ->log($this->modelName . ' Created');
-        }
+        // @TODO activity
+        // if (env('APP_ENV') !== 'testing') {
+        //     activity($this->modelName)
+        //         ->performedOn($modelStore)
+        //         ->causedBy(Auth::user())
+        //         ->log($this->modelName . ' Created');
+        // }
 
         return $this->setSuccessStatus()
             ->setMessage($this->modelNameTranslate . __('created_successfully'))
@@ -134,12 +134,13 @@ class ApiController extends Controller
 
         $modelUpdate->update($mainData);
 
-        if (env('APP_ENV') !== 'testing') {
-            activity($this->modelName)
-                ->performedOn($modelUpdate)
-                ->causedBy(Auth::user())
-                ->log($this->modelName . ' Updated');
-        }
+        // @TODO activity
+        // if (env('APP_ENV') !== 'testing') {
+        //     activity($this->modelName)
+        //         ->performedOn($modelUpdate)
+        //         ->causedBy(Auth::user())
+        //         ->log($this->modelName . ' Updated');
+        // }
 
         $this->response['message'] = $this->modelNameTranslate . __('updated_successfully');
         $this->response['data'] = $modelUpdate;
@@ -159,12 +160,13 @@ class ApiController extends Controller
 
         $modelDelete->delete();
 
-        if (env('APP_ENV') !== 'testing') {
-            activity($this->modelName)
-                ->performedOn($modelDelete)
-                ->causedBy(Auth::user())
-                ->log($this->modelName . ' Deleted');
-        }
+        // @TODO activity
+        // if (env('APP_ENV') !== 'testing') {
+        //     activity($this->modelName)
+        //         ->performedOn($modelDelete)
+        //         ->causedBy(Auth::user())
+        //         ->log($this->modelName . ' Deleted');
+        // }
 
         $this->response['message'] = $this->modelNameTranslate . __('deleted_successfully');
         $this->response['data'] = $modelDelete;

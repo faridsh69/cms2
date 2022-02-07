@@ -2,11 +2,9 @@
 
 $modelNameSlugs = Config::get('cms.admin_routes');
 
-foreach($modelNameSlugs as $modelNameSlug)
-{
+foreach ($modelNameSlugs as $modelNameSlug) {
 	$controller = \Str::studly($modelNameSlug) . '\ResourceController';
-	if (! file_exists(__DIR__ . '/../app/Http/Controllers/Admin/' . \Str::studly($modelNameSlug) . '/ResourceController.php'))
-	{
+	if (!file_exists(__DIR__ . '/../app/Http/Controllers/Admin/' . \Str::studly($modelNameSlug) . '/ResourceController.php')) {
 		$controller = 'AdminController';
 	}
 	Route::group(['prefix' => $modelNameSlug, 'as' => $modelNameSlug . '.'], function () use ($controller) {
@@ -23,7 +21,6 @@ foreach($modelNameSlugs as $modelNameSlug)
 Route::get('', 'Dashboard\DashboardController@redirect')->name('redirect');
 Route::get('icon/list', 'Dashboard\DashboardController@iconsList')->name('icon.list.index');
 Route::get('report', 'Report\ReportController@index')->name('report.index');
-Route::get('media', 'Media\MediaController@index')->name('media.index');
 Route::group(['prefix' => 'dashboard', 'namespace' => 'Dashboard', 'as' => 'dashboard.'], function () {
 	Route::get('', 'DashboardController@index')->name('index');
 	Route::get('activity', 'DashboardController@activity')->name('activity');

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Cms\Seeder;
+use App\Cms\Seeder as CmsSeeder;
 use Illuminate\Database\Seeder as LaravelSeeder;
 
 class DatabaseSeeder extends LaravelSeeder
@@ -24,7 +24,7 @@ class DatabaseSeeder extends LaravelSeeder
 
 		// This file will automatically read list of models from config cms.seeder
 		// Then will create 4 fake data based on model columns
-		$this->call(Seeder::class);
+		$this->call(CmsSeeder::class);
 
 		// This line will automatically generate all data for Laravel CMS website
 		$this->call(CmsLaravelWebsiteSeeder::class);

@@ -35,10 +35,10 @@ class RegisterController extends Controller
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
         ]);
-
-        activity('User Registered')->performedOn($authUser)
-            ->causedBy($authUser)
-            ->log('User Registered');
+        // @TODO activity
+        // activity('User Registered')->performedOn($authUser)
+        //     ->causedBy($authUser)
+        //     ->log('User Registered');
         $user_registered = new UserRegistered();
         $authUser->notify($user_registered);
 

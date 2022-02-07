@@ -39,13 +39,13 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->bootAdminRoutes();
         $this->bootAuthRoutes();
-        $this->bootFilemanagerRoutes();
         $this->bootFrontRoutes();
         $this->bootApiRoutes();
     }
 
     protected function configureRateLimiting(): void
     {
+        // ->middleware(['api', 'throttle:' . config('setting-developer.throttle')])
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(360)->by(optional($request->user())->id ?: $request->ip());
         });
@@ -58,16 +58,6 @@ class RouteServiceProvider extends ServiceProvider
             ->prefix('admin')
             ->middleware(['web', 'auth'])
             ->group(base_path('routes/admin.php'));
-    }
-
-    protected function bootApiRoutes(): void
-    {
-        Route::namespace($this->namespace . '\Api')
-            ->as('api.')
-            ->prefix('api')
-            // ->middleware(['api', 'throttle:' . config('setting-developer.throttle')])
-            ->middleware(['api'])
-            ->group(base_path('routes/api.php'));
     }
 
     protected function bootAuthRoutes(): void
@@ -87,10 +77,13 @@ class RouteServiceProvider extends ServiceProvider
             ->group(base_path('routes/front.php'));
     }
 
-    protected function bootFilemanagerRoutes(): void
+    protected function bootApiRoutes(): void
     {
-        Route::group(['prefix' => 'admin/filemanager', 'middleware' => ['web', 'auth', 'can:index,App\Models\File']], function () {
-            \UniSharp\LaravelFilemanager\Lfm::routes();
-        });
+        Route::namespace($this->namespace . '\Api')
+            ->as('api.')
+            ->prefix('api')
+            // ->middleware(['api', 'throttle:' . config('setting-developer.throttle')])
+            ->middleware(['api'])
+            ->group(base_path('routes/api.php'));
     }
 }

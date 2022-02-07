@@ -68,11 +68,6 @@ trait ModelTrait
 		return $this->morphMany('App\Models\Rate', 'rateable');
 	}
 
-	public function follows(): morphMany
-	{
-		return $this->morphMany('App\Models\Rate', 'rateable');
-	}
-
 	public function activities(): morphMany
 	{
 		return $this->morphMany('App\Models\Activity', 'activitiable');
@@ -83,16 +78,12 @@ trait ModelTrait
 		return $this->belongsToMany(config('cms.config.models_namespace') . class_basename($this), 'model_related', 'model_id', 'related_id');
 	}
 
-	public function getComments()
-	{
-		return $this->comments()->get();
-	}
-
 	public function files(): morphMany
 	{
 		return $this->morphMany('App\Models\File', 'fileable');
 	}
 
+	// @TODO images
 	// Get file srcs from that column, array can be empty
 	public function srcs(string $fileColumnName): array
 	{
@@ -171,36 +162,57 @@ trait ModelTrait
 	private function clearFilesAndArrays(array $data, Model $model = null): array
 	{
 		// convert boolean input values: null and false => 0, true => 1
-		foreach (collect($this->getColumns())->where('type', 'boolean')->pluck('name') as $boolean_column) {
+		foreach (collect($this->getColumns())
+			->where('type', 'boolean')
+			->pluck('name') as $boolean_column) {
 			if (!isset($data[$boolean_column])) {
 				$data[$boolean_column] = 0;
 			}
 		}
 		// unset file and array attributes before saving
-		foreach (collect($this->getColumns())->whereIn('type', ['file', 'array', 'captcha'])->pluck('name') as $file_or_array_column) {
+		foreach (collect($this->getColumns())
+			->whereIn('type', ['file', 'array', 'captcha'])
+			->pluck('name') as $file_or_array_column) {
 			unset($data[$file_or_array_column]);
+		}
+		// For User model
+		if (class_basename($this) == 'User') {
+			unset($data['password_confirmation']);
+			if (isset($data['password'])) {
+				$data['password'] = \Hash::make($data['password']);
+			} else {
+				if ($model) { // update mode
+					$data['password'] = $model->password;
+				} else { // create mode
+					if ($data['password'] === '') {
+						$data['password'] = \Hash::make($data['email']);
+					}
+				}
+			}
 		}
 
 		return $data;
 	}
 
 	// Save all relational data.
-	private function saveRelatedDataAfterCreate(array $data, $model): bool
+	private function saveRelatedDataAfterCreate(array $data, $model): void
 	{
 		// Upload all columns with type file.
-		foreach (collect($this->getColumns())->where('type', 'file')->pluck('name') as $file_column) {
-			if (isset($data[$file_column]) && $data[$file_column]) {
-				$file = $data[$file_column];
-				$file_service = new FileService();
-				$file_service->save($file, $model, $file_column);
+		foreach (collect($this->getColumns())
+			->where('type', 'file')
+			->pluck('name') as $fileColumn) {
+			if (isset($data[$fileColumn]) && $data[$fileColumn]) {
+				$file = $data[$fileColumn];
+				$fileService = new FileService();
+				$fileService->save($file, $model, $fileColumn);
 			}
 		}
 		// save relations with array type column like tags, related_models, etc.
-		foreach (collect($this->getColumns())->where('type', 'array')->pluck('name') as $array_column) {
-			$model->{$array_column}()->sync($data[$array_column], true);
+		foreach (collect($this->getColumns())
+			->where('type', 'array')
+			->pluck('name') as $arrayColumn) {
+			$model->{$arrayColumn}()->sync($data[$arrayColumn], true);
 		}
-
-		return true;
 	}
 
 	/*
@@ -394,6 +406,7 @@ trait ModelTrait
 						'form_type' => '',
 						'table' => false,
 					],
+					// @TODO images
 					// Images that used file manager to select and upload.
 					'image' => [
 						'name' => 'image',

@@ -10,23 +10,11 @@ use Str;
 
 class AuthServiceProvider extends ServiceProvider
 {
-    /**
-     * The policy mappings for the application.
-     *
-     * @var array<class-string, class-string>
-     */
-    protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
-    ];
+    protected $policies = [];
 
-    /**
-     * Register any authentication / authorization services.
-     *
-     * @return void
-     */
     public function boot()
     {
-        $seconds = 1;
+        $seconds = 100;
         $this->policies = Cache::remember('policies', $seconds, function () {
             $modelNameSlugs = config('cms.policies');
             $models_namespace = config('cms.config.models_namespace');

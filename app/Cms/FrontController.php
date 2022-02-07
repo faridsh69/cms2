@@ -75,10 +75,11 @@ class FrontController extends Controller
     {
         $item = $this->modelRepository->where('url', $url)->firstOrFail();
 
-        if (env('APP_ENV') !== 'testing') {
-            activity($this->modelName)->performedOn($item)->causedBy(Auth::user())
-                ->log($this->modelName . ' View');
-        }
+        // @TODO activity
+        // if (env('APP_ENV') !== 'testing') {
+        //     activity($this->modelName)->performedOn($item)->causedBy(Auth::user())
+        //         ->log($this->modelName . ' View');
+        // }
 
         $this->meta['title'] = $this->modelNameTranslate . ' | ' . $item->title;
         $this->meta['description'] = $item->description;
@@ -95,10 +96,11 @@ class FrontController extends Controller
     {
         $category = Category::where('url', $url)->firstOrFail();
 
-        if (env('APP_ENV') !== 'testing') {
-            activity('Category')->performedOn($category)->causedBy(Auth::user())
-                ->log('Category View');
-        }
+        // @TODO activity
+        // if (env('APP_ENV') !== 'testing') {
+        //     activity('Category')->performedOn($category)->causedBy(Auth::user())
+        //         ->log('Category View');
+        // }
         $this->meta['title'] = $this->modelNameTranslate . ' | Category | ' . $category->title;
         $this->meta['description'] = $category->description;
 
@@ -132,10 +134,12 @@ class FrontController extends Controller
     public function getTag($url)
     {
         $tag = Tag::where('url', $url)->firstOrFail();
-        if (env('APP_ENV') !== 'testing') {
-            activity('Tag')->performedOn($tag)->causedBy(Auth::user())
-                ->log('Tag View');
-        }
+
+        // @TODO activity
+        // if (env('APP_ENV') !== 'testing') {
+        //     activity('Tag')->performedOn($tag)->causedBy(Auth::user())
+        //         ->log('Tag View');
+        // }
 
         $this->meta['title'] = $this->modelNameTranslate . ' | Tag | ' . $tag->title;
         $this->meta['description'] = $tag->description;
@@ -174,10 +178,11 @@ class FrontController extends Controller
 
         $commentModel->save();
 
-        if (env('APP_ENV') !== 'testing') {
-            activity($this->modelName)->performedOn($item)->causedBy(Auth::user())
-                ->log($this->modelName . ' Comment');
-        }
+        // @TODO activity
+        // if (env('APP_ENV') !== 'testing') {
+        //     activity($this->modelName)->performedOn($item)->causedBy(Auth::user())
+        //         ->log($this->modelName . ' Comment');
+        // }
 
         $this->httpRequest->session()->flash('alert-success', __('commented_successfully'));
 

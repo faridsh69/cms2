@@ -26,9 +26,18 @@ class User extends Authenticatable
         'deleted_at',
     ];
 
+    protected $casts = [
+        'activated' => 'boolean',
+    ];
+
     public function routeNotificationForSlack($notification)
     {
         return 'https://hooks.slack.com/services/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';
+    }
+
+    public function scopeLanguage($query): Builder
+    {
+        return $query;
     }
 
     public function addresses(): hasMany
@@ -66,55 +75,18 @@ class User extends Authenticatable
         return $this->morphMany(Follow::class, 'followable');
     }
 
-    public function scopeLanguage($query): Builder
-    {
-        return $query;
-    }
 
-    private function clearFilesAndArrays(array $data, $model)
-    {
-        foreach (collect($this->getColumns())->where('type', 'boolean')->pluck('name') as $boolean_column) {
-            if (!isset($data[$boolean_column])) {
-                $data[$boolean_column] = 0;
-            }
-        }
-        foreach (collect($this->getColumns())->whereIn('type', ['file', 'array', 'captcha'])->pluck('name') as $file_or_array_column) {
-            unset($data[$file_or_array_column]);
-        }
-        unset($data['password_confirmation']);
-        if (isset($data['password'])) {
-            $data['password'] = \Hash::make($data['password']);
-        } else {
-            if ($model) { // update mode
-                $data['password'] = $model->password;
-                if ($model->email !== $data['email']) {
-                    $model->activation_code = null;
-                    $model->email_verified_at = null;
-                }
+    // public function getTitleAttribute()
+    // {
+    //     return $this->first_name . ' ' . $this->last_name;
+    // }
 
-                if ($model->phone !== $data['phone']) {
-                    $model->activation_code = null;
-                    $model->phone_verified_at = null;
-                }
-            } else { // create mode
-                if ($data['password'] === '') {
-                    $data['password'] = \Hash::make($data['email']);
-                }
-            }
-        }
-        return $data;
-    }
+    // public function getNameAttribute()
+    // {
+    //     return $this->first_name . ' ' . $this->last_name;
+    // }
 
-    public function getTitleAttribute()
-    {
-        return $this->first_name . ' ' . $this->last_name;
-    }
-
-    public function getNameAttribute()
-    {
-        return $this->first_name . ' ' . $this->last_name;
-    }
-
+    // In RolesSeeder system is giving admin roles to this users.
     public static function getAdminUsers()
     {
         return self::whereIn('id', [1, 2])->get();

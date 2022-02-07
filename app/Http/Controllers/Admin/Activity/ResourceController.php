@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Activity;
 
 use App\Cms\AdminResourceController;
 use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class ResourceController extends AdminResourceController
 {
@@ -13,17 +14,17 @@ class ResourceController extends AdminResourceController
     {
         $this->httpRequest->session()->flash('alert-danger', $this->modelNameTranslate . __(' create does not exist!'));
 
-        return $this->redirect();
+        return view('admin.page.dashboard.index', ['meta' => $this->meta]);
     }
 
     public function edit(int $id): View
     {
         $this->httpRequest->session()->flash('alert-danger', $this->modelNameTranslate . __(' edit does not exist!'));
 
-        return $this->redirect();
+        return view('admin.page.dashboard.index', ['meta' => $this->meta]);
     }
 
-    public function update(int $id)
+    public function update(int $id): RedirectResponse
     {
         $this->httpRequest->session()->flash('alert-danger', $this->modelNameTranslate . __(' update does not exist!'));
 

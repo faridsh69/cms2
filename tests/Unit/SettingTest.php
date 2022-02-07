@@ -8,7 +8,7 @@ use Tests\TestCase;
 class SettingTest extends TestCase
 {
 	public $methods = [
-        'dashboard.index',
+        // 'dashboard.index',
         'dashboard.activity',
         'dashboard.profile',
         'dashboard.identify',
