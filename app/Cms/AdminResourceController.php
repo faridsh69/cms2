@@ -279,8 +279,8 @@ class AdminResourceController extends AdminController
             return $model->category ? $model->category->id . '-' . $model->category->title : '';
         });
         $datatable->addColumn('image', function ($model) {
-            if (method_exists($model, 'src'))
-                return '<img style="width:80%" src="' . $model->src('image') . '">';
+            if (method_exists($model, 'avatar'))
+                return '<img style="width:80%" src="' . $model->avatar() . '">';
             return '';
         });
 

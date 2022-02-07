@@ -3,8 +3,9 @@
 $cms = [
     'config' => [
         'models_namespace' => 'App\Models\\',
-        'default_images' => '/cms/default-model-images/',
         'faker_files' => '/app/public/cms/faker/',
+        'default_images' => '/storage/cms/default-model-images/',
+        'upload_folder' => '/upload/',
     ],
     'migration' => [
         'user',

@@ -17,4 +17,8 @@ class Model extends LaravelModel
 	protected $casts = [
 		'activated' => 'boolean',
 	];
+
+	protected $appends = [
+		'avatar',
+	];
 }

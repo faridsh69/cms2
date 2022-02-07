@@ -3,18 +3,19 @@
 namespace App\Cms;
 
 use App\Models\File;
-use Illuminate\Support\Facades\Storage;
 use Image;
+use Illuminate\Support\Facades\Storage;
 use Str;
 
 class FileService
 {
-    const UPLOAD_PATH_PREFIX = 'public/upload/';
-    const DATABASE_SRC_PREFIX = 'storage/upload/';
+    const UPLOAD_PATH_PREFIX = 'public/';
+    const DATABASE_SRC_PREFIX = 'storage/';
     const THUMBNAIL_WIDTH = 200;
 
-    public function save($file, $model, $title = 'file')
+    public function save($file, $model, string $title = 'file')
     {
+        $uploadFolder = config('cms.upload_folder');
         // This service can upload both single and array of files
         $gallery = $file;
         if (!is_array($file)) {
@@ -31,12 +32,12 @@ class FileService
             $randomCode = rand(1000000, 9999999);
             $fileName = $title . '-' . $randomCode . '.' . $extension;
 
-            $uploadFolderPath = self::UPLOAD_PATH_PREFIX . $modelNameSlug . '/' . $fileableId . '/';
-            $uploadFolderSrc = self::DATABASE_SRC_PREFIX . $modelNameSlug . '/' . $fileableId;
+            $uploadFolderPath = self::UPLOAD_PATH_PREFIX . $uploadFolder . $modelNameSlug . '/' . $fileableId . '/';
+            $uploadFolderSrc = self::DATABASE_SRC_PREFIX . $uploadFolder . $modelNameSlug . '/' . $fileableId;
             $src = asset($uploadFolderSrc . '/' . $fileName);
             Storage::putFileAs($uploadFolderPath, $file, $fileName);
 
-            // save thumbnail if it is an image
+            // Save thumbnail if it is an image
             if (strpos($mimeType, 'image') === 0) {
                 $thumbnailFileName = $title . '-' . $randomCode . '-' . 'thumbnail' . '.' . $extension;
                 $intervationImage = Image::make($file);
@@ -47,7 +48,7 @@ class FileService
                 $intervationImage->orientate();
                 $intervationImage->save($intervationUploadPath . $thumbnailFileName, 90);
             }
-            // save file model record
+            // Save file model record
             $fileModelData = [
                 'fileable_type' => $fileableType,
                 'fileable_id' => $fileableId,
@@ -63,7 +64,7 @@ class FileService
             if (isset($column['file_multiple']) && $column['file_multiple'] === true) {
                 File::updateOrCreate($fileModelData);
             } else {
-                // for single file upload this 3 columns is unique.
+                // For single file upload this 3 columns is unique.
                 File::updateOrCreate(
                     [
                         'title' => $title,
