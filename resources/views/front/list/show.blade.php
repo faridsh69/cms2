@@ -10,28 +10,28 @@
 		<hr>
 		{!! $item->content !!}
 		<hr>
+		@php
+			$modelNameSlug = \Str::kebab(class_basename($item));
+		@endphp
 		@foreach($item->getColumns() as $column)
-			@php
-				$file_accept = '';
-				if($column['form_type'] === 'file')
-				{
-					$file_accept = $column['file_accept'];
-					$srcs = $item->srcs($column['name']);
-				}
-				$modelNameSlug = \Str::kebab(class_basename($item));
-			@endphp
-			@if($file_accept)
+		@if($column['form_type'] != 'file')
+		@continue
+		@endif
 			<b>{{ __($column['name']) }}</b>
 			<div class="row mt-3 mb-5">
-				@foreach($srcs as $src)
-				<div class="col-sm-4" style="border: 1px solid #ccc; border-radius: 5px; padding: 10px;">
-					@if($file_accept === 'image')
+				@if(count($item->srcs($column['name'])) == 0)
+				<p>No files uploaded.</p>
+				@endif
+				@foreach($item->srcs($column['name']) as $src)
+				<div class="col-sm-6"
+				 style="border: 1px solid #ccc; border-radius: 5px; padding: 10px;">
+					@if($column['file_accept'] === 'image/*')
 				    	<img alt="image" src="{{ $src }}" style="max-width: 100%;">
-					@elseif($file_accept === 'video')
+					@elseif($column['file_accept'] === 'video/*')
 						<video controls style="max-width: 100%;">
 							<source src="{{ $src }}"> 
 						</video>
-					@elseif($file_accept === 'audio')
+					@elseif($column['file_accept'] === 'audio/*')
 						<audio controls>
 							<source src="{{ $src }}">
 						</audio>
@@ -49,7 +49,6 @@
 				</div>
 				@endforeach
 			</div>
-			@endif
 		@endforeach
 		@include('front.components.comment')
 	</div>

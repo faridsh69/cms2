@@ -4,7 +4,7 @@ namespace App\Forms\Fields;
 
 use Kris\LaravelFormBuilder\Fields\FormField;
 
-class FileUpload extends FormField
+class File extends FormField
 {
     public function render(array $options = [], $showLabel = true, $showField = true, $showError = true)
     {
@@ -13,6 +13,6 @@ class FileUpload extends FormField
 
     protected function getTemplate()
     {
-        return 'vendor.laravel-form-builder.file-upload';
+        return 'vendor.laravel-form-builder.file';
     }
 }

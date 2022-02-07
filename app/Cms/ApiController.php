@@ -4,7 +4,6 @@ namespace App\Cms;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use Auth;
 use Illuminate\Http\JsonResponse;
 use Validator;
 
@@ -38,7 +37,7 @@ class ApiController extends Controller
 
         return $this->setSuccessStatus()
             ->setMessage($this->modelNameTranslate . __('list_successfully'))
-            ->setData($list)
+            ->setData($list->toArray())
             ->prepareJsonResponse();
     }
 
@@ -85,12 +84,13 @@ class ApiController extends Controller
         // $this->authorize('view', $model);
 
         // $mainData = $model->getAttributes();
+        $model->images = $model->srcs('image');
         $model->category = $model->category;
         $model->tags = $model->tags;
         $model->relateds = $model->relateds;
 
         return $this->setSuccessStatus()
-            ->setMessage($this->modelNameTranslate . __('show_successfully'))
+            ->setMessage(__('show_successfully'))
             ->setData($model)
             ->prepareJsonResponse();
     }

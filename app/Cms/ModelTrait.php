@@ -83,67 +83,6 @@ trait ModelTrait
 		return $this->morphMany('App\Models\File', 'fileable');
 	}
 
-	// @TODO images
-	// Get file srcs from that column, array can be empty
-	public function srcs(string $fileColumnName): array
-	{
-		// Get the file column based on $fileColumnName
-		$fileColumn = collect($this->getColumns())
-			->where('name', $fileColumnName)
-			->first();
-
-		if (!$fileColumn)
-			return [];
-
-		// We have two type of file saving, from file manager, and upload directly
-		// This is first type that all selected files in file manager will seperate by |||
-		if (isset($fileColumn['file_manager']) && $fileColumn['file_manager']) {
-			if (!$this->{$fileColumnName})
-				return [];
-
-			return explode('|||', $this->{$fileColumnName});
-		}
-
-		// Files will upload using BaseFileService and saving to files table.
-		return $this->files()
-			->where('title', $fileColumnName)
-			->get()
-			->pluck('src')
-			->toArray();
-	}
-
-	// Get the first file or return default image for this model.
-	public function src(string $fileColumnName): string
-	{
-		$srcs = $this->srcs($fileColumnName);
-		if (count($srcs) > 0)
-			return $srcs[0];
-
-		// If there is no file, we need to return default image for each model.
-		return $this->defaultImage();
-	}
-
-	public function thumbnailSrc(string $fileColumnName): string
-	{
-		$fileColumn = collect($this->getColumns())->where('name', $fileColumnName)->first();
-		if (!$fileColumn)
-			return $this->defaultImage();
-
-		$file = $this->files()
-			->where('title', $fileColumnName)
-			->first();
-
-		if ($file && $file->src_thumbnail)
-			return $file->src_thumbnail;
-
-		return $this->defaultImage();
-	}
-
-	private function defaultImage(): string
-	{
-		return asset('css/front/general/default/' . class_basename($this) . '.png');
-	}
-
 	public function saveWithRelations(array $data, Model $model = null): Model
 	{
 		$formDataWitoutUploadFilesAndArrays = $this->clearFilesAndArrays($data, $model);
@@ -214,6 +153,57 @@ trait ModelTrait
 			$model->{$arrayColumn}()->sync($data[$arrayColumn], true);
 		}
 	}
+
+
+	// append
+	// methods
+
+	// Get file srcs from that column
+	public function srcs(string $fileColumnName): array
+	{
+		return $this->files()
+			->where('title', $fileColumnName)
+			->get()
+			->pluck('src')
+			->toArray();
+	}
+
+	// // Get the first file or return default image for this model.
+	// public function src(string $fileColumnName): string
+	// {
+	// 	$srcs = $this->srcs($fileColumnName);
+	// 	if (count($srcs) > 0)
+	// 		return $srcs[0];
+
+	// 	// If there is no file, we need to return default image for each model.
+	// 	return $this->defaultImage();
+	// }
+
+	// public function thumbnailSrc(string $fileColumnName): string
+	// {
+	// 	$fileColumn = collect($this->getColumns())->where('name', $fileColumnName)->first();
+	// 	if (!$fileColumn)
+	// 		return $this->defaultImage();
+
+	// 	$file = $this->files()
+	// 		->where('title', $fileColumnName)
+	// 		->first();
+
+	// 	if ($file && $file->src_thumbnail)
+	// 		return $file->src_thumbnail;
+
+	// 	return $this->defaultImage();
+	// }
+
+	// private function defaultImage(): string
+	// {
+	// 	return asset('css/front/general/default/' . class_basename($this) . '.png');
+	// }
+
+
+
+
+
 
 	/*
 	* This is the main method in this cms, we are defining all models columns here, 
@@ -406,102 +396,36 @@ trait ModelTrait
 						'form_type' => '',
 						'table' => false,
 					],
-					// @TODO images
-					// Images that used file manager to select and upload.
 					'image' => [
 						'name' => 'image',
-						'type' => 'text',
-						'database' => 'nullable',
+						'type' => 'file',
+						'database' => 'none',
 						'rule' => 'nullable',
-						'help' => 'Upload and select image from file manager',
+						'help' => 'You can choose multiple images',
 						'form_type' => 'file',
-						'file_manager' => true,
-						'file_accept' => 'image',
+						'file_accept' => 'image/*',
 						'file_multiple' => true,
 						'table' => true,
 					],
 					'video' => [
 						'name' => 'video',
-						'type' => 'text',
-						'database' => 'nullable',
+						'type' => 'file',
+						'database' => 'none',
 						'rule' => 'nullable',
-						'help' => 'Upload and select video from file manager',
+						'help' => 'You can choose multiple videos',
 						'form_type' => 'file',
-						'file_manager' => true,
-						'file_accept' => 'video',
+						'file_accept' => 'video/*',
 						'file_multiple' => true,
 						'table' => false,
 					],
 					'audio' => [
 						'name' => 'audio',
-						'type' => 'text',
-						'database' => 'nullable',
-						'rule' => 'nullable',
-						'help' => 'Upload and select audio from file manager',
-						'form_type' => 'file',
-						'file_manager' => true,
-						'file_accept' => 'audio',
-						'file_multiple' => true,
-						'table' => false,
-					],
-					'file' => [
-						'name' => 'file',
-						'type' => 'text',
-						'database' => 'nullable',
-						'rule' => 'nullable',
-						'help' => 'Upload and select file from file manager',
-						'form_type' => 'file',
-						'file_manager' => true, // its uploaded from file manager
-						'file_accept' => 'file', // file, image, video, audio
-						'file_multiple' => true,
-						'table' => false,
-					],
-					// Images that is using file upload for end user.
-					'user_image' => [
-						'name' => 'user_image',
 						'type' => 'file',
 						'database' => 'none',
 						'rule' => 'nullable',
-						'help' => '',
+						'help' => 'You can choose multiple videos',
 						'form_type' => 'file',
-						'file_manager' => false,
-						'file_accept' => 'image',
-						'file_multiple' => true,
-						'table' => false,
-					],
-					'user_video' => [
-						'name' => 'user_video',
-						'type' => 'file',
-						'database' => 'none',
-						'rule' => 'nullable',
-						'help' => '',
-						'form_type' => 'file',
-						'file_manager' => false,
-						'file_accept' => 'video',
-						'file_multiple' => true,
-						'table' => false,
-					],
-					'user_audio' => [
-						'name' => 'user_audio',
-						'type' => 'file',
-						'database' => 'none',
-						'rule' => 'nullable',
-						'help' => '',
-						'form_type' => 'file',
-						'file_manager' => false,
-						'file_accept' => 'audio',
-						'file_multiple' => true,
-						'table' => false,
-					],
-					'user_file' => [
-						'name' => 'user_file',
-						'type' => 'file',
-						'database' => 'none',
-						'rule' => 'nullable',
-						'help' => '',
-						'form_type' => 'file',
-						'file_manager' => false,
-						'file_accept' => 'file',
+						'file_accept' => 'audio/*',
 						'file_multiple' => true,
 						'table' => false,
 					],

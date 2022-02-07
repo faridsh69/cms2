@@ -39,8 +39,7 @@ return [
         'submit-m' => '\App\Forms\Fields\SubmitM',
         'image' => '\App\Forms\Fields\Image',
         'gallery' => '\App\Forms\Fields\Gallery',
-        'file-manager' => '\App\Forms\Fields\FileManager',
-        'file-upload' => '\App\Forms\Fields\FileUpload',
+        'file' => '\App\Forms\Fields\File',
         'captcha' => '\App\Forms\Fields\Captcha',
     ],
 

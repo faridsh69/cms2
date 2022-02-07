@@ -10,8 +10,8 @@ class Comment extends Model
         ['name' => 'user_id'],
         ['name' => 'content'],
         ['name' => 'activated'],
-        ['name' => 'user_image'],
-        ['name' => 'user_video'],
+        ['name' => 'image'],
+        ['name' => 'video'],
         [
             'name' => 'commentable_type',
             'type' => 'string',

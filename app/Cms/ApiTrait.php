@@ -4,7 +4,7 @@ namespace App\Cms;
 
 trait ApiTrait
 {
-    private string $data = '';
+    private $data;
     private string $message = 'Not Found';
     private string $status = 'error';
 
@@ -35,8 +35,8 @@ trait ApiTrait
     {
         return response()->json([
             'status' => $this->status,
-            'data' => $this->data,
             'message' => $this->message,
+            'data' => $this->data,
         ]);
     }
 }

@@ -164,11 +164,11 @@ class User extends Authenticatable
         ['name' => 'description'],
         [
             'name' => 'profile_picture',
-            'same_column_name' => 'user_image',
+            'same_column_name' => 'image',
         ],
         [
             'name' => 'cover_photo',
-            'same_column_name' => 'user_image',
+            'same_column_name' => 'image',
         ],
         [
             'name' => 'activation_code',

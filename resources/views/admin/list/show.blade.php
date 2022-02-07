@@ -48,26 +48,21 @@
 		@endif
 
 		@foreach($data->getColumns() as $column)
-			@php
-				$file_accept = '';
-				if($column['form_type'] === 'file')
-				{
-					$file_accept = $column['file_accept'];
-					$srcs = $data->srcs($column['name']); 
-				}
-			@endphp
 			<h6 class="m--font-boldest m--font-brand">{{ __($column['name']) }}</h6>
 			<div class="mb-4 show-file">
-			@if($file_accept)
-				@foreach($srcs as $src)
+			@if($column['form_type'] === 'file')
+				@php
+					$file_accept = $column['file_accept'];
+				@endphp
+				@foreach($data->srcs($column['name']) as $src)
 				<div class="show-file">
-					@if($file_accept === 'image')
+					@if($file_accept === 'image/*')
 				    	<img alt="image" src="{{ $src }}">
-					@elseif($file_accept === 'video')
+					@elseif($file_accept === 'video/*')
 						<video controls>
 							<source src="{{ $src }}">
 						</video>
-					@elseif($file_accept === 'audio')
+					@elseif($file_accept === 'audio/*')
 						<audio controls>
 							<source src="{{ $src }}">
 						</audio>
@@ -84,8 +79,8 @@
 					</div>
 				</div>
 				@endforeach
-				@if(count($srcs) === 0)
-					<span style="color: red">Null</span>
+				@if(count($data->srcs($column['name'])) === 0)
+					<span style="color: red">No Files Uploaded</span>
 				@endif
 			@elseif(!is_object($data[$column['name']]) )
 				@if($data[$column['name']] === null)

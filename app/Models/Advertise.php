@@ -17,28 +17,12 @@ class Advertise extends Model
         ['name' => 'properties'],
         ['name' => 'content'],
         [
-            'name' => 'factory_images',
+            'name' => 'images_gallery',
             'same_column_name' => 'image',
         ],
         [
-            'name' => 'buyer_images',
-            'same_column_name' => 'user_image',
-        ],
-        [
-            'name' => 'factory_videos',
+            'name' => 'videos_gallery',
             'same_column_name' => 'video',
-        ],
-        [
-            'name' => 'buyer_videos',
-            'same_column_name' => 'user_video',
-        ],
-        [
-            'name' => 'factory_audios',
-            'same_column_name' => 'audio',
-        ],
-        [
-            'name' => 'buyer_audios',
-            'same_column_name' => 'user_audio',
         ],
         ['name' => 'activated'],
         ['name' => 'category_id'],

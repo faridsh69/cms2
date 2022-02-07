@@ -12,6 +12,8 @@ class Blog extends Model
         ['name' => 'description'],
         ['name' => 'content'],
         ['name' => 'image'],
+        ['name' => 'video'],
+        ['name' => 'audio'],
         ['name' => 'activated'],
         ['name' => 'google_index'],
         ['name' => 'canonical_url'],

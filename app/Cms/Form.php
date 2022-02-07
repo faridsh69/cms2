@@ -124,23 +124,15 @@ class Form extends LaravelForm
             }
             // all input files
             elseif ($form_type === 'file') {
-                $file_manager = isset($column['file_manager']) ? $column['file_manager'] : false;
-                $file_accept = isset($column['file_accept']) ? $column['file_accept'] : 'file';
-                $file_multiple = isset($column['file_multiple']) ? $column['file_multiple'] : false;
+                $input_type = 'file';
+                $options['attr']['accept'] = isset($column['file_accept']) ? $column['file_accept'] : 'image/*';
+                $options['attr']['multiple'] = isset($column['file_multiple']) ? $column['file_multiple'] : false;
 
-                $options['file_accept'] = $file_accept;
+                // In creating mode
                 $options['srcs'] = [];
+                // In updating mode
                 if ($this->model) {
                     $options['srcs'] = $this->model->srcs($name);
-                }
-                if ($file_manager === true) {
-                    $input_type = 'file-manager';
-                } else {
-                    $input_type = 'file-upload';
-                    $options['attr']['multiple'] = $file_multiple;
-                    if ($file_accept !== 'file') {
-                        $options['attr']['accept'] = $file_accept . '/*';
-                    }
                 }
             }
 
