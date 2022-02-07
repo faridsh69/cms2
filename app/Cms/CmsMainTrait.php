@@ -38,7 +38,7 @@ trait CmsMainTrait
     {
         $this->httpRequest = $httpRequest;
         if (!$this->modelNameSlug) {
-            $this->modelNameSlug = $this->httpRequest->segment(2);
+            $this->modelNameSlug = $this->httpRequest->segment(2) ?? 'User';
         }
         $this->modelName = Str::studly($this->modelNameSlug);
         $this->modelNamespace = config('cms.config.models_namespace') . $this->modelName;
