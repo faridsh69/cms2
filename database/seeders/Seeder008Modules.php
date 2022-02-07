@@ -4,15 +4,18 @@ namespace Database\Seeders;
 
 use App\Models\Module;
 use Illuminate\Database\Seeder;
+use Illuminate\Http\UploadedFile;
 
 class Seeder008Modules extends Seeder
 {
     public function run()
     {
-        $photosFolder = 'temp-laravel-cms-static-files/photos/';
-        $videosFolder = 'temp-laravel-cms-static-files/videos/';
-
         $modules = [
+            // Breadcrumb
+            [
+                'type' => 'breadcrumb',
+                'image' => 'breadcrumb.png',
+            ],
             // Menu
             [
                 'type' => 'menu',
@@ -55,27 +58,23 @@ class Seeder008Modules extends Seeder
                 'title' => 'Header Title 1',
                 'description' => 'Header Description 1',
                 'url' => 'header-url-1',
-                'image' => $photosFolder . 'header-1.png',
+                'image' => 'header-1.png',
             ],
             [
                 'type' => 'header',
                 'title' => 'Header Title 2',
                 'description' => 'Header Description 2',
                 'url' => 'header-url-2',
-                'image' => $photosFolder . 'header-2.png',
+                'image' => 'header-2.png',
             ],
             [
                 'type' => 'header',
                 'title' => 'Header Title 3',
                 'description' => 'Header Description 3',
                 'url' => 'header-url-3',
-                'image' => $photosFolder . 'header-3.png',
+                'image' => 'header-3.png',
             ],
-            // Breadcrumb
-            [
-                'type' => 'breadcrumb',
-                'image' => $photosFolder . 'breadcrumb.png',
-            ],
+
             // Main Feature
             [
                 'type' => 'main_feature',
@@ -139,13 +138,7 @@ class Seeder008Modules extends Seeder
                 'description' => 'Introduce description',
                 'content' => 'Introduce Content',
                 'url' => 'introduce-url',
-                'image' => $photosFolder . 'introduce.png',
-            ],
-            // Video
-            [
-                'type' => 'video',
-                'title' => 'Video Title',
-                'video' => $videosFolder . 'video.mp4',
+                'image' => 'introduce.png',
             ],
             // Counting
             [
@@ -192,23 +185,23 @@ class Seeder008Modules extends Seeder
             // Services
             [
                 'type' => 'service',
-                'image' => $photosFolder . 'service-1.png',
+                'image' => 'service-1.png',
             ],
             [
                 'type' => 'service',
-                'image' => $photosFolder . 'service-2.png',
+                'image' => 'service-2.png',
             ],
             [
                 'type' => 'service',
-                'image' => $photosFolder . 'service-3.png',
+                'image' => 'service-3.png',
             ],
             [
                 'type' => 'service',
-                'image' => $photosFolder . 'service-4.png',
+                'image' => 'service-4.png',
             ],
             [
                 'type' => 'service',
-                'image' => $photosFolder . 'service-5.png',
+                'image' => 'service-5.png',
             ],
             // Pricing
             [
@@ -238,28 +231,28 @@ class Seeder008Modules extends Seeder
                 'title' => '#13 Customer',
                 'full_name' => 'Taylor Otwell',
                 'description' => '“ I love this business! ”',
-                'image' => $photosFolder . 'testimonial-1.png',
+                'image' => 'testimonial-1.png',
             ],
             [
                 'type' => 'testimonial',
                 'title' => 'Manager',
                 'full_name' => 'Navid Ma',
                 'description' => '“ I love this business! ”',
-                'image' => $photosFolder . 'testimonial-2.png',
+                'image' => 'testimonial-2.png',
             ],
             [
                 'type' => 'testimonial',
                 'title' => '#4 Customer',
                 'full_name' => 'Elizabeth Sm',
                 'description' => '“ I love this business! ”',
-                'image' => $photosFolder . 'testimonial-3.png',
+                'image' => 'testimonial-3.png',
             ],
             [
                 'type' => 'testimonial',
                 'title' => 'Chief Technology Officer',
                 'full_name' => 'Farid Sh',
                 'description' => '“ I love this business! ”',
-                'image' => $photosFolder . 'testimonial-4.png',
+                'image' => 'testimonial-4.png',
             ],
             // FAQ
             [
@@ -280,55 +273,53 @@ class Seeder008Modules extends Seeder
             // Partner
             [
                 'type' => 'partner',
-                'image' => $photosFolder . 'partner-1.png',
+                'image' => 'partner-1.png',
             ],
             [
                 'type' => 'partner',
-                'image' => $photosFolder . 'partner-2.png',
+                'image' => 'partner-2.png',
             ],
             [
                 'type' => 'partner',
-                'image' => $photosFolder . 'partner-3.png',
+                'image' => 'partner-3.png',
             ],
             [
                 'type' => 'partner',
-                'image' => $photosFolder . 'partner-4.png',
+                'image' => 'partner-4.png',
             ],
             [
                 'type' => 'partner',
-                'image' => $photosFolder . 'partner-5.png',
+                'image' => 'partner-5.png',
             ],
             // Team
             [
                 'type' => 'team',
                 'title' => '#13 Customer',
                 'full_name' => 'Taylor Otwell',
-                'image' => $photosFolder . 'team-1.png',
+                'image' => 'team-1.png',
             ],
             [
                 'type' => 'team',
                 'title' => 'Manager',
                 'full_name' => 'Navid Ma',
-                'image' => $photosFolder . 'team-2.png',
+                'image' => 'team-2.png',
             ],
             [
                 'type' => 'team',
                 'title' => '#4 Customer',
                 'full_name' => 'Elizabeth Sm',
-                'image' => $photosFolder . 'team-3.png',
+                'image' => 'team-3.png',
             ],
             [
                 'type' => 'team',
                 'title' => 'Chief Technology Officer',
                 'full_name' => 'Farid Sh',
-                'image' => $photosFolder . 'team-4.png',
+                'image' => 'team-4.png',
             ],
         ];
 
         $order = 3;
         foreach ($modules as $module) {
-            // $uploadFileTest = storage_path() . '/app/public/temp/seeder-test-files/' . $fileName;
-            //     $fakeData = new UploadedFile($uploadFileTest, $uploadFileTest);
             $order += 3;
             if (!isset($module['title'])) {
                 $module['title'] = $module['type'];
@@ -336,20 +327,14 @@ class Seeder008Modules extends Seeder
             $module['order'] = $order;
             $module['language'] = 'en';
 
-            unset($module['image']);
-            unset($module['video']);
-            // if (isset($module['image'])) {
-            //     $module['image'] = asset($module['image']);
-            // }
-            // if (isset($module['video'])) {
-            //     $module['video'] = asset($module['video']);
-            // }
-            Module::firstOrCreate($module);
-            // if( isset($module['parent_url']) ){
-            //     $parent = Module::where('url', $module['parent_url'])->first();
-            //     $module['parent_id'] = $parent->id;
-            //     unset($module['parent_url']);
-            // }
+            if (isset($module['image'])) {
+                $fileName = $module['image'];
+                unset($module['image']);
+                $uploadFile = storage_path() . config('cms.config.laravel_cms_files') . $fileName;
+                $module['image'] = new UploadedFile($uploadFile, $uploadFile);
+            }
+            $moduleRepository = new Module;
+            $moduleRepository->saveWithRelations($module);
         }
     }
 }

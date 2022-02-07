@@ -38,8 +38,7 @@ class SettingGeneral extends Model
             'rule' => 'required',
             'help' => 'Maximum 100px',
             'form_type' => 'file',
-            'file_manager' => true,
-            'file_accept' => 'image',
+            'file_accept' => 'image/*',
             'file_multiple' => false,
         ],
         [
@@ -49,8 +48,7 @@ class SettingGeneral extends Model
             'rule' => 'required',
             'help' => 'Maximum 50px',
             'form_type' => 'file',
-            'file_manager' => true,
-            'file_accept' => 'image',
+            'file_accept' => 'image/*',
             'file_multiple' => false,
         ],
         [
@@ -60,8 +58,7 @@ class SettingGeneral extends Model
             'rule' => '',
             'help' => 'It can be just like logo image.',
             'form_type' => 'file',
-            'file_manager' => true,
-            'file_accept' => 'image',
+            'file_accept' => 'image/*',
             'file_multiple' => false,
         ],
         [

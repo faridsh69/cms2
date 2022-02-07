@@ -12,15 +12,13 @@ use App\Models\SettingGeneral;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Http\UploadedFile;
 use Str;
 
 class CmsLaravelWebsiteSeeder extends Seeder
 {
     public function run()
     {
-    	$photosFolder = 'temp/temp-laravel-cms-static-files/photos/';
-        $videosFolder = 'temp/temp-laravel-cms-static-files/videos/';
-
         // Category
         $categories = [
             [
@@ -49,11 +47,10 @@ class CmsLaravelWebsiteSeeder extends Seeder
             ],
         ];
 
-        foreach ($categories as $category)
-        {
+        foreach ($categories as $category) {
             $category['language'] = 'en';
             $category['type'] = 'Blog';
-        	$category['url'] = Str::slug($category['title']);
+            $category['url'] = Str::slug($category['title']);
             Category::firstOrCreate($category);
         }
 
@@ -70,11 +67,10 @@ class CmsLaravelWebsiteSeeder extends Seeder
             ],
         ];
 
-        foreach($tags as $tag)
-        {
-        	$tag['language'] = 'en';
+        foreach ($tags as $tag) {
+            $tag['language'] = 'en';
             $tag['type'] = 'Blog';
-        	$tag['url'] = Str::slug($category['title']);
+            $tag['url'] = Str::slug($category['title']);
             Tag::firstOrCreate($tag);
         }
 
@@ -91,8 +87,7 @@ class CmsLaravelWebsiteSeeder extends Seeder
                 'activated' => 1,
             ],
         ];
-        foreach ($users as $user)
-        {
+        foreach ($users as $user) {
             User::updateOrCreate(['id' => $user['id']], $user);
         }
 
@@ -101,112 +96,105 @@ class CmsLaravelWebsiteSeeder extends Seeder
             [
                 'title' => 'Open Source Full-Featured CMS',
                 'url' => null,
-                'image' => asset($photosFolder . 'logo.png'),
+                'image' => 'logo.png',
                 'description' => 'CMS Laravel is an open source project with Laravel contains all usefull packages and services for developing in the fastest way.',
                 'view_code_url' => 'front.components.documents.laravel-cms',
             ],
             [
                 'title' => 'Document',
                 'url' => 'document',
-                'image' => asset($photosFolder . 'logo.png'),
+                'image' => 'logo.png',
                 'description' => 'How to use laravel cms and understand new design patterns that used in this cms.',
                 'view_code_url' => 'front.components.documents.getting-started',
             ],
             [
                 'title' => 'Getting Started',
                 'url' => 'getting-started',
-                'image' => asset($photosFolder . 'logo.png'),
+                'image' => 'logo.png',
                 'description' => 'How to use laravel cms and understand new design patterns that used in this cms.',
                 'view_code_url' => 'front.components.documents.getting-started',
             ],
             [
                 'title' => 'Model',
                 'url' => 'model',
-                'image' => asset($photosFolder . 'documents/model.png'),
+                'image' => 'documents/model.png',
                 'description' => 'How to write your models in cms-laravel to see how whole project will run with just one array in your model and try to find out why this cms can help to develop more easier and faster.',
                 'view_code_url' => 'front.components.documents.model',
             ],
             [
                 'title' => 'Setting',
                 'url' => 'setting',
-                'image' => asset($photosFolder . 'documents/setting.png'),
+                'image' => 'documents/setting.png',
                 'description' => 'Everything is configured in settings at laravel CMS. Feel free to check settings section.',
                 'view_code_url' => 'front.components.documents.setting',
             ],
             [
                 'title' => 'Migration',
                 'url' => 'migration',
-                'image' => asset($photosFolder . 'documents/migration.png'),
+                'image' => 'documents/migration.png',
                 'description' => 'How to use migration service to create or modify tables based on model changes.',
                 'view_code_url' => 'front.components.documents.migration',
             ],
             [
                 'title' => 'Form',
                 'url' => 'form',
-                'image' => asset($photosFolder . 'documents/form.png'),
+                'image' => 'documents/form.png',
                 'description' => 'Get familiar with all forms types and use them, all type of form inputs craeted and is ready to develop by laravel-form-builder',
                 'view_code_url' => 'front.components.documents.form',
             ],
             [
                 'title' => 'Factory',
                 'url' => 'factory',
-                'image' => asset($photosFolder . 'documents/factory.png'),
+                'image' => 'documents/factory.png',
                 'description' => 'Factory is used for seed fake data in database and also it used in tests. factory will generate automatically based on your model columns.',
                 'view_code_url' => 'front.components.documents.factory',
             ],
             [
                 'title' => 'Seeder',
                 'url' => 'seeder',
-                'image' => asset($photosFolder . 'documents/seeder.png'),
+                'image' => 'documents/seeder.png',
                 'description' => 'You dont need to write any seeders, just add models that you want to seed fake data to config/services.php file.',
                 'view_code_url' => 'front.components.documents.seeder',
             ],
             [
                 'title' => 'Route',
                 'url' => 'route',
-                'image' => asset($photosFolder . 'documents/route.png'),
+                'image' => 'documents/route.png',
                 'description' => 'Routes seperated in admin, auth, api and front part and take a look they are easy to read and understand.',
                 'view_code_url' => 'front.components.documents.route',
             ],
             [
                 'title' => 'Controller',
                 'url' => 'controller',
-                'image' => asset($photosFolder . 'documents/controller.png'),
+                'image' => 'documents/controller.png',
                 'description' => 'Every controller in cms admin is extended from baseListController and every thing will be ready.',
                 'view_code_url' => 'front.components.documents.controller',
             ],
             [
                 'title' => 'Export, Import, Print',
                 'url' => 'export-import-print',
-                'image' => asset($photosFolder . 'documents/export-import-print.png'),
+                'image' => 'documents/export-import-print.png',
                 'description' => 'Admin panel contains three urls to import, export and print all the data in that table.',
                 'view_code_url' => 'front.components.documents.export-import-print',
             ],
             [
                 'title' => 'API',
                 'url' => 'api',
-                'image' => asset($photosFolder . 'documents/api.png'),
+                'image' => 'documents/api.png',
                 'description' => 'All apis is ready! There is a powefull baseApiController that needed to be extended and your api is fully ready.',
                 'view_code_url' => 'front.components.documents.api',
             ],
             [
-                'title' => 'Notification',
-                'url' => 'notification',
-                'image' => asset($photosFolder . 'documents/notification.png'),
-                'description' => 'Sending notification for different events like login, register, update profile and create a factor with multilanuage support is ready to use.',
-                'view_code_url' => 'front.components.documents.notification',
-            ],
-            [
                 'title' => 'Test',
                 'url' => 'test',
-                'image' => asset($photosFolder . 'documents/test.png'),
+                'image' => 'documents/test.png',
                 'description' => 'For all admin routes there are tests that can be run by vendor/bin/phpunit.',
                 'view_code_url' => 'front.components.documents.test',
             ],
             [
                 'title' => 'File',
                 'url' => 'file',
-                'image' => asset($photosFolder . 'documents/file.png'),
+                'image' => 'documents/file.png',
                 'description' => 'Uploading video, multiple files, validation on it, create thumbnail for images is ready now.',
                 'view_code_url' => 'front.components.documents.file',
             ],
@@ -228,8 +216,9 @@ class CmsLaravelWebsiteSeeder extends Seeder
             ],
         ];
 
-        foreach($pages as $page){
+        foreach ($pages as $page) {
             $page['language'] = 'en';
+            unset($page['image']);
             Page::updateOrCreate(['url' => $page['url']], $page);
         }
 
@@ -238,9 +227,9 @@ class CmsLaravelWebsiteSeeder extends Seeder
             'app_title' => 'Laravel CMS',
             'default_meta_title' => 'Laravel CMS',
             'default_meta_description' => 'Laravel CMS is an open source project with Laravel developed by both basic and advanced services and packages.',
-            'logo' => asset($photosFolder . 'logo.png'),
-            'favicon' => asset($photosFolder . 'favicon.png'),
-            'default_meta_image' => asset($photosFolder . 'logo.png'),
+            'logo' => 'logo.png',
+            'favicon' => 'favicon.png',
+            'default_meta_image' => 'logo.png',
             'android_application_url' => 'https://play.google.com/store/apps',
             'ios_application_url' => 'https://sibapp.com/applications',
             'google_map_code' => 'AIzaSyAwuyLRa1uKNtbgx6xAJVmWy-zADgegA2s',
@@ -283,14 +272,14 @@ class CmsLaravelWebsiteSeeder extends Seeder
             'sms_sender' => '9830006859000705',
             'sms_api_key' => 'muhammadc22:1234567891',
         ];
-        SettingGeneral::updateOrCreate(['id' => 1], $general_settings);
-        SettingDeveloper::updateOrCreate(['id' => 1], $developer_settings);
-        SettingContact::updateOrCreate(['id' => 1], $contact_settings);
+        // SettingGeneral::updateOrCreate(['id' => 1], $general_settings);
+        // SettingDeveloper::updateOrCreate(['id' => 1], $developer_settings);
+        // SettingContact::updateOrCreate(['id' => 1], $contact_settings);
 
         // Block
         $blocks = Block::whereIn('type', ['map', 'blog', 'product', 'service', 'pricing', 'video'])->get();
 
-        foreach($blocks as $block){
+        foreach ($blocks as $block) {
             $block->activated = 0;
             $block->save();
         }
@@ -376,12 +365,6 @@ class CmsLaravelWebsiteSeeder extends Seeder
             ],
             [
                 'type' => 'menu',
-                'title' => 'Notification',
-                'url' => 'notification',
-                'parent_url' => 'document',
-            ],
-            [
-                'type' => 'menu',
                 'title' => 'Test',
                 'url' => 'test',
                 'parent_url' => 'document',
@@ -398,19 +381,19 @@ class CmsLaravelWebsiteSeeder extends Seeder
                 'title' => 'Laravel CMS',
                 'description' => 'Full Featured CMS',
                 'url' => 'document',
-                'image' => $photosFolder . 'header-1.png',
+                'image' => 'header-1.png',
             ],
             [
                 'type' => 'header',
                 'title' => 'Everything Is Ready!',
                 'description' => 'Just define your logic',
                 'url' => 'document-model',
-                'image' => $photosFolder . 'header-2.png',
+                'image' => 'header-2.png',
             ],
             // Breadcrumb
             [
                 'type' => 'breadcrumb',
-                'image' => $photosFolder . 'breadcrumb.png',
+                'image' => 'breadcrumb.png',
             ],
             // Main Feature
             [
@@ -482,13 +465,7 @@ Prepared services for notification, saving gallery images, creating backup, API 
 Provided structure for adding theme to Laravel project with blocks and widgets.
 ',
                 'url' => 'document',
-                'image' => $photosFolder . 'introduce.png',
-            ],
-            // Video
-            [
-                'type' => 'video',
-                'title' => 'Video Title',
-                'video' => $videosFolder . 'video.mp4',
+                'image' => 'introduce.png',
             ],
             // Counting
             [
@@ -525,25 +502,19 @@ Provided structure for adding theme to Laravel project with blocks and widgets.
                 'type' => 'service',
                 'title' => 'Model',
                 'url' => 'model',
-                'image' => $photosFolder . 'documents/model.png',
+                'image' => 'documents/model.png',
             ],
             [
                 'type' => 'service',
                 'title' => 'Form',
                 'url' => 'form',
-                'image' => $photosFolder . 'documents/form.png',
+                'image' => 'documents/form.png',
             ],
             [
                 'type' => 'service',
                 'title' => 'Migration',
                 'url' => 'form',
-                'image' => $photosFolder . 'documents/migration.png',
-            ],
-            [
-                'type' => 'service',
-                'title' => 'Notification',
-                'url' => 'form',
-                'image' => $photosFolder . 'documents/notification.png',
+                'image' => 'documents/migration.png',
             ],
             // Pricing
             [
@@ -559,28 +530,28 @@ Provided structure for adding theme to Laravel project with blocks and widgets.
                 'title' => 'Consultant',
                 'full_name' => 'Taylor Otwell',
                 'description' => '“ I love this cms, it really complete and well designed. ”',
-                'image' => $photosFolder . 'testimonial-1.png',
+                'image' => 'testimonial-1.png',
             ],
             [
                 'type' => 'testimonial',
                 'title' => 'Manager',
                 'full_name' => 'Navid Ma',
                 'description' => '“ We used all of our experience in many enterprise projects in this cms ”',
-                'image' => $photosFolder . 'testimonial-2.png',
+                'image' => 'testimonial-2.png',
             ],
             [
                 'type' => 'testimonial',
                 'title' => 'Graphic Designer',
                 'full_name' => 'Elizabeth Sm',
                 'description' => '“ I desgined all of its themes on edge of technology ”',
-                'image' => $photosFolder . 'testimonial-3.png',
+                'image' => 'testimonial-3.png',
             ],
             [
                 'type' => 'testimonial',
                 'title' => 'Chief Technology Officer',
                 'full_name' => 'Farid Sh',
                 'description' => '“ Love beautifull code? I do too! ”',
-                'image' => $photosFolder . 'testimonial-4.png',
+                'image' => 'testimonial-4.png',
             ],
             // FAQ
             [
@@ -597,83 +568,85 @@ Provided structure for adding theme to Laravel project with blocks and widgets.
             [
                 'type' => 'partner',
                 'url' => '//menew.ir',
-                'image' => $photosFolder . 'partner-1.png',
+                'image' => 'partner-1.png',
             ],
             [
                 'type' => 'partner',
                 'url' => '//neuropmr.ir',
-                'image' => $photosFolder . 'partner-2.png',
+                'image' => 'partner-2.png',
             ],
             [
                 'type' => 'partner',
                 'url' => '//menew.ir',
-                'image' => $photosFolder . 'partner-3.png',
+                'image' => 'partner-3.png',
             ],
             [
                 'type' => 'partner',
                 'url' => '//menew.ir',
-                'image' => $photosFolder . 'partner-4.png',
+                'image' => 'partner-4.png',
             ],
             [
                 'type' => 'partner',
                 'url' => '//menew.ir',
-                'image' => $photosFolder . 'partner-5.png',
+                'image' => 'partner-5.png',
             ],
             // Team
             [
                 'type' => 'team',
                 'title' => 'Consultant',
                 'full_name' => 'Taylor Otwell',
-                'image' => $photosFolder . 'team-1.png',
+                'image' => 'team-1.png',
             ],
             [
                 'type' => 'team',
                 'title' => 'Manager',
                 'full_name' => 'Navid Ma',
-                'image' => $photosFolder . 'team-2.png',
+                'image' => 'team-2.png',
             ],
             [
                 'type' => 'team',
                 'title' => 'Graphic Designer',
                 'full_name' => 'Elizabeth Sm',
-                'image' => $photosFolder . 'team-3.png',
+                'image' => 'team-3.png',
             ],
             [
                 'type' => 'team',
                 'title' => 'Chief Technology Officer',
                 'full_name' => 'Farid Shahidi',
-                'image' => $photosFolder . 'team-4.png',
+                'image' => 'team-4.png',
             ],
         ];
 
         $modules_old = Module::whereIn('type', ['menu', 'header', 'breadcrumb', 'main_feature', 'feature', 'product', 'pricing', 'service', 'partner', 'introduce', 'video', 'faq', 'testimonial'])->get();
 
-        foreach($modules_old as $module){
+        foreach ($modules_old as $module) {
             $module->activated = 0;
             $module->save();
         }
 
         $order = 3;
-        foreach($modules as $module){
+        foreach ($modules as $module) {
             $order += 3;
-            $module['order'] = $order;
-            $module['language'] = 'en';
             $module['activated'] = 1;
-            if(isset($module['image'])){
-                $module['image'] = asset($module['image']);
-            }
-            if(isset($module['video'])){
-                $module['video'] = asset($module['video']);
-            }
-            if(! isset($module['title'])){
-                $module['title'] = $module['type'];
-            }
-            if(isset($module['parent_url'])){
+            if (isset($module['parent_url'])) {
                 $parent = Module::where('url', $module['parent_url'])->orderBy('id', 'desc')->first();
                 $module['parent_id'] = $parent->id;
                 unset($module['parent_url']);
             }
-            Module::firstOrCreate($module);
+            if (!isset($module['title'])) {
+                $module['title'] = $module['type'];
+            }
+            $module['order'] = $order;
+            $module['language'] = 'en';
+
+            if (isset($module['image'])) {
+                $fileName = $module['image'];
+                unset($module['image']);
+                $uploadFile = storage_path() . config('cms.config.laravel_cms_files') . $fileName;
+                $module['image'] = new UploadedFile($uploadFile, $uploadFile);
+            }
+            $moduleRepository = new Module;
+            $moduleRepository->saveWithRelations($module);
         }
     }
 }

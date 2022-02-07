@@ -4,6 +4,7 @@ $cms = [
     'config' => [
         'models_namespace' => 'App\Models\\',
         'faker_files' => '/app/public/cms/faker/',
+        'laravel_cms_files' => '/app/public/cms/laravel-cms-website/',
         'default_images' => '/storage/cms/default-model-images/',
         'upload_folder' => '/upload/',
     ],

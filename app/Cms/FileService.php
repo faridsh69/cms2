@@ -15,7 +15,7 @@ class FileService
 
     public function save($file, $model, string $title = 'file')
     {
-        $uploadFolder = config('cms.upload_folder');
+        $uploadFolder = config('cms.config.upload_folder');
         // This service can upload both single and array of files
         $gallery = $file;
         if (!is_array($file)) {

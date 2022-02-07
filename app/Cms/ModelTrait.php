@@ -93,9 +93,9 @@ trait ModelTrait
 			->toArray();
 	}
 
-	public function avatar(): string
+	public function avatar($fileColumnName = 'image'): string
 	{
-		$srcs = $this->srcs('image');
+		$srcs = $this->srcs($fileColumnName);
 		if (count($srcs)) {
 			return preg_replace('/(\.[^.]+)$/', sprintf('%s$1', '-thumbnail'), $srcs[0]);
 		}
