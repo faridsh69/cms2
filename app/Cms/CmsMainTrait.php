@@ -16,7 +16,7 @@ trait CmsMainTrait
     public string $modelNameSlug = '';
 
     // App\Models\GymProgram
-    public string $modelNamespace = 'App\Models\Model';
+    public string $modelNamespace = 'App\Models\User';
 
     // Key idea in this cms is Columns:
     public array $modelColumns = [];

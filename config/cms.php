@@ -259,7 +259,6 @@ $cms = [
         'showtime',
         'story',
         'tag',
-        'tagend',
         'tour',
         'travel',
         'user',

@@ -13,7 +13,6 @@ class SettingTest extends TestCase
         'dashboard.profile',
         'dashboard.identify',
         'report.index',
-        'media.index',
         'icon.list.index',
         'setting.general',
         'setting.contact',
