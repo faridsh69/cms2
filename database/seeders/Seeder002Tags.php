@@ -8,7 +8,7 @@ use Str;
 
 class Seeder002Tags extends Seeder
 {
-    public function run()
+    public function run() 
     {
         $tags = [
         	[
