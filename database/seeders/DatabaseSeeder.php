@@ -16,7 +16,7 @@ class DatabaseSeeder extends LaravelSeeder
 		$this->call(Seeder005Products::class);
 		$this->call(Seeder006Pages::class);
 		$this->call(Seeder007Blocks::class);
-		// $this->call(Seeder008Modules::class);
+		$this->call(Seeder008Modules::class);
 		$this->call(Seeder009Fields::class);
 		$this->call(Seeder010Roles::class);
 
