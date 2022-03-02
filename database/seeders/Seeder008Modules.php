@@ -11,7 +11,7 @@ class Seeder008Modules extends Seeder
     public function run()
     {
         $modules = [
-            // Breadcrumb
+            // Breadcrumb 
             [
                 'type' => 'breadcrumb',
                 'image' => 'breadcrumb.png',
