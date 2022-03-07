@@ -643,7 +643,7 @@ Provided structure for adding theme to Laravel project with blocks and widgets.
                 $fileName = $module['image'];
                 unset($module['image']);
                 $uploadFile = storage_path() . config('cms.config.laravel_cms_files') . $fileName;
-                $module['image'] = new UploadedFile($uploadFile, $uploadFile);
+                // $module['image'] = new UploadedFile($uploadFile, $uploadFile);
             }
             $moduleRepository = new Module;
             $moduleRepository->saveWithRelations($module);
