@@ -22,6 +22,6 @@ class DatabaseSeeder extends LaravelSeeder
 
 		$this->call(CmsSeeder::class);
 
-		// $this->call(CmsLaravelWebsiteSeeder::class);
+		$this->call(CmsLaravelWebsiteSeeder::class);
 	}
 }

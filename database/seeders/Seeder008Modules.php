@@ -327,12 +327,12 @@ class Seeder008Modules extends Seeder
             $module['order'] = $order;
             $module['language'] = 'en';
 
-            if (isset($module['image'])) {
-                $fileName = $module['image'];
-                unset($module['image']);
-                $uploadFile = storage_path() . config('cms.config.laravel_cms_files') . $fileName;
-                $module['image'] = new UploadedFile($uploadFile, $uploadFile);
-            }
+            // if (isset($module['image'])) {
+            //     $fileName = $module['image'];
+            //     unset($module['image']);
+            //     $uploadFile = storage_path() . config('cms.config.laravel_cms_files') . $fileName;
+            //     $module['image'] = new UploadedFile($uploadFile, $uploadFile);
+            // }
             $moduleRepository = new Module;
             $moduleRepository->saveWithRelations($module);
         }
