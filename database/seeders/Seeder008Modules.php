@@ -333,6 +333,7 @@ class Seeder008Modules extends Seeder
             //     $uploadFile = storage_path() . config('cms.config.laravel_cms_files') . $fileName;
             //     $module['image'] = new UploadedFile($uploadFile, $uploadFile);
             // }
+            unset($module['image']);
             $moduleRepository = new Module;
             $moduleRepository->saveWithRelations($module);
         }
