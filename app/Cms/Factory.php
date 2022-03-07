@@ -50,18 +50,20 @@ class Factory extends LaravelFactory
             } elseif ($name === 'activated') {
                 $fakeData = 1;
             } elseif ($form_type === 'file') {
-                // $file_accept = isset($column['file_accept']) ? $column['file_accept'] : null;
-                // if ($file_accept === 'image/*') {
-                //     $fileName = 'image.png';
-                // } elseif ($file_accept === 'video/*') {
-                //     $fileName = 'video.mp4';
-                // } elseif ($file_accept === 'audio/*') {
-                //     $fileName = 'audio.mp3';
-                // } else {
-                //     $fileName = 'pdf.pdf';
-                // }
-                // $uploadFileTest = storage_path() . config('cms.config.faker_files') . $fileName;
-                // $fakeData = new UploadedFile($uploadFileTest, $uploadFileTest);
+                $file_accept = isset($column['file_accept']) ? $column['file_accept'] : null;
+                if ($file_accept === 'image/*') {
+                    $fileName = 'image.png';
+                } elseif ($file_accept === 'video/*') {
+                    $fileName = 'video.mp4';
+                } elseif ($file_accept === 'audio/*') {
+                    $fileName = 'audio.mp3';
+                    $fileName = 'image.png';
+                } else {
+                    $fileName = 'pdf.pdf';
+                    $fileName = 'image.png';
+                }
+                $uploadFileTest = storage_path() . config('cms.config.faker_files') . $fileName;
+                $fakeData = new UploadedFile($uploadFileTest, $uploadFileTest);
             } elseif ($name === 'keywords') {
                 $fakeData = $this->faker->realText(100);
             } elseif ($name === 'icon') {
