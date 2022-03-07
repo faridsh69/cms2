@@ -1,7 +1,7 @@
 <section class="hero-area" id="header">
     <div class="hero-slides owl-carousel">
         @foreach($modules->where('type', 'header') as $header)
-        <div class="single-hero-slide bg-img" style="background-image: url({{ $header->srcs('image')[0] }});">
+        <div class="single-hero-slide bg-img" style="background-image: url({{ $header->avatar }});">
             <div class="container h-100">
                 <div class="row h-100 align-items-center">
                     <div class="col-12">

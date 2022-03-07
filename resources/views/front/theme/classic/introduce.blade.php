@@ -9,7 +9,7 @@
             <a href="{{ $introduce->url }}" class="btn academy-btn btn-sm mt-15">{{ __('See More') }}</a>
             @endif
         </div>
-        <div class="popular-course-thumb bg-img" style="background-image: url({{ $introduce->srcs('image')[0] }});"></div>
+        <div class="popular-course-thumb bg-img" style="background-image: url({{ $introduce->avatar }});"></div>
     </div>
 </div>
 @endforeach

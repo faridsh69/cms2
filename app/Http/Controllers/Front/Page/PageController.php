@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
-    public function index(string $page_url = null, Request $request)
+    public function index(string $page_url = null)
     {
         $page = Page::where('url', $page_url)->active()->first();
         abort_if(!$page, 404);
