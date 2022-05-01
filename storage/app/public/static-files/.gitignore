@@ -1,0 +1,5 @@
+*
+!faker/
+!laravel-cms-website/
+!default-model-images/
+!.gitignore
