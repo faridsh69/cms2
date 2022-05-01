@@ -19,6 +19,7 @@ class CmsLaravelWebsiteSeeder extends Seeder
 {
     public function run()
     {
+        $laravelCmsFolder = storage_path() . config('cms.config.cms_files');
         // Category
         $categories = [
             [
@@ -187,7 +188,6 @@ class CmsLaravelWebsiteSeeder extends Seeder
             [
                 'title' => 'Test',
                 'url' => 'test',
-                'image' => 'documents/test.png',
                 'description' => 'For all admin routes there are tests that can be run by vendor/bin/phpunit.',
                 'view_code_url' => 'front.components.documents.test',
             ],
@@ -218,8 +218,19 @@ class CmsLaravelWebsiteSeeder extends Seeder
 
         foreach ($pages as $page) {
             $page['language'] = 'en';
-            unset($page['image']);
-            Page::updateOrCreate(['url' => $page['url']], $page);
+            
+            if (isset($page['image'])) {
+                $fileName = $page['image'];
+                unset($page['image']);
+                $uploadFile = $laravelCmsFolder . $fileName;
+                $page['image'] = new UploadedFile($uploadFile, $uploadFile);
+            }
+            $page['activated'] = 1;
+            $page['tags'] = [];
+            $page['relateds'] = [];
+
+            $pageRepository = new Page;
+            $pageRepository->saveWithRelations($page);
         }
 
         // Setting
@@ -642,7 +653,7 @@ Provided structure for adding theme to Laravel project with blocks and widgets.
             if (isset($module['image'])) {
                 $fileName = $module['image'];
                 unset($module['image']);
-                $uploadFile = storage_path() . config('cms.config.laravel_cms_files') . $fileName;
+                $uploadFile = $laravelCmsFolder . $fileName;
                 $module['image'] = new UploadedFile($uploadFile, $uploadFile);
             }
             $moduleRepository = new Module;

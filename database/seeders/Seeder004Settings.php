@@ -6,20 +6,20 @@ use App\Models\SettingContact;
 use App\Models\SettingDeveloper;
 use App\Models\SettingGeneral;
 use Illuminate\Database\Seeder;
+use Illuminate\Http\UploadedFile;
 
 class Seeder004Settings extends Seeder
 {
 	public function run()
 	{
-		$photosFolder = 'temp-laravel-cms-static-files/photos/';
+		$laravelCmsFolder = storage_path() . config('cms.config.cms_files');
 
 		$generalSettings = [
 			'app_title' => 'App Title',
 			'default_meta_title' => 'App Title',
 			'default_meta_description' => 'App desciption about this website that will be show on social networks.',
-			'logo' => asset($photosFolder . 'logo.png'),
-			'favicon' => asset($photosFolder . 'favicon.png'),
-			'default_meta_image' => asset($photosFolder . 'logo.png'),
+			'logo' => 'logo.png',
+			'favicon' => 'favicon.png',
 			'google_index' => '1',
 			'pagination_number' => '6',
 			'android_application_url' => 'https://play.google.com/store/apps',
@@ -82,9 +82,22 @@ class Seeder004Settings extends Seeder
 				'form_submitted_sms',
 			],
         ];
-        SettingGeneral::updateOrCreate(['id' => 1], $generalSettings);
         SettingDeveloper::updateOrCreate(['id' => 1], $developerSettings);
         SettingContact::updateOrCreate(['id' => 1], $contactSettings);
+        // SettingGeneral::updateOrCreate(['id' => 1], $generalSettings);
+
+		$logoName = $generalSettings['logo'];
+		unset($generalSettings['logo']);
+		$uploadLogoFile = $laravelCmsFolder . $logoName;
+		$generalSettings['logo'] = new UploadedFile($uploadLogoFile, $uploadLogoFile);
+
+		$faviconName = $generalSettings['favicon'];
+		unset($generalSettings['favicon']);
+		$uploadFaviconFile = $laravelCmsFolder . $faviconName;
+		$generalSettings['favicon'] = new UploadedFile($uploadFaviconFile, $uploadFaviconFile);
+
+		$settingGeneralRepository = new SettingGeneral;
+        $settingGeneralRepository->saveWithRelations($generalSettings);
     }
 
     private function random_color_part() {

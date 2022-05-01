@@ -3,9 +3,9 @@
 $cms = [
     'config' => [
         'models_namespace' => 'App\Models\\',
-        'faker_files' => '/app/public/cms/faker/',
-        'laravel_cms_files' => '/app/public/cms/laravel-cms-website/',
-        'default_images' => '/storage/cms/default-model-images/',
+        'faker_files' => '/app/public/static-files/faker/',
+        'cms_files' => '/app/public/static-files/laravel-cms-website/',
+        'default_images' => '/storage/static-files/default-model-images/',
         'upload_folder' => '/upload/',
     ],
     'migration' => [

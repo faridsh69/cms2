@@ -10,6 +10,8 @@ class Seeder008Modules extends Seeder
 {
     public function run()
     {
+        $laravelCmsFolder = storage_path() . config('cms.config.cms_files');
+        
         $modules = [
             // Breadcrumb 
             [
@@ -330,7 +332,7 @@ class Seeder008Modules extends Seeder
             if (isset($module['image'])) {
                 $fileName = $module['image'];
                 unset($module['image']);
-                $uploadFile = storage_path() . config('cms.config.laravel_cms_files') . $fileName;
+                $uploadFile = $laravelCmsFolder . $fileName;
                 $module['image'] = new UploadedFile($uploadFile, $uploadFile);
             }
             $moduleRepository = new Module;

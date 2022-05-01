@@ -99,7 +99,7 @@ trait ModelTrait
 		if (count($srcs)) {
 			return preg_replace('/(\.[^.]+)$/', sprintf('%s$1', '-thumbnail'), $srcs[0]);
 		}
-		return asset(config('cms.config.default_images') . class_basename($this) . '.png');
+		return asset(config('cms.config.default_images') . strtolower(class_basename($this)) . '.png');
 	}
 
 	public function getAvatarAttribute(): string

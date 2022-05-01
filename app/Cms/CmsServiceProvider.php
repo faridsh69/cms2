@@ -22,6 +22,8 @@ class CmsServiceProvider
         $general_settings = Cache::remember('setting.general', $seconds, function () {
             $general_setings_database = SettingGeneral::first();
             if ($general_setings_database) {
+                $general_setings_database->logo = $general_setings_database->avatar('logo');
+                $general_setings_database->favicon = $general_setings_database->avatar('favicon');
                 return $general_setings_database->toArray();
             }
             return [];
@@ -40,6 +42,7 @@ class CmsServiceProvider
             }
             return [];
         });
+        
         config(['setting-general' => $general_settings]);
         config(['setting-contact' => $contact_settings]);
         config(['setting-developer' => $developer_settings]);

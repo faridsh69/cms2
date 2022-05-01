@@ -10,7 +10,7 @@ use Str;
 class FileService
 {
     const UPLOAD_PATH_PREFIX = 'public/';
-    const DATABASE_SRC_PREFIX = 'storage/';
+    const DATABASE_SRC_PREFIX = 'storage';
     const THUMBNAIL_WIDTH = 200;
 
     public function save($file, $model, string $title = 'file')
@@ -68,8 +68,8 @@ class FileService
                 File::updateOrCreate(
                     [
                         'title' => $title,
-                        'fileableId' => $fileableId,
-                        'fileableType' => $fileableType,
+                        'fileable_id' => $fileableId,
+                        'fileable_type' => $fileableType,
                     ],
                     $fileModelData
                 );
