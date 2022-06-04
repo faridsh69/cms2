@@ -11,9 +11,6 @@ final class PhoneVerified extends Notification
 {
     public function via($notifiable)
     {
-        return [
-            DatabaseChannel::class,
-            SmsChannel::class,
-        ];
+        return [DatabaseChannel::class, SmsChannel::class];
     }
 }

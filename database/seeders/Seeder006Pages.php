@@ -48,12 +48,9 @@ final class Seeder006Pages extends Seeder
 
         foreach ($pages as $page) {
             $page['language'] = 'en';
-            Page::firstOrCreate(
-                [
-                    'url' => $page['url'],
-                ],
-                $page
-            );
+            Page::firstOrCreate([
+                'url' => $page['url'],
+            ], $page);
         }
     }
 }

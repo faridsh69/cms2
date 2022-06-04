@@ -34,9 +34,7 @@ final class ReportController extends AdminController
             'last_comments' => \App\Models\Comment::where('created_at', '>', $last_week_time)->orderBy(
                 'id',
                 'desc'
-            )->take(
-                2
-            )->get(),
+            )->take(2)->get(),
         ];
 
         $activities = Activity::orderBy('id', 'desc')->take(5)->get();

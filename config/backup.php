@@ -13,9 +13,7 @@ return [
         'source' => [
             'files' => [
                 // The list of directories and files that will be included in the backup.
-                'include' => [
-                    base_path(),
-                ],
+                'include' => [base_path()],
 
                 /*
                  * These directories and files will be excluded from the backup.
@@ -56,9 +54,7 @@ return [
              *
              * For a complete list of available customization options, see https://github.com/spatie/db-dumper
              */
-            'databases' => [
-                'mysql',
-            ],
+            'databases' => ['mysql'],
         ],
 
         /*
@@ -79,15 +75,11 @@ return [
             'filename_prefix' => '',
 
             // The disk names on which the backups will be stored.
-            'disks' => [
-                'local',
-            ],
+            'disks' => ['local'],
         ],
 
         // The directory where the temporary files will be stored.
-        'temporary_directory' => storage_path(
-            'app/backup-temp'
-        ),
+        'temporary_directory' => storage_path('app/backup-temp'),
     ],
 
     /*

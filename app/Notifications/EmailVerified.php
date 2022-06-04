@@ -11,9 +11,6 @@ final class EmailVerified extends Notification
 {
     public function via($notifiable)
     {
-        return [
-            DatabaseChannel::class,
-            'mail',
-        ];
+        return [DatabaseChannel::class, 'mail'];
     }
 }

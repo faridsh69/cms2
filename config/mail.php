@@ -14,10 +14,7 @@ return [
     |
     */
 
-    'default' => env(
-        'MAIL_MAILER',
-        'smtp'
-    ),
+    'default' => env('MAIL_MAILER', 'smtp'),
 
     /*
     |--------------------------------------------------------------------------
@@ -77,10 +74,7 @@ return [
 
         'failover' => [
             'transport' => 'failover',
-            'mailers' => [
-                'smtp',
-                'log',
-            ],
+            'mailers' => ['smtp', 'log'],
         ],
     ],
 
@@ -114,8 +108,6 @@ return [
     'markdown' => [
         'theme' => 'default',
 
-        'paths' => [
-            resource_path('views/vendor/mail'),
-        ],
+        'paths' => [resource_path('views/vendor/mail')],
     ],
 ];

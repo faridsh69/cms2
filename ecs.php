@@ -43,10 +43,13 @@ use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 
 return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->lineEnding("\n");
+    $ecsConfig->indentation('tab');
     $parameters = $ecsConfig->parameters();
     $parameters->set(Option::PATHS, [
         __DIR__ . '/app',
         __DIR__ . '/config',
+        __DIR__ . '/database/migrations',
         __DIR__ . '/database/seeders',
         __DIR__ . '/routes',
         __DIR__ . '/tests',

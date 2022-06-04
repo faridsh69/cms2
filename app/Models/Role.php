@@ -73,9 +73,7 @@ final class Role extends RoleSpatie
         foreach (collect($this->getColumns())->whereIn(
             'type',
             ['file', 'array', 'captcha']
-        )->pluck(
-            'name'
-        ) as $file_or_array_column) {
+        )->pluck('name') as $file_or_array_column) {
             unset($data[$file_or_array_column]);
         }
 

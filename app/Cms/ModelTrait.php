@@ -618,10 +618,8 @@ trait ModelTrait
 
     // Before save a form data we need to write 0 for unchecked checkboxes
     // All relational data that are array should eliminate from form data.
-    private function clearFilesAndArrays(
-        array $data,
-        ?Model $model = null
-    ): array {
+    private function clearFilesAndArrays(array $data, ?Model $model = null): array
+    {
         // convert boolean input values: null and false => 0, true => 1
         foreach (collect($this->getColumns())
             ->where('type', 'boolean')

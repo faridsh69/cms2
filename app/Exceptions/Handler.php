@@ -15,19 +15,14 @@ final class Handler extends ExceptionHandler
      *
      * @var array<int, class-string<Throwable>>
      */
-    protected $dontReport = [
-        ];
+    protected $dontReport = [];
 
     /**
      * A list of the inputs that are never flashed for validation exceptions.
      *
      * @var array<int, string>
      */
-    protected $dontFlash = [
-        'current_password',
-        'password',
-        'password_confirmation',
-    ];
+    protected $dontFlash = ['current_password', 'password', 'password_confirmation'];
 
     /**
      * Register the exception handling callbacks for the application.
@@ -46,10 +41,8 @@ final class Handler extends ExceptionHandler
      *
      * @return \Illuminate\Http\Response
      */
-    public function render(
-        $request,
-        Throwable $exception
-    ) {
+    public function render($request, Throwable $exception)
+    {
         if ($request->wantsJson()) {
             $response = [
                 'status' => $this->prepareJsonResponse($request, $exception)->getStatusCode(),

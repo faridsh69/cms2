@@ -30,9 +30,7 @@ final class Curl extends Service
 
         if ($user_password) {
             curl_setopt($curl, \CURLOPT_USERPWD, $user_password);
-            curl_setopt($curl, \CURLOPT_HTTPHEADER, [
-                'Content-Type: application/json',
-            ]);
+            curl_setopt($curl, \CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
         }
 
         $output = curl_exec($curl);

@@ -299,15 +299,7 @@ $cms = [
     ],
 ];
 
-$cms['social_companies'] = [
-    'GOOGLE',
-    'TWITTER',
-    'FACEBOOK',
-    'LINKEDIN',
-    'GITHUB',
-    'GITLAB',
-    'BITBUCKET',
-];
+$cms['social_companies'] = ['GOOGLE', 'TWITTER', 'FACEBOOK', 'LINKEDIN', 'GITHUB', 'GITLAB', 'BITBUCKET'];
 
 foreach ($cms['social_companies'] as $social_company) {
     $cms[mb_strtolower($social_company)] = [

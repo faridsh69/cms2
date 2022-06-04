@@ -36,10 +36,7 @@ abstract class Form extends LaravelForm
             $help = $column['help'] ?? ' ';
             $database = $column['database'] ?? null;
             // if column is unique it will add id for edit mode
-            if ($database === 'unique' || mb_strpos(
-                $rule,
-                'unique'
-            ) !== false) {
+            if ($database === 'unique' || mb_strpos($rule, 'unique') !== false) {
                 $rule .= $this->id;
             }
 

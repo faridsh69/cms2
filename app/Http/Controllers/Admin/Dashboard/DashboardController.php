@@ -79,10 +79,7 @@ final class DashboardController extends AdminResourceController
         //     ->performedOn($model)
         //     ->causedBy(Auth::user())
         //     ->log('User Profile Updated');
-        $this->httpRequest->session()->flash(
-            'alert-success',
-            'Profile Updated Successfully!'
-        );
+        $this->httpRequest->session()->flash('alert-success', 'Profile Updated Successfully!');
 
         return redirect()->route('admin.dashboard.profile');
     }

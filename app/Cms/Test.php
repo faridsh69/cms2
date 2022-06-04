@@ -22,19 +22,9 @@ abstract class Test extends TestCase
     // single model to test
     public string $modelNameSlug;
 
-    public $resource_methods = [
-        'print',
-        'export',
-        'datatable',
-        'list.index',
-        'list.create',
-    ];
+    public $resource_methods = ['print', 'export', 'datatable', 'list.index', 'list.create'];
 
-    public $frontMethods = [
-        'index',
-        'category.index',
-        'tag.index',
-    ];
+    public $frontMethods = ['index', 'category.index', 'tag.index'];
 
     final public function adminTest(): void
     {

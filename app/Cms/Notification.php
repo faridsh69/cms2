@@ -50,9 +50,7 @@ final class Notification extends LaravelNotification
             return [];
         }
 
-        $channelList = [
-            DatabaseChannel::class,
-        ];
+        $channelList = [DatabaseChannel::class];
 
         if (!config('setting-developer.notification_events')) {
             return $channelList;

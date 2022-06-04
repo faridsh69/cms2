@@ -81,10 +81,7 @@ abstract class AdminResourceController extends AdminController
         $model = $this->modelRepository->findOrFail($id);
         $this->authorize('view', $model);
         $data = $model;
-        $activities = \App\Models\Activity::where(
-            'activitiable_type',
-            $this->modelNamespace
-        )
+        $activities = \App\Models\Activity::where('activitiable_type', $this->modelNamespace)
             ->where('activitiable_id', $id)
             ->get();
 
@@ -163,9 +160,7 @@ abstract class AdminResourceController extends AdminController
         // }
         // $this->httpRequest->session()->flash('alert-success', $this->modelNameTranslate . __('deleted_successfully'));
 
-        return redirect()->route(
-            'admin.' . $this->modelNameSlug . '.list.index'
-        );
+        return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
     }
 
     final public function restore(int $id): RedirectResponse
@@ -263,10 +258,7 @@ abstract class AdminResourceController extends AdminController
             $datatable->addColumn('user', fn ($model) => $model->user->name)->addColumn(
                 'type',
                 fn ($model) => str_replace('App\Notifications\\', '', $model->type)
-            )->addColumn(
-                'data',
-                fn ($model) => json_decode($model->data)->data
-            );
+            )->addColumn('data', fn ($model) => json_decode($model->data)->data);
         } elseif ($this->modelName === 'Block') {
             $datatable->addColumn('pages', function ($model) {
                 $pages = $model->pages()->pluck('title')->toArray();

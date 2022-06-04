@@ -12,15 +12,11 @@ abstract class Model extends LaravelModel
 
     protected $guarded = [];
 
-    protected $hidden = [
-        'deleted_at',
-    ];
+    protected $hidden = ['deleted_at'];
 
     protected $casts = [
         'activated' => 'boolean',
     ];
 
-    protected $appends = [
-        'avatar',
-    ];
+    protected $appends = ['avatar'];
 }
