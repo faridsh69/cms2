@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Admin\Setting;
 
 use App\Cms\AdminController;
 use Artisan;
-use Auth;
 use Illuminate\Http\Request;
 use Response;
 use Storage;

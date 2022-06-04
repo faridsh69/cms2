@@ -20,7 +20,6 @@ foreach ($modelNameSlugs as $modelNameSlug) {
         Route::get('category/{url?}', $controllerName . '@getCategory')->name('category.show');
         Route::get('tag', $controllerName . '@getTags')->name('tag.index');
         Route::get('tag/{url?}', $controllerName . '@getTag')->name('tag.show');
-        Route::get('{url}', $controllerName . '@show')->name('show');
         Route::post('{url}/comment', $controllerName . '@comment')->name('comment');
         Route::post('{url}/like', $controllerName . '@like')->name('like');
         Route::get('{url}/like/count', $controllerName . '@likeCount')->name('like-count');

@@ -47,9 +47,7 @@ return static function (ECSConfig $ecsConfig): void {
     $parameters->set(Option::PATHS, [
         __DIR__ . '/app',
         __DIR__ . '/config',
-        __DIR__ . '/database/factories',
         __DIR__ . '/database/seeders',
-        __DIR__ . '/resources/lang',
         __DIR__ . '/routes',
         __DIR__ . '/tests',
     ]);
