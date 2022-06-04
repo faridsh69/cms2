@@ -52,3 +52,11 @@ $user->avatar('cover_photo')
 ### Run tests
 
 > vendor/bin/phpunit
+
+### For using passport
+
+> php artisan passport:install
+
+To get Client ID, and Client Secret use this:
+
+> php artisan passport:client --password

@@ -9,33 +9,19 @@ use App\Models\Category;
 use Illuminate\Http\JsonResponse;
 use Validator;
 
-final class ApiController extends Controller
+abstract class ApiController extends Controller
 {
     use ApiTrait;
     use CmsMainTrait;
 
-    public function index(): JsonResponse
+    final public function index(): JsonResponse
     {
-        // $this->authorize('index', $this->modelNamespace);
+        $this->authorize('index', $this->modelNamespace);
         $list = $this->modelRepository
             ->active()
             ->language()
             ->orderBy('updated_at', 'desc')
             ->get();
-
-        foreach ($list as $listItem) {
-            $item = clone $listItem;
-            $item['id'] = $item['id'] + 100;
-            $list[] = $item;
-
-            $item = clone $listItem;
-            $item['id'] = $item['id'] + 200;
-            $list[] = $item;
-
-            $item = clone $listItem;
-            $item['id'] = $item['id'] + 300;
-            $list[] = $item;
-        }
 
         return $this->setSuccessStatus()
             ->setMessage($this->modelNameTranslate . __('list_successfully'))
@@ -43,12 +29,39 @@ final class ApiController extends Controller
             ->prepareJsonResponse();
     }
 
-    public function create(): void
+    final public function show(string $url): JsonResponse
+    {
+        $model = $this->modelRepository
+            ->where('url', $url)
+            ->active()
+            ->language()
+            ->first();
+
+        if (!$model) {
+            return $this->prepareJsonResponse();
+        }
+        $this->authorize('view', $model);
+
+        // $model->category = $model->category;
+        // $model->tags = $model->tags;
+        // $model->relateds = $model->relateds;
+        // $model->images = $model->srcs('image');
+        // $model->videos = $model->srcs('video');
+        // $model->audios = $model->srcs('audio');
+        // $model->avatar = $model->avatar();
+
+        return $this->setSuccessStatus()
+            ->setMessage(__('show_successfully'))
+            ->setData($model)
+            ->prepareJsonResponse();
+    }
+
+    final public function create(): void
     {
         abort(404);
     }
 
-    public function store()
+    final public function store()
     {
         $this->authorize('create', $this->modelNamespace);
         $mainData = $this->httpRequest->all();
@@ -72,35 +85,7 @@ final class ApiController extends Controller
             ->prepareJsonResponse();
     }
 
-    public function show(string $url): JsonResponse
-    {
-        $model = $this->modelRepository
-            ->where('url', $url)
-            ->active()
-            ->language()
-            ->first();
-
-        if (!$model) {
-            return $this->prepareJsonResponse();
-        }
-        // $this->authorize('view', $model);
-
-        // $mainData = $model->getAttributes();
-        $model->category = $model->category;
-        $model->tags = $model->tags;
-        $model->relateds = $model->relateds;
-        $model->images = $model->srcs('image');
-        $model->videos = $model->srcs('video');
-        $model->audios = $model->srcs('audio');
-        $model->avatar = $model->avatar();
-
-        return $this->setSuccessStatus()
-            ->setMessage(__('show_successfully'))
-            ->setData($model)
-            ->prepareJsonResponse();
-    }
-
-    public function edit($id)
+    final public function edit($id)
     {
         $modelEdit = $this->modelRepository
             ->where('id', $id)
@@ -122,7 +107,7 @@ final class ApiController extends Controller
         return response()->json($this->response);
     }
 
-    public function update($id)
+    final public function update($id)
     {
         $modelUpdate = $this->modelRepository->where('id', $id)->first();
         if (!$modelUpdate) {
@@ -155,7 +140,7 @@ final class ApiController extends Controller
         return response()->json($this->response);
     }
 
-    public function destroy($id)
+    final public function destroy($id)
     {
         $modelDelete = $this->modelRepository->where('id', $id)->first();
         if (!$modelDelete) {
@@ -182,7 +167,7 @@ final class ApiController extends Controller
         return response()->json($this->response);
     }
 
-    public function getCategories()
+    final public function getCategories()
     {
         $list = Category::ofType($this->modelName)
             ->active()

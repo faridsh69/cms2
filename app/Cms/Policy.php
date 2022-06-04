@@ -5,36 +5,40 @@ declare(strict_types=1);
 namespace App\Cms;
 
 use App\Models\User;
-use Illuminate\Auth\Access\HandlesAuthorization;
 
 abstract class Policy
 {
-    use HandlesAuthorization;
-
     public string $modelNameSlug = 'user';
+
+    private string $guardName = 'web';
 
     final public function index(User $user)
     {
-        return $user->can($this->modelNameSlug . '_index');
+        return $this->hasPermission($user, 'index');
     }
 
     final public function view(User $user, $list)
     {
-        return $user->can($this->modelNameSlug . '_view');
+        return $this->hasPermission($user, 'view');
     }
 
     final public function create(User $user)
     {
-        return $user->can($this->modelNameSlug . '_create');
+        return $this->hasPermission($user, 'create');
     }
 
     final public function update(User $user, $list)
     {
-        return $user->can($this->modelNameSlug . '_update');
+        return $this->hasPermission($user, 'update');
     }
 
     final public function delete(User $user, $list)
     {
-        return $user->can($this->modelNameSlug . '_delete');
+        return $this->hasPermission($user, 'delete');
+    }
+
+    private function hasPermission(User $user, string $action)
+    {
+        return $user->hasPermissionTo($this->modelNameSlug . '_' . $action, $this->guardName);
     }
 }

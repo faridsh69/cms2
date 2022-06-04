@@ -12,7 +12,7 @@ final class Seeder010Roles extends Seeder
 {
     public function run(): void
     {
-        $system_slugs = [
+        $systemSlugs = [
             'setting_general',
             'setting_contact',
             'setting_developer',
@@ -28,52 +28,54 @@ final class Seeder010Roles extends Seeder
         $roles = [];
         $permissions = [];
         foreach ($modelNameSlugs as $modelNameSlug) {
-            $model_permissions = [];
-            $model_permissions[] = Permission::updateOrCreate([
+            $modelPermissions = [];
+            $modelPermissions[] = Permission::updateOrCreate([
                 'name' => $modelNameSlug . '_index',
             ]);
-            $model_permissions[] = Permission::updateOrCreate([
+            $modelPermissions[] = Permission::updateOrCreate([
                 'name' => $modelNameSlug . '_view',
             ]);
-            $model_permissions[] = Permission::updateOrCreate([
+            $modelPermissions[] = Permission::updateOrCreate([
                 'name' => $modelNameSlug . '_create',
             ]);
-            $model_permissions[] = Permission::updateOrCreate([
+            $modelPermissions[] = Permission::updateOrCreate([
                 'name' => $modelNameSlug . '_update',
             ]);
-            $model_permissions[] = Permission::updateOrCreate([
+            $modelPermissions[] = Permission::updateOrCreate([
                 'name' => $modelNameSlug . '_delete',
             ]);
 
-            $model_role = Role::updateOrCreate([
+            $modelRole = Role::updateOrCreate([
                 'name' => $modelNameSlug . '_manager',
             ]);
-            $model_role->syncPermissions($model_permissions);
-            $roles[] = $model_role->name;
+            $modelRole->syncPermissions($modelPermissions);
+            $roles[] = $modelRole->name;
 
-            $permissions = array_merge($permissions, $model_permissions);
-        }
-        foreach ($system_slugs as $system_slug) {
-            $system_permission = Permission::updateOrCreate([
-                'name' => $system_slug . '_manager',
-            ]);
-            $system_role = Role::updateOrCreate([
-                'name' => $system_slug . '_manager',
-            ]);
-            $system_role->syncPermissions([$system_permission]);
-            $roles[] = $system_role->name;
-
-            $permissions[] = $system_permission;
+            $permissions = array_merge($permissions, $modelPermissions);
         }
 
-        $role_manager = Role::updateOrCreate([
+        foreach ($systemSlugs as $systemSlug) {
+            $systemPermission = Permission::updateOrCreate([
+                'name' => $systemSlug . '_manager',
+            ]);
+            $systemRole = Role::updateOrCreate([
+                'name' => $systemSlug . '_manager',
+            ]);
+            $systemRole->syncPermissions([$systemPermission]);
+            $roles[] = $systemRole->name;
+
+            $permissions[] = $systemPermission;
+        }
+
+        $managerRole = Role::updateOrCreate([
             'name' => 'manager',
         ]);
-        $role_manager->syncPermissions($permissions);
+        $managerRole->syncPermissions($permissions);
 
-        $admin_users = User::getAdminUsers();
-        foreach ($admin_users as $admin_user) {
-            $admin_user->syncRoles($roles);
+        $admins = User::getAdminUsers();
+
+        foreach ($admins as $admin) {
+            $admin->syncRoles($roles);
         }
     }
 }
