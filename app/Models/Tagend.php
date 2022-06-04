@@ -1,14 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Cms\Model;
 
-class Tagend extends Model
+final class Tagend extends Model
 {
     public $columns = [
-        ['name' => 'title'],
-        ['name' => 'description'],
+        [
+            'name' => 'title',
+        ],
+        [
+            'name' => 'description',
+        ],
         [
             'name' => 'sign',
             'type' => 'boolean',
@@ -54,8 +60,12 @@ class Tagend extends Model
             'form_type' => '',
             'table' => true,
         ],
-        ['name' => 'activated'],
-        ['name' => 'user_id'],
+        [
+            'name' => 'activated',
+        ],
+        [
+            'name' => 'user_id',
+        ],
         [
             'name' => 'used_count',
             'type' => 'unsignedBigInteger',
@@ -92,7 +102,9 @@ class Tagend extends Model
             'form_type' => '',
             'table' => false,
         ],
-        ['name' => 'language'],
+        [
+            'name' => 'language',
+        ],
     ];
 
     public function scopeForced($query)

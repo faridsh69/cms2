@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Cms;
 
 use Maatwebsite\Excel\Concerns\ToModel;
 
-class Import implements ToModel
+final class Import implements ToModel
 {
     use CmsMainTrait;
 
@@ -17,10 +19,11 @@ class Import implements ToModel
         foreach ($this->modelFields as $key => $modelField) {
             $this->excelFields[$modelField] = $row[$key];
         }
+
         return new $this->modelNamespace($this->excelFields);
     }
 
-    public function setModelName($modelName)
+    public function setModelName($modelName): void
     {
         $this->modelNamespace = config('cms.config.models_namespace') . $modelName;
         $this->modelRepository = new $this->modelNamespace();

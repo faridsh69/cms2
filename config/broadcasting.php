@@ -1,7 +1,8 @@
 <?php
 
-return [
+declare(strict_types=1);
 
+return [
     /*
     |--------------------------------------------------------------------------
     | Default Broadcaster
@@ -15,7 +16,10 @@ return [
     |
     */
 
-    'default' => env('BROADCAST_DRIVER', 'null'),
+    'default' => env(
+        'BROADCAST_DRIVER',
+        'null'
+    ),
 
     /*
     |--------------------------------------------------------------------------
@@ -29,7 +33,6 @@ return [
     */
 
     'connections' => [
-
         'pusher' => [
             'driver' => 'pusher',
             'key' => env('PUSHER_APP_KEY'),
@@ -58,7 +61,5 @@ return [
         'null' => [
             'driver' => 'null',
         ],
-
     ],
-
 ];

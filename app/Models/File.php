@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Cms\Model;
 
-class File extends Model
+final class File extends Model
 {
     public $columns = [
         [
@@ -25,9 +27,11 @@ class File extends Model
             'form_type' => '',
             'table' => false,
         ],
-        // Like profile-picture or cover-photo or image or videos 
+        // Like profile-picture or cover-photo or image or videos
         // based on name of file column
-        ['name' => 'title'],
+        [
+            'name' => 'title',
+        ],
         [
             'name' => 'src',
             'type' => 'string',

@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Cms\Model;
 
-class SettingGeneral extends Model
+final class SettingGeneral extends Model
 {
     public $columns = [
         [
@@ -31,7 +33,7 @@ class SettingGeneral extends Model
             'help' => 'Default Description that used in search engines.',
             'form_type' => 'textarea',
         ],
-        'logo' => [
+        [
             'name' => 'logo',
             'type' => 'file',
             'database' => 'none',
@@ -42,7 +44,7 @@ class SettingGeneral extends Model
             'file_multiple' => false,
             'table' => false,
         ],
-        'favicon' => [
+        [
             'name' => 'favicon',
             'type' => 'file',
             'database' => 'none',

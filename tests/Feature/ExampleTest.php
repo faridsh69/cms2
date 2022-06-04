@@ -1,18 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class ExampleTest extends TestCase
+/**
+ * @internal
+ *
+ * @small
+ * @coversNothing
+ */
+final class ExampleTest extends TestCase
 {
     /**
      * A basic test example.
-     *
-     * @return void
      */
-    public function test_example()
+    public function testExample(): void
     {
         $response = $this->get('/');
 

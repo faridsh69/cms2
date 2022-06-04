@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Cms;
 
 use Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Maatwebsite\Excel\Facades\Excel;
+use PDF;
 use Str;
 
-class AdminResourceController extends AdminController
+abstract class AdminResourceController extends AdminController
 {
     public function index(): view
     {
@@ -25,10 +28,12 @@ class AdminResourceController extends AdminController
             ];
         }
 
-        return view('admin.list.index', ['meta' => $this->meta, 'columns' => $columns]);
+        return view('admin.list.index', [
+            'meta' => $this->meta, 'columns' => $columns,
+        ]);
     }
 
-    public function create(): View
+    final public function create(): View
     {
         $this->authorize('create', $this->modelNamespace);
         $this->meta['title'] = __('create_new') . $this->modelNameTranslate;
@@ -36,14 +41,16 @@ class AdminResourceController extends AdminController
             'method' => 'POST',
             'url' => route('admin.' . $this->modelNameSlug . '.list.store'),
             'class' => 'm-form m-form--state',
-            'id' =>  'admin_form',
+            'id' => 'admin_form',
             'enctype' => 'multipart/form-data',
         ]);
 
-        return view('admin.list.form', ['form' => $form, 'meta' => $this->meta]);
+        return view('admin.list.form', [
+            'form' => $form, 'meta' => $this->meta,
+        ]);
     }
 
-    public function store(): RedirectResponse
+    final public function store(): RedirectResponse
     {
         $this->authorize('create', $this->modelNamespace);
         $form = $this->laravelFormBuilder->create($this->modelForm);
@@ -51,6 +58,7 @@ class AdminResourceController extends AdminController
             if (env('APP_ENV') === 'testing') {
                 dd($form->getErrors(), $this->modelName, $form->getFieldValues());
             }
+
             return redirect()->back()->withErrors($form->getErrors())->withInput();
         }
         $model = $this->modelRepository->saveWithRelations($form->getFieldValues());
@@ -60,12 +68,15 @@ class AdminResourceController extends AdminController
         //     activity('Created')->performedOn($model)->causedBy(Auth::user())
         //         ->log($this->modelName . ' Created');
         // }
-        $this->httpRequest->session()->flash('alert-success', $this->modelNameTranslate . __('created_successfully'));
+        $this->httpRequest->session()->flash(
+            'alert-success',
+            $this->modelNameTranslate . __('created_successfully')
+        );
 
         return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
     }
 
-    public function show(int $id): View
+    final public function show(int $id): View
     {
         $model = $this->modelRepository->findOrFail($id);
         $this->authorize('view', $model);
@@ -81,10 +92,12 @@ class AdminResourceController extends AdminController
         $this->meta['link_route'] = route('admin.' . $this->modelNameSlug . '.list.edit', $model);
         $this->meta['link_name'] = $this->modelNameTranslate . __('edit form');
 
-        return view('admin.list.show', ['data' => $data, 'meta' => $this->meta, 'activities' => $activities]);
+        return view('admin.list.show', [
+            'data' => $data, 'meta' => $this->meta, 'activities' => $activities,
+        ]);
     }
 
-    public function edit(int $id)
+    final public function edit(int $id)
     {
         $model = $this->modelRepository->findOrFail($id);
         $this->authorize('update', $model);
@@ -98,10 +111,12 @@ class AdminResourceController extends AdminController
             'enctype' => 'multipart/form-data',
         ]);
 
-        return view('admin.list.form', ['form' => $form, 'meta' => $this->meta]);
+        return view('admin.list.form', [
+            'form' => $form, 'meta' => $this->meta,
+        ]);
     }
 
-    public function update(int $id): RedirectResponse
+    final public function update(int $id): RedirectResponse
     {
         $model = $this->modelRepository->findOrFail($id);
         $this->authorize('update', $model);
@@ -112,7 +127,7 @@ class AdminResourceController extends AdminController
         if (!$form->isValid()) {
             if (env('APP_ENV') === 'testing') {
                 $errors = $form->getErrors();
-                if (strpos(json_encode($errors), 'file') === false) {
+                if (mb_strpos(json_encode($errors), 'file') === false) {
                     dd($errors);
                 }
             } else {
@@ -126,12 +141,15 @@ class AdminResourceController extends AdminController
         //     activity('Updated')->performedOn($model)->causedBy(Auth::user())
         //         ->log($this->modelName . ' Updated');
         // }
-        $this->httpRequest->session()->flash('alert-success', $this->modelNameTranslate . __('updated_successfully'));
+        $this->httpRequest->session()->flash(
+            'alert-success',
+            $this->modelNameTranslate . __('updated_successfully')
+        );
 
         return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
     }
 
-    public function destroy(int $id): RedirectResponse
+    final public function destroy(int $id): RedirectResponse
     {
         $model = $this->modelRepository->findOrFail($id);
         $this->authorize('delete', $model);
@@ -145,10 +163,12 @@ class AdminResourceController extends AdminController
         // }
         // $this->httpRequest->session()->flash('alert-success', $this->modelNameTranslate . __('deleted_successfully'));
 
-        return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
+        return redirect()->route(
+            'admin.' . $this->modelNameSlug . '.list.index'
+        );
     }
 
-    public function restore(int $id): RedirectResponse
+    final public function restore(int $id): RedirectResponse
     {
         $model = $this->modelRepository->withTrashed()->findOrFail($id);
         $this->authorize('delete', $model);
@@ -160,12 +180,15 @@ class AdminResourceController extends AdminController
         //     activity('Restored')->performedOn($model)->causedBy(Auth::user())
         //         ->log($this->modelName . ' Restored');
         // }
-        $this->httpRequest->session()->flash('alert-success', $this->modelNameTranslate . __('restored_successfully'));
+        $this->httpRequest->session()->flash(
+            'alert-success',
+            $this->modelNameTranslate . __('restored_successfully')
+        );
 
         return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
     }
 
-    public function print(): View
+    final public function print(): View
     {
         $this->authorize('index', $this->modelNamespace);
         $list = $this->modelRepository->all();
@@ -173,17 +196,17 @@ class AdminResourceController extends AdminController
         return view('admin.common.print', compact('list'));
     }
 
-    public function pdf()
+    final public function pdf()
     {
         $this->authorize('index', $this->modelNamespace);
         $list = $this->modelRepository->all();
 
-        return \PDF::loadView('admin.common.print', compact('list'))
+        return PDF::loadView('admin.common.print', compact('list'))
             ->setPaper('a4', 'landscape')
             ->download($this->modelName . '.pdf');
     }
 
-    public function export()
+    final public function export()
     {
         $this->authorize('index', $this->modelNamespace);
         $exportClassName = 'App\Cms\Export';
@@ -193,7 +216,7 @@ class AdminResourceController extends AdminController
         return Excel::download($exportRepository, $this->modelName . '.xlsx');
     }
 
-    public function import()
+    final public function import()
     {
         $this->authorize('index', $this->modelNamespace);
         $importClassName = 'App\Cms\Import';
@@ -204,7 +227,7 @@ class AdminResourceController extends AdminController
         return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
     }
 
-    public function toggleActivated(int $id)
+    final public function toggleActivated(int $id)
     {
         $model = $this->modelRepository->findOrFail($id);
         $this->authorize('update', $model);
@@ -212,7 +235,9 @@ class AdminResourceController extends AdminController
         $model->update();
 
         return response()->json([
-            'data' => ['activated' => $model->activated],
+            'data' => [
+                'activated' => $model->activated,
+            ],
         ]);
     }
 
@@ -221,30 +246,27 @@ class AdminResourceController extends AdminController
         return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
     }
 
-    public function datatable()
+    final public function datatable()
     {
         $this->authorize('index', $this->modelNamespace);
         $list = $this->modelRepository->orderBy('updated_at', 'desc');
 
         $datatable = datatables()
             ->of($list)
-            ->addColumn('show_url', function ($model) {
-                return route('admin.' . $this->modelNameSlug . '.list.show', $model);
-            })
-            ->addColumn('edit_url', function ($model) {
-                return route('admin.' . $this->modelNameSlug . '.list.edit', $model);
-            })
-            ->addColumn('delete_url', function ($model) {
-                return route('admin.' . $this->modelNameSlug . '.list.destroy', $model);
-            });
+            ->addColumn('show_url', fn ($model) => route('admin.' . $this->modelNameSlug . '.list.show', $model))
+            ->addColumn('edit_url', fn ($model) => route('admin.' . $this->modelNameSlug . '.list.edit', $model))
+            ->addColumn(
+                'delete_url',
+                fn ($model) => route('admin.' . $this->modelNameSlug . '.list.destroy', $model)
+            );
         if ($this->modelName === 'Notification') {
-            $datatable->addColumn('user', function ($model) {
-                return $model->user->name;
-            })->addColumn('type', function ($model) {
-                return str_replace('App\Notifications\\', '', $model->type);
-            })->addColumn('data', function ($model) {
-                return json_decode($model->data)->data;
-            });
+            $datatable->addColumn('user', fn ($model) => $model->user->name)->addColumn(
+                'type',
+                fn ($model) => str_replace('App\Notifications\\', '', $model->type)
+            )->addColumn(
+                'data',
+                fn ($model) => json_decode($model->data)->data
+            );
         } elseif ($this->modelName === 'Block') {
             $datatable->addColumn('pages', function ($model) {
                 $pages = $model->pages()->pluck('title')->toArray();
@@ -257,34 +279,48 @@ class AdminResourceController extends AdminController
                 } else {
                     $output .= '-';
                 }
+
                 return $output;
             });
         } elseif ($this->modelName === 'Role') {
-            $datatable->addColumn('permissions', function ($model) {
-                return implode(',<br>', $model->permissions()->pluck('name')->toArray());
-            })
+            $datatable->addColumn(
+                'permissions',
+                fn ($model) => implode(',<br>', $model->permissions()->pluck('name')->toArray())
+            )
                 ->addColumn('users', function ($model) {
-                    return implode(',<br>', \App\Models\User::role($model->name)->select('email')->pluck('email')->toArray());
+                    return implode(
+                        ',<br>',
+                        \App\Models\User::role($model->name)->select('email')->pluck('email')->toArray()
+                    );
                 });
         }
         if (collect($this->modelColumns)->where('name', 'tags')->count() > 0) {
-            $datatable->addColumn('tags', function ($model) {
-                return implode(', ', $model->tags->pluck('title')->toArray());
-            });
+            $datatable->addColumn('tags', fn ($model) => implode(', ', $model->tags->pluck('title')->toArray()));
         }
-        $datatable->addColumn('user_id', function ($model) {
-            return $model->user ? $model->user->id . ' ' . $model->user->name : '';
-        });
-        $datatable->addColumn('category_id', function ($model) {
-            return $model->category ? $model->category->id . '-' . $model->category->title : '';
-        });
+        $datatable->addColumn(
+            'user_id',
+            fn ($model) => $model->user ? $model->user->id . ' ' . $model->user->name : ''
+        );
+        $datatable->addColumn(
+            'category_id',
+            fn ($model) => $model->category ? $model->category->id . '-' . $model->category->title : ''
+        );
         $datatable->addColumn('image', function ($model) {
-            if (method_exists($model, 'avatar'))
+            if (method_exists($model, 'avatar')) {
                 return '<img style="width:80%" src="' . $model->avatar() . '">';
+            }
+
+            return '';
+        });
+        $datatable->addColumn('images_gallery', function ($model) {
+            if (method_exists($model, 'avatar')) {
+                return '<img style="width:80%" src="' . $model->avatar('images_gallery') . '">';
+            }
+
             return '';
         });
 
-        return $datatable->rawColumns(['id', 'order', 'image', 'content', 'users', 'permissions'])
+        return $datatable->rawColumns(['id', 'order', 'image', 'images_gallery', 'content', 'users', 'permissions'])
             ->toJson();
     }
 }

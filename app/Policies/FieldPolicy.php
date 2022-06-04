@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Cms\Policy;
 
-class FieldPolicy extends Policy
+final class FieldPolicy extends Policy
 {
-	public string $modelNameSlug = 'field';
+    public string $modelNameSlug = 'field';
 }

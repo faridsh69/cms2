@@ -1,24 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Cms;
 
 use App\Models\File;
-use Image;
 use Illuminate\Support\Facades\Storage;
+use Image;
 use Str;
 
-class FileService
+final class FileService
 {
-    const UPLOAD_PATH_PREFIX = 'public/';
-    const DATABASE_SRC_PREFIX = 'storage';
-    const THUMBNAIL_WIDTH = 200;
+    private const UPLOAD_PATH_PREFIX = 'public/';
 
-    public function save($file, $model, string $title = 'file')
+    private const DATABASE_SRC_PREFIX = 'storage';
+
+    private const THUMBNAIL_WIDTH = 200;
+
+    public function save($file, $model, string $title = 'file'): void
     {
         $uploadFolder = config('cms.config.upload_folder');
         // This service can upload both single and array of files
         $gallery = $file;
-        if (!is_array($file)) {
+        if (!\is_array($file)) {
             $gallery = [$file];
         }
         foreach ($gallery as $file) {
@@ -29,7 +33,7 @@ class FileService
             $size = $file->getSize();
             $mimeType = $file->getMimeType();
             $extension = $file->getClientOriginalExtension();
-            $randomCode = rand(1000000, 9999999);
+            $randomCode = mt_rand(1000000, 9999999);
             $fileName = $title . '-' . $randomCode . '.' . $extension;
 
             $uploadFolderPath = self::UPLOAD_PATH_PREFIX . $uploadFolder . $modelNameSlug . '/' . $fileableId . '/';
@@ -38,10 +42,10 @@ class FileService
             Storage::putFileAs($uploadFolderPath, $file, $fileName);
 
             // Save thumbnail if it is an image
-            if (strpos($mimeType, 'image') === 0) {
+            if (mb_strpos($mimeType, 'image') === 0) {
                 $thumbnailFileName = $title . '-' . $randomCode . '-' . 'thumbnail' . '.' . $extension;
                 $intervationImage = Image::make($file);
-                $intervationImage->resize(null, self::THUMBNAIL_WIDTH, function ($constraint) {
+                $intervationImage->resize(null, self::THUMBNAIL_WIDTH, function ($constraint): void {
                     $constraint->aspectRatio();
                 });
                 $intervationUploadPath = storage_path('app/' . $uploadFolderPath);

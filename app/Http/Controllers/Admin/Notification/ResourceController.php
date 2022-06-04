@@ -1,15 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin\Notification;
 
+use App\Cms\AdminResourceController;
 use App\Models\User;
 use App\Notifications\SiteNotification;
-use App\Cms\AdminResourceController;
 use Auth;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
 
-class ResourceController extends AdminResourceController
+final class ResourceController extends AdminResourceController
 {
     public string $modelNameSlug = 'notification';
 
@@ -50,7 +51,10 @@ class ResourceController extends AdminResourceController
 
     public function update(int $id): RedirectResponse
     {
-        $this->httpRequest->session()->flash('alert-danger', $this->modelNameTranslate . __(' update does not exist!'));
+        $this->httpRequest->session()->flash(
+            'alert-danger',
+            $this->modelNameTranslate . __(' update does not exist!')
+        );
 
         return $this->redirect();
     }

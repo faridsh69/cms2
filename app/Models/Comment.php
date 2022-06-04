@@ -1,17 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Cms\Model;
 
-class Comment extends Model
+final class Comment extends Model
 {
     public $columns = [
-        ['name' => 'user_id'],
-        ['name' => 'content'],
-        ['name' => 'activated'],
-        ['name' => 'image'],
-        ['name' => 'video'],
+        [
+            'name' => 'user_id',
+        ],
+        [
+            'name' => 'content',
+        ],
+        [
+            'name' => 'activated',
+        ],
+        [
+            'name' => 'image',
+        ],
+        [
+            'name' => 'video',
+        ],
         [
             'name' => 'commentable_type',
             'type' => 'string',

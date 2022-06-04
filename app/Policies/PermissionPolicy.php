@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Cms\Policy;
 
-class PermissionPolicy extends Policy
+final class PermissionPolicy extends Policy
 {
-	public string $modelNameSlug = 'permission';
+    public string $modelNameSlug = 'permission';
 }

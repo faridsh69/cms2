@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Cms\Policy;
 
-class NotificationPolicy extends Policy
+final class NotificationPolicy extends Policy
 {
-	public string $modelNameSlug = 'notification';
+    public string $modelNameSlug = 'notification';
 }

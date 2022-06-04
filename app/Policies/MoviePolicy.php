@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Cms\Policy;
 
-class MoviePolicy extends Policy
+final class MoviePolicy extends Policy
 {
-	public string $modelNameSlug = 'movie';
+    public string $modelNameSlug = 'movie';
 }

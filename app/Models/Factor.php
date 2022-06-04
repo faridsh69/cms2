@@ -1,31 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
-use App\Cms\Model;
-use App\Cms\FactorService;
+use App\Cms\{FactorService, Model};
+use Auth;
 
-class Factor extends Model
+final class Factor extends Model
 {
-    const STATUS_INITIAL = 1;
+    public const STATUS_INITIAL = 1;
 
-    const STATUS_PAYMENT = 2;
+    public const STATUS_PAYMENT = 2;
 
-    const STATUS_PROCCESSING = 3;
+    public const STATUS_PROCCESSING = 3;
 
-    const STATUS_PREPARING = 4;
+    public const STATUS_PREPARING = 4;
 
-    const STATUS_DELIVERING = 5;
+    public const STATUS_DELIVERING = 5;
 
-    const STATUS_CANCELED = 6;
+    public const STATUS_CANCELED = 6;
 
-    const STATUS_SUCCEED = 7;
+    public const STATUS_SUCCEED = 7;
 
-    const PAYMENT_LOCAL = 'پرداخت در محل';
+    public const PAYMENT_LOCAL = 'پرداخت در محل';
 
-    const PAYMENT_CART = 'پرداخت کارت به کارت';
+    public const PAYMENT_CART = 'پرداخت کارت به کارت';
 
-    const PAYMENT_ONLINE = 'پرداخت آنلاین';
+    public const PAYMENT_ONLINE = 'پرداخت آنلاین';
 
     public $columns = [
         [
@@ -170,13 +172,17 @@ class Factor extends Model
             'multiple' => false,
             'table' => false,
         ],
-        ['name' => 'user_id'],
-        ['name' => 'activated'],
+        [
+            'name' => 'user_id',
+        ],
+        [
+            'name' => 'activated',
+        ],
     ];
 
     public function scopeCurrentFactor($query)
     {
-        return $query->where('user_id', \Auth::id())
+        return $query->where('user_id', Auth::id())
             ->where('status', '<', 3)
             // ->where('admin_seen', 0)
             // ->where('created_at', '>', carbon::now()->subHour() )
@@ -185,7 +191,9 @@ class Factor extends Model
 
     public function products()
     {
-        return $this->belongsToMany('App\Models\Product')->withPivot('count')->withPivot('price')->withPivot('discount_price');
+        return $this->belongsToMany('App\Models\Product')->withPivot('count')->withPivot('price')->withPivot(
+            'discount_price'
+        );
     }
 
     public function address()
@@ -211,8 +219,8 @@ class Factor extends Model
             $this->products()->syncWithoutDetaching([
                 $product->id => [
                     'count' => $count,
-                    'price' =>  $product->price,
-                    'discount_price' =>  $product->discount_price,
+                    'price' => $product->price,
+                    'discount_price' => $product->discount_price,
                 ],
             ]);
         }
@@ -242,6 +250,7 @@ class Factor extends Model
         if ($total_price < 0) {
             $total_price = 0;
         }
+
         return $total_price;
     }
 
@@ -256,6 +265,7 @@ class Factor extends Model
                 $total_price += $item->pivot->count * $item->pivot->price;
             }
         }
+
         return $total_price;
     }
 
@@ -271,7 +281,7 @@ class Factor extends Model
         return $this;
     }
 
-    public function addTagendToFactor($tagend)
+    public function addTagendToFactor($tagend): void
     {
         if ($tagend->type === 0) { // absolute
             if ($tagend->sign === 1) {

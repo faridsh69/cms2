@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Cms\Model;
 
-class Tag extends Model
+final class Tag extends Model
 {
     public $columns = [
         [
@@ -17,15 +19,30 @@ class Tag extends Model
             'form_enum_class' => 'ModelType',
             'table' => true,
         ],
-        ['name' => 'title'],
-        ['name' => 'url'],
-        ['name' => 'icon'],
-        ['name' => 'activated'],
-        ['name' => 'language'],
+        [
+            'name' => 'title',
+        ],
+        [
+            'name' => 'url',
+        ],
+        [
+            'name' => 'icon',
+        ],
+        [
+            'name' => 'activated',
+        ],
+        [
+            'name' => 'language',
+        ],
     ];
 
     public function modelsWithThisType()
     {
-        return $this->belongsToMany(config('cms.config.models_namespace') . $this->type, 'taggables', 'tag_id', 'taggable_id');
+        return $this->belongsToMany(
+            config('cms.config.models_namespace') . $this->type,
+            'taggables',
+            'tag_id',
+            'taggable_id'
+        );
     }
 }

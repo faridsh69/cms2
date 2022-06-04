@@ -1,28 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin\Dashboard;
 
-use App\Cms\AdminResourceController;
-use App\Cms\FileService;
-use App\Models\Activity;
-use App\Models\Address;
-use App\Notifications\EmailVerified;
-use App\Notifications\PhoneVerified;
-use App\Notifications\ProfileUpdated;
+use App\Cms\{AdminResourceController, FileService};
+use App\Models\{Activity, Address};
+use App\Notifications\{EmailVerified, PhoneVerified, ProfileUpdated};
 use Auth;
 use Carbon\Carbon;
-use Illuminate\View\View;
-use Route;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
-class DashboardController extends AdminResourceController
+final class DashboardController extends AdminResourceController
 {
     public string $modelNameSlug = 'user';
 
     public function index(): view
     {
         $this->meta['title'] = __('dashboard');
-        return view('admin.page.dashboard.index', ['meta' => $this->meta]);
+
+        return view('admin.page.dashboard.index', [
+            'meta' => $this->meta,
+        ]);
     }
 
     public function redirect(): RedirectResponse
@@ -49,12 +49,14 @@ class DashboardController extends AdminResourceController
             'method' => 'PUT',
             'url' => route('admin.dashboard.update-profile'),
             'class' => 'm-form m-form--state',
-            'id' =>  'admin_form',
+            'id' => 'admin_form',
             'model' => Auth::user(),
             'enctype' => 'multipart/form-data',
         ]);
 
-        return view('admin.list.form', ['form' => $form, 'meta' => $this->meta]);
+        return view('admin.list.form', [
+            'form' => $form, 'meta' => $this->meta,
+        ]);
     }
 
     public function updateProfile(): RedirectResponse
@@ -77,7 +79,10 @@ class DashboardController extends AdminResourceController
         //     ->performedOn($model)
         //     ->causedBy(Auth::user())
         //     ->log('User Profile Updated');
-        $this->httpRequest->session()->flash('alert-success', 'Profile Updated Successfully!');
+        $this->httpRequest->session()->flash(
+            'alert-success',
+            'Profile Updated Successfully!'
+        );
 
         return redirect()->route('admin.dashboard.profile');
     }
@@ -90,14 +95,18 @@ class DashboardController extends AdminResourceController
             ->orderBy('id', 'desc')
             ->get();
 
-        return view('admin.page.dashboard.activity', ['activities' => $activities, 'meta' => $this->meta]);
+        return view('admin.page.dashboard.activity', [
+            'activities' => $activities, 'meta' => $this->meta,
+        ]);
     }
 
     public function identify(): view
     {
         $this->meta['title'] = __('identify');
 
-        return view('admin.page.dashboard.identify', ['meta' => $this->meta]);
+        return view('admin.page.dashboard.identify', [
+            'meta' => $this->meta,
+        ]);
     }
 
     public function identifyEmail(): view
@@ -107,16 +116,18 @@ class DashboardController extends AdminResourceController
             return redirect()->back();
         }
         if (!$authUser->activation_code) {
-            $code = rand(1000, 9999);
+            $code = mt_rand(1000, 9999);
             $authUser->activation_code = $code;
-            $emailVerifiedNotification =  new EmailVerified();
+            $emailVerifiedNotification = new EmailVerified();
             $emailVerifiedNotification->setCode($code);
             $authUser->notify($emailVerifiedNotification);
             $authUser->update();
         }
         $this->meta['title'] = __('identify email');
 
-        return view('admin.page.dashboard.identify-email', ['meta' => $this->meta]);
+        return view('admin.page.dashboard.identify-email', [
+            'meta' => $this->meta,
+        ]);
     }
 
     public function postIdentifyEmail(): RedirectResponse
@@ -132,9 +143,11 @@ class DashboardController extends AdminResourceController
             $authUser->update();
 
             $this->httpRequest->session()->flash('alert-success', __('email_verified'));
+
             return redirect()->route('admin.dashboard.identify');
         }
         $this->httpRequest->session()->flash('alert-danger', __('wrong_activation_code'));
+
         return redirect()->back();
     }
 
@@ -145,16 +158,18 @@ class DashboardController extends AdminResourceController
             return redirect()->back();
         }
         if (!$authUser->activation_code) {
-            $code = rand(1000, 9999);
+            $code = mt_rand(1000, 9999);
             $authUser->activation_code = $code;
-            $phoneVerifiedNotification =  new PhoneVerified();
+            $phoneVerifiedNotification = new PhoneVerified();
             $phoneVerifiedNotification->setCode($code);
             $authUser->notify($phoneVerifiedNotification);
             $authUser->update();
         }
         $this->meta['title'] = __('identify phone');
 
-        return view('admin.dashboard.identify-phone', ['meta' => $this->meta]);
+        return view('admin.dashboard.identify-phone', [
+            'meta' => $this->meta,
+        ]);
     }
 
     public function postIdentifyPhone(): RedirectResponse
@@ -170,9 +185,11 @@ class DashboardController extends AdminResourceController
             $authUser->update();
 
             $this->httpRequest->session()->flash('alert-success', __('phone_verified'));
+
             return redirect()->route('admin.dashboard.identify');
         }
         $this->httpRequest->session()->flash('alert-danger', __('wrong_activation_code'));
+
         return redirect()->back();
     }
 
@@ -190,6 +207,7 @@ class DashboardController extends AdminResourceController
         }
 
         $this->httpRequest->session()->flash('alert-success', __($documentTitle) . __('uploaded'));
+
         return redirect()->back();
     }
 
@@ -197,6 +215,8 @@ class DashboardController extends AdminResourceController
     {
         $this->meta['title'] = __('icons');
 
-        return view('admin.page.dashboard.icons', ['meta' => $this->meta]);
+        return view('admin.page.dashboard.icons', [
+            'meta' => $this->meta,
+        ]);
     }
 }

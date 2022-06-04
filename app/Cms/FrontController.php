@@ -1,18 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Cms;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
-use App\Models\Tag;
+use App\Models\{Category, Tag};
 use Auth;
+use Cache;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\View\View;
 use Str;
-use Cache;
 
-class FrontController extends Controller
+abstract class FrontController extends Controller
 {
     use CmsMainTrait;
 
@@ -43,32 +43,13 @@ class FrontController extends Controller
             ->paginate(config('setting-general.pagination_number'));
 
         $CategoryAndTags = $this->getCategoryAndTags();
+
         return view('front.list.index', [
             'meta' => $this->meta,
             'list' => $list,
             'categories' => $CategoryAndTags['categories'],
-            'tags' => $CategoryAndTags['tags']
+            'tags' => $CategoryAndTags['tags'],
         ]);
-    }
-
-    private function getCategoryAndTags(): array
-    {
-        $categories = Cache::remember('category.' . $this->modelNameSlug, 10, function () {
-            return Category::ofType($this->modelName)->active()->language()
-                ->orderBy('updated_at', 'desc')
-                ->get();
-        });
-
-        $tags = Cache::remember('tag.' . $this->modelNameSlug, 10, function () {
-            return Tag::ofType($this->modelName)->active()->language()
-                ->orderBy('updated_at', 'desc')
-                ->get();
-        });
-
-        return [
-            'categories' => $categories,
-            'tags' => $tags,
-        ];
     }
 
     public function show(string $url): View
@@ -89,7 +70,10 @@ class FrontController extends Controller
             $this->meta['canonical_url'] = $item->canonical_url;
         }
 
-        return view('front.list.show', ['item' => $item, 'meta' => $this->meta]);
+        return view('front.list.show', [
+            'item' => $item,
+            'meta' => $this->meta,
+        ]);
     }
 
     public function getCategory($url)
@@ -128,7 +112,11 @@ class FrontController extends Controller
         $this->meta['title'] = $this->modelNameTranslate . ' | Category';
         $this->meta['canonical_url'] = route('front.' . $this->modelNameSlug . '.index');
 
-        return view('front.list.index', ['meta' => $this->meta, 'list' => $list, 'categories' => $categories]);
+        return view('front.list.index', [
+            'meta' => $this->meta,
+            'list' => $list,
+            'categories' => $categories,
+        ]);
     }
 
     public function getTag($url)
@@ -147,7 +135,11 @@ class FrontController extends Controller
             ->orderBy('updated_at', 'desc')
             ->paginate(config('setting-general.pagination_number'));
 
-        return view('front.list.index', ['meta' => $this->meta, 'list' => $list, 'tag' => $tag]);
+        return view('front.list.index', [
+            'meta' => $this->meta,
+            'list' => $list,
+            'tag' => $tag,
+        ]);
     }
 
     public function getTags()
@@ -163,7 +155,11 @@ class FrontController extends Controller
         $this->meta['title'] = $this->modelNameTranslate . ' | Tag';
         $this->meta['canonical_url'] = route('front.' . $this->modelNameSlug . '.index');
 
-        return view('front.list.index', ['meta' => $this->meta, 'list' => $list, 'tags' => $tags]);
+        return view('front.list.index', [
+            'meta' => $this->meta,
+            'list' => $list,
+            'tags' => $tags,
+        ]);
     }
 
     public function comment(string $url, \App\Models\Comment $commentModel)
@@ -214,5 +210,25 @@ class FrontController extends Controller
         }
 
         return response()->json();
+    }
+
+    private function getCategoryAndTags(): array
+    {
+        $categories = Cache::remember('category.' . $this->modelNameSlug, 10, function () {
+            return Category::ofType($this->modelName)->active()->language()
+                ->orderBy('updated_at', 'desc')
+                ->get();
+        });
+
+        $tags = Cache::remember('tag.' . $this->modelNameSlug, 10, function () {
+            return Tag::ofType($this->modelName)->active()->language()
+                ->orderBy('updated_at', 'desc')
+                ->get();
+        });
+
+        return [
+            'categories' => $categories,
+            'tags' => $tags,
+        ];
     }
 }

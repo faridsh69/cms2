@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Cms\Policy;
 
-class FilePolicy extends Policy
+final class FilePolicy extends Policy
 {
-	public string $modelNameSlug = 'file';
+    public string $modelNameSlug = 'file';
 }

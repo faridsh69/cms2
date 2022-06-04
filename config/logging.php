@@ -1,11 +1,10 @@
 <?php
 
-use Monolog\Handler\NullHandler;
-use Monolog\Handler\StreamHandler;
-use Monolog\Handler\SyslogUdpHandler;
+declare(strict_types=1);
+
+use Monolog\Handler\{NullHandler, StreamHandler, SyslogUdpHandler};
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Log Channel
@@ -17,7 +16,10 @@ return [
     |
     */
 
-    'default' => env('LOG_CHANNEL', 'stack'),
+    'default' => env(
+        'LOG_CHANNEL',
+        'stack'
+    ),
 
     /*
     |--------------------------------------------------------------------------
@@ -30,7 +32,10 @@ return [
     |
     */
 
-    'deprecations' => env('LOG_DEPRECATIONS_CHANNEL', 'null'),
+    'deprecations' => env(
+        'LOG_DEPRECATIONS_CHANNEL',
+        'null'
+    ),
 
     /*
     |--------------------------------------------------------------------------
@@ -114,5 +119,4 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
     ],
-
 ];

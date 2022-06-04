@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Cms\Model;
 
-class Field extends Model
+final class Field extends Model
 {
     public $columns = [
         [
@@ -35,7 +37,9 @@ class Field extends Model
             'form_type' => '',
             'table' => false,
         ],
-        ['name' => 'order'],
+        [
+            'name' => 'order',
+        ],
         [
             'name' => 'help',
             'type' => 'string',
@@ -54,8 +58,12 @@ class Field extends Model
             'form_type' => '',
             'table' => false,
         ],
-        ['name' => 'language'],
-        ['name' => 'activated'],
+        [
+            'name' => 'language',
+        ],
+        [
+            'name' => 'activated',
+        ],
     ];
 
     public function forms()

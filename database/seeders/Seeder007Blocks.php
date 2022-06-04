@@ -1,30 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\Block;
 use Illuminate\Database\Seeder;
 
-class Seeder007Blocks extends Seeder
+final class Seeder007Blocks extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $blocks = [
             [
-            	'id' => 1,
+                'id' => 1,
                 'order' => 10,
                 'type' => 'menu',
                 'show_all_pages' => 1,
-            	'pages_list' => [],
-            	'activated' => 1,
+                'pages_list' => [],
+                'activated' => 1,
             ],
             [
-            	'id' => 2,
+                'id' => 2,
                 'order' => 20,
-            	'type' => 'header',
+                'type' => 'header',
                 'show_all_pages' => 0,
                 'pages_list' => [1],
-            	'activated' => 1,
+                'activated' => 1,
             ],
             [
                 'id' => 3,
@@ -51,9 +53,9 @@ class Seeder007Blocks extends Seeder
                 'activated' => 1,
             ],
             [
-            	'id' => 6,
+                'id' => 6,
                 'order' => 60,
-            	'type' => 'content',
+                'type' => 'content',
                 'show_all_pages' => 1,
                 'pages_list' => [],
                 'activated' => 1,
@@ -67,25 +69,25 @@ class Seeder007Blocks extends Seeder
                 'activated' => 1,
             ],
             [
-            	'id' => 8,
+                'id' => 8,
                 'order' => 80,
-            	'type' => 'video',
+                'type' => 'video',
                 'show_all_pages' => 0,
                 'pages_list' => [1],
                 'activated' => 1,
             ],
             [
-            	'id' => 9,
+                'id' => 9,
                 'order' => 90,
-            	'type' => 'counting',
+                'type' => 'counting',
                 'show_all_pages' => 0,
                 'pages_list' => [1],
                 'activated' => 1,
             ],
             [
-            	'id' => 10,
+                'id' => 10,
                 'order' => 100,
-            	'type' => 'product',
+                'type' => 'product',
                 'show_all_pages' => 0,
                 'pages_list' => [1],
                 'activated' => 1,
@@ -99,17 +101,17 @@ class Seeder007Blocks extends Seeder
                 'activated' => 1,
             ],
             [
-            	'id' => 12,
+                'id' => 12,
                 'order' => 120,
-            	'type' => 'pricing',
+                'type' => 'pricing',
                 'show_all_pages' => 0,
                 'pages_list' => [1],
                 'activated' => 1,
             ],
             [
-            	'id' => 13,
+                'id' => 13,
                 'order' => 130,
-            	'type' => 'testimonial',
+                'type' => 'testimonial',
                 'show_all_pages' => 0,
                 'pages_list' => [1],
                 'activated' => 1,
@@ -147,9 +149,9 @@ class Seeder007Blocks extends Seeder
                 'activated' => 1,
             ],
             [
-            	'id' => 18,
+                'id' => 18,
                 'order' => 180,
-            	'type' => 'subscribe',
+                'type' => 'subscribe',
                 'show_all_pages' => 1,
                 'pages_list' => [],
                 'activated' => 1,
@@ -163,17 +165,17 @@ class Seeder007Blocks extends Seeder
                 'activated' => 0,
             ],
             [
-            	'id' => 20,
+                'id' => 20,
                 'order' => 200,
-            	'type' => 'contact',
+                'type' => 'contact',
                 'show_all_pages' => 0,
                 'pages_list' => [3], // contact page
                 'activated' => 1,
             ],
             [
-            	'id' => 21,
+                'id' => 21,
                 'order' => 210,
-            	'type' => 'footer',
+                'type' => 'footer',
                 'show_all_pages' => 1,
                 'pages_list' => [],
                 'activated' => 1,
@@ -196,9 +198,11 @@ class Seeder007Blocks extends Seeder
             ],
         ];
 
-        foreach($blocks as $block){
+        foreach ($blocks as $block) {
             $block_model = Block::updateOrCreate(
-                ['id' => $block['id']],
+                [
+                    'id' => $block['id'],
+                ],
                 [
                     'title' => $block['type'],
                     'order' => $block['order'],

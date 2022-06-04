@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 $cms = [
     'config' => [
         'models_namespace' => 'App\Models\\',
@@ -308,7 +310,7 @@ $cms['social_companies'] = [
 ];
 
 foreach ($cms['social_companies'] as $social_company) {
-    $cms[strtolower($social_company)] = [
+    $cms[mb_strtolower($social_company)] = [
         'client_id' => env($social_company . '_CLIENT_ID'),
         'client_secret' => env($social_company . '_CLIENT_SECRET'),
         'redirect' => env($social_company . '_CLIENT_CALLBACK'),

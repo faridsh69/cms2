@@ -1,63 +1,63 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
-use App\Models\Product;
-use App\Models\Tagend;
+use App\Models\{Product, Tagend};
 use Illuminate\Database\Seeder;
 use Str;
 
-class Seeder005Products extends Seeder
+final class Seeder005Products extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $products = [
-        	[
-        		'title' => 'Dollor',
-        		'price' => '1',
-        	],
-        	[
-        		'title' => 'Teter USDT Erc20',
-        		'price' => '13800',
-        	],
-        	[
-        		'title' => 'PolkaDot',
-        		'price' => '8000',
-        	],
-        	[
-        		'title' => 'Bitcoin',
-        		'price' => '89800000',
-        	],
-        	[
-        		'title' => 'Perfect Money',
-        		'price' => '11390',
-        	],
-        	[
-        		'title' => 'Web money',
-        		'price' => '8300',
-        	],
-        	[
-        		'title' => 'Ripple',
-        		'price' => '6200',
-        	],
-        	[
-        		'title' => 'Ltc',
-        		'price' => '3800',
-        	],
-        	[
-        		'title' => 'Dogecoin',
-        		'price' => '1200',
-        	],
+            [
+                'title' => 'Dollor',
+                'price' => '1',
+            ],
+            [
+                'title' => 'Teter USDT Erc20',
+                'price' => '13800',
+            ],
+            [
+                'title' => 'PolkaDot',
+                'price' => '8000',
+            ],
+            [
+                'title' => 'Bitcoin',
+                'price' => '89800000',
+            ],
+            [
+                'title' => 'Perfect Money',
+                'price' => '11390',
+            ],
+            [
+                'title' => 'Web money',
+                'price' => '8300',
+            ],
+            [
+                'title' => 'Ripple',
+                'price' => '6200',
+            ],
+            [
+                'title' => 'Ltc',
+                'price' => '3800',
+            ],
+            [
+                'title' => 'Dogecoin',
+                'price' => '1200',
+            ],
         ];
 
         $order = 1;
-    	foreach ($products as $product)
-    	{
+        foreach ($products as $product) {
             $product['order'] = $order;
             $product['language'] = 'en';
             $product['url'] = Str::slug($product['title']);
             $product['category_id'] = 1;
-            $order ++;
+            ++$order;
 
             Product::firstOrCreate($product);
         }
@@ -115,9 +115,10 @@ class Seeder005Products extends Seeder
             ],
         ];
 
-        foreach ($tagends as $tagend)
-        {
-            Tagend::updateOrCreate(['title' => $tagend['title']], $tagend);
+        foreach ($tagends as $tagend) {
+            Tagend::updateOrCreate([
+                'title' => $tagend['title'],
+            ], $tagend);
         }
     }
 }

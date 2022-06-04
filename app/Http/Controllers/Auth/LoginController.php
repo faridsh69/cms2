@@ -1,16 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Notifications\UserLogined;
 use Auth;
-use Illuminate\Http\Request;
+use Illuminate\Http\{RedirectResponse, Request};
 use Socialite;
-use Illuminate\Http\RedirectResponse;
 
-class LoginController extends Controller
+final class LoginController extends Controller
 {
     public function __construct()
     {
@@ -70,7 +71,9 @@ class LoginController extends Controller
     public function handleProviderCallback()
     {
         $userSocial = Socialite::driver('google')->user();
-        $user = User::where(['email' => $userSocial->getEmail()])->first();
+        $user = User::where([
+            'email' => $userSocial->getEmail(),
+        ])->first();
 
         if ($user) {
             Auth::login($user);
@@ -83,6 +86,8 @@ class LoginController extends Controller
             return redirect()->route('admin.dashboard.index');
         }
 
-        return view('auth.register', ['name' => $userSocial->getName(), 'email' => $userSocial->getEmail()]);
+        return view('auth.register', [
+            'name' => $userSocial->getName(), 'email' => $userSocial->getEmail(),
+        ]);
     }
 }

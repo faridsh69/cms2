@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Forms\Fields;
 
 use Kris\LaravelFormBuilder\Fields\FormField;
 
-class Ckeditor extends FormField
+final class Ckeditor extends FormField
 {
     public function render(array $options = [], $showLabel = true, $showField = true, $showError = true)
     {

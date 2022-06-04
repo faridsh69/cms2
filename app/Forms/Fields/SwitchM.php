@@ -1,18 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Forms\Fields;
 
 use Kris\LaravelFormBuilder\Fields\FormField;
 
-class SwitchM extends FormField
+final class SwitchM extends FormField
 {
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function getDefaults()
     {
         return [
-            'attr' => ['class' => null, 'id' => $this->getName()],
+            'attr' => [
+                'class' => null,
+                'id' => $this->getName(),
+            ],
             'value' => 1,
             'checked' => true,
         ];

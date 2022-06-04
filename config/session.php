@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Str;
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Session Driver
@@ -18,7 +19,10 @@ return [
     |
     */
 
-    'driver' => env('SESSION_DRIVER', 'file'),
+    'driver' => env(
+        'SESSION_DRIVER',
+        'file'
+    ),
 
     /*
     |--------------------------------------------------------------------------
@@ -31,7 +35,10 @@ return [
     |
     */
 
-    'lifetime' => env('SESSION_LIFETIME', 120),
+    'lifetime' => env(
+        'SESSION_LIFETIME',
+        120
+    ),
 
     'expire_on_close' => false,
 
@@ -59,7 +66,9 @@ return [
     |
     */
 
-    'files' => storage_path('framework/sessions'),
+    'files' => storage_path(
+        'framework/sessions'
+    ),
 
     /*
     |--------------------------------------------------------------------------
@@ -72,7 +81,10 @@ return [
     |
     */
 
-    'connection' => env('SESSION_CONNECTION', null),
+    'connection' => env(
+        'SESSION_CONNECTION',
+        null
+    ),
 
     /*
     |--------------------------------------------------------------------------
@@ -100,7 +112,10 @@ return [
     |
     */
 
-    'store' => env('SESSION_STORE', null),
+    'store' => env(
+        'SESSION_STORE',
+        null
+    ),
 
     /*
     |--------------------------------------------------------------------------
@@ -113,7 +128,10 @@ return [
     |
     */
 
-    'lottery' => [2, 100],
+    'lottery' => [
+        2,
+        100,
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -128,7 +146,7 @@ return [
 
     'cookie' => env(
         'SESSION_COOKIE',
-        Str::slug(env('APP_NAME', 'laravel'), '_').'_session'
+        Str::slug(env('APP_NAME', 'laravel'), '_') . '_session'
     ),
 
     /*
@@ -155,7 +173,10 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN', null),
+    'domain' => env(
+        'SESSION_DOMAIN',
+        null
+    ),
 
     /*
     |--------------------------------------------------------------------------
@@ -168,7 +189,9 @@ return [
     |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE'),
+    'secure' => env(
+        'SESSION_SECURE_COOKIE'
+    ),
 
     /*
     |--------------------------------------------------------------------------
@@ -197,5 +220,4 @@ return [
     */
 
     'same_site' => 'lax',
-
 ];

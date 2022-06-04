@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Models\Role as RoleSpatie;
 
-class Role extends RoleSpatie
+final class Role extends RoleSpatie
 {
     use SoftDeletes;
 
@@ -68,14 +70,19 @@ class Role extends RoleSpatie
     private function _clearFilesAndArrays($data)
     {
         // unset file and array attributes before saving
-        foreach (collect($this->getColumns())->whereIn('type', ['file', 'array', 'captcha'])->pluck('name') as $file_or_array_column) {
+        foreach (collect($this->getColumns())->whereIn(
+            'type',
+            ['file', 'array', 'captcha']
+        )->pluck(
+            'name'
+        ) as $file_or_array_column) {
             unset($data[$file_or_array_column]);
         }
 
         return $data;
     }
 
-    private function _saveRelatedDataAfterCreate($data, $model)
+    private function _saveRelatedDataAfterCreate($data, $model): void
     {
         if (!isset($data['permissions'])) {
             $data['permissions'] = [];
@@ -84,7 +91,7 @@ class Role extends RoleSpatie
         $model->syncPermissions($permissions);
 
         $role_name = $model->name;
-        $old_users = \App\Models\User::whereHas('roles', function ($q) use ($role_name) {
+        $old_users = \App\Models\User::whereHas('roles', function ($q) use ($role_name): void {
             $q->where('name', $role_name);
         })->get();
         // remove role from old users

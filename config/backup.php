@@ -1,9 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 return [
-
     'backup' => [
-
         /*
          * The name of this application. You can use this name to monitor
          * the backups.
@@ -11,12 +11,8 @@ return [
         'name' => 'Laravel',
 
         'source' => [
-
             'files' => [
-
-                /*
-                 * The list of directories and files that will be included in the backup.
-                 */
+                // The list of directories and files that will be included in the backup.
                 'include' => [
                     base_path(),
                 ],
@@ -37,9 +33,7 @@ return [
                     base_path('storage/app/pdf-fonts'),
                 ],
 
-                /*
-                 * Determines if symlinks should be followed.
-                 */
+                // Determines if symlinks should be followed.
                 'follow_links' => false,
             ],
 
@@ -81,24 +75,19 @@ return [
         'database_dump_compressor' => null,
 
         'destination' => [
-
-            /*
-             * The filename prefix used for the backup zip file.
-             */
+            // The filename prefix used for the backup zip file.
             'filename_prefix' => '',
 
-            /*
-             * The disk names on which the backups will be stored.
-             */
+            // The disk names on which the backups will be stored.
             'disks' => [
                 'local',
             ],
         ],
 
-        /*
-         * The directory where the temporary files will be stored.
-         */
-        'temporary_directory' => storage_path('app/backup-temp'),
+        // The directory where the temporary files will be stored.
+        'temporary_directory' => storage_path(
+            'app/backup-temp'
+        ),
     ],
 
     /*
@@ -109,7 +98,6 @@ return [
      * the `Spatie\Backup\Events` classes.
      */
     'notifications' => [
-
         'notifications' => [
             \Spatie\Backup\Notifications\Notifications\BackupHasFailed::class => ['mail'],
             \Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFound::class => ['mail'],
@@ -132,15 +120,12 @@ return [
         'slack' => [
             'webhook_url' => '',
 
-            /*
-             * If this is set to null the default channel of the webhook will be used.
-             */
+            // If this is set to null the default channel of the webhook will be used.
             'channel' => null,
 
             'username' => null,
 
             'icon' => null,
-
         ],
     ],
 
@@ -184,30 +169,19 @@ return [
         'strategy' => \Spatie\Backup\Tasks\Cleanup\Strategies\DefaultStrategy::class,
 
         'default_strategy' => [
-
-            /*
-             * The number of days for which backups must be kept.
-             */
+            // The number of days for which backups must be kept.
             'keep_all_backups_for_days' => 7,
 
-            /*
-             * The number of days for which daily backups must be kept.
-             */
+            // The number of days for which daily backups must be kept.
             'keep_daily_backups_for_days' => 16,
 
-            /*
-             * The number of weeks for which one weekly backup must be kept.
-             */
+            // The number of weeks for which one weekly backup must be kept.
             'keep_weekly_backups_for_weeks' => 8,
 
-            /*
-             * The number of months for which one monthly backup must be kept.
-             */
+            // The number of months for which one monthly backup must be kept.
             'keep_monthly_backups_for_months' => 4,
 
-            /*
-             * The number of years for which one yearly backup must be kept.
-             */
+            // The number of years for which one yearly backup must be kept.
             'keep_yearly_backups_for_years' => 2,
 
             /*

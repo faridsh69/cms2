@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Models\Permission as PermissionSpatie;
 
-class Permission extends PermissionSpatie
+final class Permission extends PermissionSpatie
 {
     use SoftDeletes;
 
@@ -33,6 +35,7 @@ class Permission extends PermissionSpatie
         } else {
             $model = $this->create($data);
         }
+
         return $model;
     }
 }

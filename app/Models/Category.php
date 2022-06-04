@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Cms\Model;
 
-class Category extends Model
+final class Category extends Model
 {
     public $columns = [
         [
@@ -17,13 +19,27 @@ class Category extends Model
             'form_enum_class' => 'ModelType',
             'table' => true,
         ],
-        ['name' => 'title'],
-        ['name' => 'url'],
-        ['name' => 'description'],
-        ['name' => 'icon'],
-        ['name' => 'image'],
-        ['name' => 'activated'],
-        ['name' => 'order'],
+        [
+            'name' => 'title',
+        ],
+        [
+            'name' => 'url',
+        ],
+        [
+            'name' => 'description',
+        ],
+        [
+            'name' => 'icon',
+        ],
+        [
+            'name' => 'image',
+        ],
+        [
+            'name' => 'activated',
+        ],
+        [
+            'name' => 'order',
+        ],
         [
             'name' => 'parent_id',
             'type' => 'unsignedBigInteger',
@@ -38,7 +54,9 @@ class Category extends Model
             'multiple' => false,
             'table' => false,
         ],
-        ['name' => 'language'],
+        [
+            'name' => 'language',
+        ],
     ];
 
     public function modelsWithThisType()
@@ -56,10 +74,10 @@ class Category extends Model
         return $this->hasMany(self::class, 'parent_id', 'id');
     }
 
-    public static function boot()
+    public static function boot(): void
     {
         parent::boot();
-        self::updating(function ($model) {
+        self::updating(function ($model): void {
             if ($model->parent_id === $model->id) {
                 abort(500);
             }

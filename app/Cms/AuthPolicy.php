@@ -1,25 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Cms;
 
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class AuthPolicy
+abstract class AuthPolicy
 {
     use HandlesAuthorization;
 
-    /*
-    * Define in each policies to find model slug.
-    */
+    // Define in each policies to find model slug.
     public string $modelNameSlug;
 
-    public function index(User $user): bool
+    final public function index(User $user): bool
     {
         return true;
     }
 
-    public function view(User $user, $list): bool
+    final public function view(User $user, $list): bool
     {
         if ($user->can($this->modelNameSlug . '_view')) {
             return true;
@@ -28,12 +28,12 @@ class AuthPolicy
         return $user->id === $list->user_id;
     }
 
-    public function create(User $user): bool
+    final public function create(User $user): bool
     {
         return true;
     }
 
-    public function update(User $user, $list): bool
+    final public function update(User $user, $list): bool
     {
         if ($user->can($this->modelNameSlug . '_update')) {
             return true;
@@ -42,7 +42,7 @@ class AuthPolicy
         return $user->id === $list->user_id;
     }
 
-    public function delete(User $user, $list): bool
+    final public function delete(User $user, $list): bool
     {
         if ($user->can($this->modelNameSlug . '_delete')) {
             return true;

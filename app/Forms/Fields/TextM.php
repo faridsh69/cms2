@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Forms\Fields;
 
 use Config;
 use Kris\LaravelFormBuilder\Fields\FormField;
 
-class TextM extends FormField
+final class TextM extends FormField
 {
     public function getDefaults()
     {

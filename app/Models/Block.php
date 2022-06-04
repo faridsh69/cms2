@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Cms\Model;
 
-class Block extends Model
+final class Block extends Model
 {
     public $columns = [
         [
@@ -17,9 +19,15 @@ class Block extends Model
             'form_enum_class' => 'BlockType',
             'table' => true,
         ],
-        ['name' => 'title'],
-        ['name' => 'order'],
-        ['name' => 'activated'],
+        [
+            'name' => 'title',
+        ],
+        [
+            'name' => 'order',
+        ],
+        [
+            'name' => 'activated',
+        ],
         [
             'name' => 'show_all_pages',
             'type' => 'boolean',
@@ -59,13 +67,22 @@ class Block extends Model
         $output_blocks = [];
         foreach ($blocks as $block) {
             $block_pages = $block->pages;
-            if ($block_pages == null)
+            if ($block_pages === null) {
                 continue;
-            if ($block->show_all_pages && array_search($page_id, $block_pages->pluck('id')->toArray(), true) === false) {
+            }
+            if ($block->show_all_pages && array_search(
+                $page_id,
+                $block_pages->pluck('id')->toArray(),
+                true
+            ) === false) {
                 $output_blocks[] = $block;
             }
 
-            if (!$block->show_all_pages && array_search($page_id, $block_pages->pluck('id')->toArray(), true) !== false) {
+            if (!$block->show_all_pages && array_search(
+                $page_id,
+                $block_pages->pluck('id')->toArray(),
+                true
+            ) !== false) {
                 $output_blocks[] = $block;
             }
         }

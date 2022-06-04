@@ -1,19 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\Module;
 use Illuminate\Database\Seeder;
 use Illuminate\Http\UploadedFile;
 
-class Seeder008Modules extends Seeder
+final class Seeder008Modules extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $laravelCmsFolder = storage_path() . config('cms.config.cms_files');
-        
+
         $modules = [
-            // Breadcrumb 
+            // Breadcrumb
             [
                 'type' => 'breadcrumb',
                 'image' => 'breadcrumb.png',
@@ -335,7 +337,7 @@ class Seeder008Modules extends Seeder
                 $uploadFile = $laravelCmsFolder . $fileName;
                 $module['image'] = new UploadedFile($uploadFile, $uploadFile);
             }
-            $moduleRepository = new Module;
+            $moduleRepository = new Module();
             $moduleRepository->saveWithRelations($module);
         }
     }

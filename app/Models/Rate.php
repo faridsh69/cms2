@@ -1,13 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Cms\Model;
 
-class Rate extends Model
+final class Rate extends Model
 {
     public $columns = [
-        ['name' => 'user_id'],
+        [
+            'name' => 'user_id',
+        ],
         [
             'name' => 'rateable_type',
             'type' => 'string',

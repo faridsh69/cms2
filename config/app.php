@@ -1,7 +1,8 @@
 <?php
 
-return [
+declare(strict_types=1);
 
+return [
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -13,7 +14,10 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env(
+        'APP_NAME',
+        'Laravel'
+    ),
 
     /*
     |--------------------------------------------------------------------------
@@ -26,7 +30,10 @@ return [
     |
     */
 
-    'env' => env('APP_ENV', 'production'),
+    'env' => env(
+        'APP_ENV',
+        'production'
+    ),
 
     /*
     |--------------------------------------------------------------------------
@@ -39,7 +46,10 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool) env(
+        'APP_DEBUG',
+        false
+    ),
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +62,10 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env(
+        'APP_URL',
+        'http://localhost'
+    ),
 
     'asset_url' => env('ASSET_URL', null),
 
@@ -119,7 +132,9 @@ return [
     |
     */
 
-    'key' => env('APP_KEY'),
+    'key' => env(
+        'APP_KEY'
+    ),
 
     'cipher' => 'AES-256-CBC',
 
@@ -135,10 +150,7 @@ return [
     */
 
     'providers' => [
-
-        /*
-         * Laravel Framework Service Providers...
-         */
+        // Laravel Framework Service Providers...
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
@@ -162,19 +174,14 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
-        /*
-         * Package Service Providers...
-         */
+        // Package Service Providers...
 
-        /*
-         * Application Service Providers...
-         */
+        // Application Service Providers...
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
     ],
 
     /*
@@ -189,7 +196,6 @@ return [
     */
 
     'aliases' => [
-
         'App' => Illuminate\Support\Facades\App::class,
         'Arr' => Illuminate\Support\Arr::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
@@ -229,7 +235,5 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
     ],
-
 ];

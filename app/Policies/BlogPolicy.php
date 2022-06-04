@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Cms\Policy;
 
-class BlogPolicy extends Policy
+final class BlogPolicy extends Policy
 {
-	public string $modelNameSlug = 'blog';
+    public string $modelNameSlug = 'blog';
 }

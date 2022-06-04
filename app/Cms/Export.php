@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Cms;
 
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\{FromCollection, WithHeadings};
 
-class Export implements FromCollection, WithHeadings
+final class Export implements FromCollection, WithHeadings
 {
     public $model_columns;
 
@@ -21,7 +22,7 @@ class Export implements FromCollection, WithHeadings
         return [$this->modelColumns];
     }
 
-    public function setModelName($modelName)
+    public function setModelName($modelName): void
     {
         $modelNamespace = config('cms.config.models_namespace') . $modelName;
         $this->modelRepository = new $modelNamespace();

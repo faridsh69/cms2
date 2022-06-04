@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Cms\Policy;
 
-class TravelPolicy extends Policy
+final class TravelPolicy extends Policy
 {
-	public string $modelNameSlug = 'travel';
+    public string $modelNameSlug = 'travel';
 }

@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Notifications;
 
 use App\Cms\Notification;
 
-class SiteNotification extends Notification
+final class SiteNotification extends Notification
 {
 }

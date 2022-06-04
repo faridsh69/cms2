@@ -1,16 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Cms\Model;
 
-class Form extends Model
+final class Form extends Model
 {
     public $columns = [
-        ['name' => 'title'],
-        ['name' => 'description'],
-        ['name' => 'activated'],
-        ['name' => 'language'],
+        [
+            'name' => 'title',
+        ],
+        [
+            'name' => 'description',
+        ],
+        [
+            'name' => 'activated',
+        ],
+        [
+            'name' => 'language',
+        ],
         [
             'name' => 'fields',
             'type' => 'array',

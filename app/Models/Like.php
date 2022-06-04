@@ -1,13 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Cms\Model;
 
-class Like extends Model
+final class Like extends Model
 {
     public $columns = [
-        ['name' => 'user_id'],
+        [
+            'name' => 'user_id',
+        ],
         [
             'name' => 'likeable_type',
             'type' => 'string',

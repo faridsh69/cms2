@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
-class Seeder003Users extends Seeder
+final class Seeder003Users extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $users = [
             [
@@ -41,9 +43,10 @@ class Seeder003Users extends Seeder
             //     'activated' => 1,
             // ],
         ];
-        foreach ($users as $user)
-        {
-            User::updateOrCreate(['id' => $user['id']], $user);
+        foreach ($users as $user) {
+            User::updateOrCreate([
+                'id' => $user['id'],
+            ], $user);
         }
     }
 }

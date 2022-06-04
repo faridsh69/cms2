@@ -1,96 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
+use App\Cms\ModelTrait;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\{hasMany, morphMany};
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
-use App\Cms\ModelTrait;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\hasMany;
-use Illuminate\Database\Eloquent\Relations\morphMany;
 
-class User extends Authenticatable
+final class User extends Authenticatable
 {
     use HasApiTokens;
     use HasRoles;
-    use Notifiable;
     use ModelTrait;
-
-    protected $guarded = [];
-
-    protected $hidden = [
-        'password',
-        'remember_token',
-        'deleted_at',
-    ];
-
-    protected $casts = [
-        'activated' => 'boolean',
-    ];
-
-    public function routeNotificationForSlack($notification)
-    {
-        return 'https://hooks.slack.com/services/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';
-    }
-
-    public function scopeLanguage($query): Builder
-    {
-        return $query;
-    }
-
-    public function addresses(): hasMany
-    {
-        return $this->hasMany(Address::class, 'user_id', 'id');
-    }
-
-    public function activities(): hasMany
-    {
-        return $this->hasMany(Activity::class, 'user_id', 'id');
-    }
-
-    public function likes(): hasMany
-    {
-        return $this->hasMany(Like::class, 'user_id', 'id');
-    }
-
-    public function comments(): hasMany
-    {
-        return $this->hasMany(Comment::class, 'user_id', 'id');
-    }
-
-    public function rates(): hasMany
-    {
-        return $this->hasMany(Rate::class, 'user_id', 'id');
-    }
-
-    public function followings(): hasMany
-    {
-        return $this->hasMany(Follow::class, 'user_id', 'id');
-    }
-
-    public function followers(): morphMany
-    {
-        return $this->morphMany(Follow::class, 'followable');
-    }
-
-
-    // public function getTitleAttribute()
-    // {
-    //     return $this->first_name . ' ' . $this->last_name;
-    // }
-
-    // public function getNameAttribute()
-    // {
-    //     return $this->first_name . ' ' . $this->last_name;
-    // }
-
-    // In RolesSeeder system is giving admin roles to this users.
-    public static function getAdminUsers()
-    {
-        return self::whereIn('id', [1, 2])->get();
-    }
+    use Notifiable;
 
     public $columns = [
         [
@@ -111,11 +38,21 @@ class User extends Authenticatable
             'form_type' => '',
             'table' => true,
         ],
-        ['name' => 'url'],
-        ['name' => 'email'],
-        ['name' => 'phone'],
-        ['name' => 'activated'],
-        ['name' => 'telephone'],
+        [
+            'name' => 'url',
+        ],
+        [
+            'name' => 'email',
+        ],
+        [
+            'name' => 'phone',
+        ],
+        [
+            'name' => 'activated',
+        ],
+        [
+            'name' => 'telephone',
+        ],
         [
             'name' => 'national_code',
             'type' => 'string',
@@ -161,7 +98,9 @@ class User extends Authenticatable
             'form_type' => 'none',
             'table' => false,
         ],
-        ['name' => 'description'],
+        [
+            'name' => 'description',
+        ],
         [
             'name' => 'profile_picture',
             'same_column_name' => 'image',
@@ -304,4 +243,77 @@ class User extends Authenticatable
             'table' => false,
         ],
     ];
+
+    protected $guarded = [];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+        'deleted_at',
+    ];
+
+    protected $casts = [
+        'activated' => 'boolean',
+    ];
+
+    public function routeNotificationForSlack($notification)
+    {
+        return 'https://hooks.slack.com/services/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';
+    }
+
+    public function scopeLanguage($query): Builder
+    {
+        return $query;
+    }
+
+    public function addresses(): hasMany
+    {
+        return $this->hasMany(Address::class, 'user_id', 'id');
+    }
+
+    public function activities(): hasMany
+    {
+        return $this->hasMany(Activity::class, 'user_id', 'id');
+    }
+
+    public function likes(): hasMany
+    {
+        return $this->hasMany(Like::class, 'user_id', 'id');
+    }
+
+    public function comments(): hasMany
+    {
+        return $this->hasMany(Comment::class, 'user_id', 'id');
+    }
+
+    public function rates(): hasMany
+    {
+        return $this->hasMany(Rate::class, 'user_id', 'id');
+    }
+
+    public function followings(): hasMany
+    {
+        return $this->hasMany(Follow::class, 'user_id', 'id');
+    }
+
+    public function followers(): morphMany
+    {
+        return $this->morphMany(Follow::class, 'followable');
+    }
+
+    // public function getTitleAttribute()
+    // {
+    //     return $this->first_name . ' ' . $this->last_name;
+    // }
+
+    // public function getNameAttribute()
+    // {
+    //     return $this->first_name . ' ' . $this->last_name;
+    // }
+
+    // In RolesSeeder system is giving admin roles to this users.
+    public static function getAdminUsers()
+    {
+        return self::whereIn('id', [1, 2])->get();
+    }
 }

@@ -1,42 +1,43 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\Category;
 use Illuminate\Database\Seeder;
 use Str;
 
-class Seeder001Categories extends Seeder
+final class Seeder001Categories extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $categories = [
             [
-            	'type' => 'Blog',
+                'type' => 'Blog',
                 'title' => 'Health',
             ],
             [
-            	'type' => 'Blog',
+                'type' => 'Blog',
                 'title' => 'Financial',
             ],
             [
-            	'type' => 'Blog',
+                'type' => 'Blog',
                 'title' => 'Social',
             ],
             [
-            	'type' => 'Blog',
+                'type' => 'Blog',
                 'title' => 'Personality',
             ],
         ];
 
         $order = 1;
-        foreach ($categories as $category)
-        {
+        foreach ($categories as $category) {
             $category['language'] = 'en';
             $category['order'] = $order;
             $category['url'] = Str::slug($category['title']);
             Category::firstOrCreate($category);
-            $order ++;
+            ++$order;
         }
     }
 }

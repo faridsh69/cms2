@@ -1,23 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
-use App\Models\Block;
-use App\Models\Category;
-use App\Models\Module;
-use App\Models\Page;
-use App\Models\SettingContact;
-use App\Models\SettingDeveloper;
-use App\Models\SettingGeneral;
-use App\Models\Tag;
-use App\Models\User;
+use App\Models\{Block, Category, Module, Page, SettingContact, SettingDeveloper, SettingGeneral, Tag, User};
 use Illuminate\Database\Seeder;
 use Illuminate\Http\UploadedFile;
 use Str;
 
-class CmsLaravelWebsiteSeeder extends Seeder
+final class CmsLaravelWebsiteSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $laravelCmsFolder = storage_path() . config('cms.config.cms_files');
         // Category
@@ -89,7 +83,9 @@ class CmsLaravelWebsiteSeeder extends Seeder
             ],
         ];
         foreach ($users as $user) {
-            User::updateOrCreate(['id' => $user['id']], $user);
+            User::updateOrCreate([
+                'id' => $user['id'],
+            ], $user);
         }
 
         // Page
@@ -218,7 +214,7 @@ class CmsLaravelWebsiteSeeder extends Seeder
 
         foreach ($pages as $page) {
             $page['language'] = 'en';
-            
+
             if (isset($page['image'])) {
                 $fileName = $page['image'];
                 unset($page['image']);
@@ -229,7 +225,7 @@ class CmsLaravelWebsiteSeeder extends Seeder
             $page['tags'] = [];
             $page['relateds'] = [];
 
-            $pageRepository = new Page;
+            $pageRepository = new Page();
             $pageRepository->saveWithRelations($page);
         }
 
@@ -628,7 +624,24 @@ Provided structure for adding theme to Laravel project with blocks and widgets.
             ],
         ];
 
-        $modules_old = Module::whereIn('type', ['menu', 'header', 'breadcrumb', 'main_feature', 'feature', 'product', 'pricing', 'service', 'partner', 'introduce', 'video', 'faq', 'testimonial'])->get();
+        $modules_old = Module::whereIn(
+            'type',
+            [
+                'menu',
+                'header',
+                'breadcrumb',
+                'main_feature',
+                'feature',
+                'product',
+                'pricing',
+                'service',
+                'partner',
+                'introduce',
+                'video',
+                'faq',
+                'testimonial',
+            ]
+        )->get();
 
         foreach ($modules_old as $module) {
             $module->activated = 0;
@@ -656,7 +669,7 @@ Provided structure for adding theme to Laravel project with blocks and widgets.
                 $uploadFile = $laravelCmsFolder . $fileName;
                 $module['image'] = new UploadedFile($uploadFile, $uploadFile);
             }
-            $moduleRepository = new Module;
+            $moduleRepository = new Module();
             $moduleRepository->saveWithRelations($module);
         }
     }

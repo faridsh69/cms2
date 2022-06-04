@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Cms;
 
 use App\Http\Controllers\Controller;
@@ -7,10 +9,10 @@ use App\Models\Category;
 use Illuminate\Http\JsonResponse;
 use Validator;
 
-class ApiController extends Controller
+final class ApiController extends Controller
 {
-    use CmsMainTrait;
     use ApiTrait;
+    use CmsMainTrait;
 
     public function index(): JsonResponse
     {
@@ -41,7 +43,7 @@ class ApiController extends Controller
             ->prepareJsonResponse();
     }
 
-    public function create()
+    public function create(): void
     {
         abort(404);
     }
@@ -107,6 +109,7 @@ class ApiController extends Controller
         if (!$modelEdit) {
             $this->response['status'] = 'error';
             $this->response['message'] = $this->notFoundMessage;
+
             return response()->json($this->response);
         }
         $this->authorize('update', $modelEdit);
@@ -125,12 +128,13 @@ class ApiController extends Controller
         if (!$modelUpdate) {
             $this->response['status'] = 'error';
             $this->response['message'] = $this->notFoundMessage;
+
             return response()->json($this->response);
         }
         $this->authorize('update', $modelUpdate);
 
         $mainData = $this->httpRequest->all();
-        $validator = \Validator::make($mainData, $this->modelRules);
+        $validator = Validator::make($mainData, $this->modelRules);
         if ($validator->fails()) {
             return response()->json($validator->messages(), 200);
         }
@@ -157,6 +161,7 @@ class ApiController extends Controller
         if (!$modelDelete) {
             $this->response['status'] = 'error';
             $this->response['message'] = $this->notFoundMessage;
+
             return response()->json($this->response);
         }
         $this->authorize('delete', $modelDelete);

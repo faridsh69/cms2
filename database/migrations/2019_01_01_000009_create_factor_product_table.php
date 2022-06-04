@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFactorProductTable extends Migration
+final class CreateFactorProductTable extends Migration
 {
-    public function up()
+    public function up(): void
     {
-        Schema::create('factor_product', function (Blueprint $table) {
+        Schema::create('factor_product', function (Blueprint $table): void {
             $table->increments('id');
             $table->integer('price')->unsigned();
             $table->integer('count')->unsigned();
@@ -22,7 +24,7 @@ class CreateFactorProductTable extends Migration
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('factor_product');
     }

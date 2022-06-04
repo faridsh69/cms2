@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Cms;
 
 use Kris\LaravelFormBuilder\Form as LaravelForm;
 
-class Form extends LaravelForm
+abstract class Form extends LaravelForm
 {
     use CmsMainTrait;
 
@@ -12,14 +14,15 @@ class Form extends LaravelForm
 
     public function __construct()
     {
-        if (!$this->modelName)
+        if (!$this->modelName) {
             $this->modelName = 'User';
+        }
         $modelNamespace = config('cms.config.models_namespace') . $this->modelName;
         $modelRepository = new $modelNamespace();
         $this->modelColumns = $modelRepository->getColumns();
     }
 
-    public function buildForm()
+    final public function buildForm(): void
     {
         if (isset($this->model->id)) {
             $this->id = $this->model ? $this->model->id : 0;
@@ -28,12 +31,15 @@ class Form extends LaravelForm
 
         foreach ($this->modelColumns as $column) {
             $name = $column['name'];
-            $rule = isset($column['rule']) ? $column['rule'] : '';
-            $form_type = isset($column['form_type']) ? $column['form_type'] : '';
-            $help = isset($column['help']) ? $column['help'] : ' ';
-            $database = isset($column['database']) ? $column['database'] : null;
+            $rule = $column['rule'] ?? '';
+            $form_type = $column['form_type'] ?? '';
+            $help = $column['help'] ?? ' ';
+            $database = $column['database'] ?? null;
             // if column is unique it will add id for edit mode
-            if ($database === 'unique' || strpos($rule, 'unique') !== false) {
+            if ($database === 'unique' || mb_strpos(
+                $rule,
+                'unique'
+            ) !== false) {
                 $rule .= $this->id;
             }
 
@@ -51,7 +57,8 @@ class Form extends LaravelForm
             // if it dosnt need to add field in form it will be none in columns
             if ($form_type === 'none') {
                 continue;
-            } elseif ($form_type === 'checkbox-m') {
+            }
+            if ($form_type === 'checkbox-m') {
                 $input_type = 'checkbox-m';
             } elseif ($form_type === 'switch-m') {
                 $input_type = 'switch-m';
@@ -62,30 +69,48 @@ class Form extends LaravelForm
             // for convert textarean to ckeditor
             elseif ($form_type === 'ckeditor') {
                 $input_type = 'textarea';
-                $options['attr'] = ['ckeditor' => 'on'];
+                $options['attr'] = [
+                    'ckeditor' => 'on',
+                ];
             }
 
             // create email type input
             elseif ($form_type === 'email') {
-                $options['attr'] = ['type' => 'email'];
+                $options['attr'] = [
+                    'type' => 'email',
+                ];
             } elseif ($form_type === 'password') {
-                $options['attr'] = ['type' => 'password', 'autocomplete' => 'off'];
+                $options['attr'] = [
+                    'type' => 'password', 'autocomplete' => 'off',
+                ];
                 $options['value'] = '';
             } elseif ($form_type === 'confirm_password') {
-                $options['attr'] = ['autocomplete' => 'off'];
+                $options['attr'] = [
+                    'autocomplete' => 'off',
+                ];
             } elseif ($form_type === 'date') {
-                $options['attr'] = ['id' => 'datepicker', 'autocomplete' => 'off'];
+                $options['attr'] = [
+                    'id' => 'datepicker', 'autocomplete' => 'off',
+                ];
             } elseif ($form_type === 'time') {
-                $options['attr'] = ['id' => 'timepicker', 'autocomplete' => 'off'];
+                $options['attr'] = [
+                    'id' => 'timepicker', 'autocomplete' => 'off',
+                ];
             } elseif ($form_type === 'number') {
-                $options['attr'] = ['type' => 'number'];
+                $options['attr'] = [
+                    'type' => 'number',
+                ];
             } elseif ($form_type === 'color') {
                 $input_type = 'color';
             } elseif ($form_type === 'phone') {
-                $options['attr'] = ['placeholder' => '+4917...'];
+                $options['attr'] = [
+                    'placeholder' => '+4917...',
+                ];
             } elseif ($form_type === 'textarea') {
                 $input_type = 'textarea';
-                $options['attr'] = ['rows' => 3];
+                $options['attr'] = [
+                    'rows' => 3,
+                ];
             } elseif ($form_type === 'captcha') {
                 $input_type = 'captcha';
             }
@@ -93,7 +118,7 @@ class Form extends LaravelForm
             elseif ($form_type === 'enum') {
                 $form_enum_class = $column['form_enum_class'];
                 $enum_class_name = 'App\\Enums\\' . $form_enum_class;
-                $enum_class =  new $enum_class_name();
+                $enum_class = new $enum_class_name();
                 $options['choices'] = $enum_class::data;
                 $input_type = 'select';
                 $options['attr']['class'] = 'form-control m-bootstrap-select m-bootstrap-select--pill m-bootstrap-select--air m_selectpicker';
@@ -117,16 +142,14 @@ class Form extends LaravelForm
                 }
                 if (isset($column['query_builder'])) {
                     $q = explode('|', $column['query_builder']);
-                    $options['query_builder'] = function ($query) use ($q) {
-                        return $query->where($q[0], $q[1]);
-                    };
+                    $options['query_builder'] = fn ($query) => $query->where($q[0], $q[1]);
                 }
             }
             // all input files
             elseif ($form_type === 'file') {
                 $input_type = 'file';
-                $options['attr']['accept'] = isset($column['file_accept']) ? $column['file_accept'] : 'image/*';
-                $options['attr']['multiple'] = isset($column['file_multiple']) ? $column['file_multiple'] : false;
+                $options['attr']['accept'] = $column['file_accept'] ?? 'image/*';
+                $options['attr']['multiple'] = $column['file_multiple'] ?? false;
 
                 // In creating mode
                 $options['srcs'] = [];
@@ -142,11 +165,11 @@ class Form extends LaravelForm
         $this->add('submit', 'submit');
     }
 
-    public function addTop()
+    final public function addTop(): void
     {
     }
 
-    public function addBottom()
+    final public function addBottom(): void
     {
     }
 }

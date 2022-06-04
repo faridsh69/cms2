@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Cms\AuthPolicy;
 
-class PostPolicy extends AuthPolicy
+final class PostPolicy extends AuthPolicy
 {
-	public string $modelNameSlug = 'post';
+    public string $modelNameSlug = 'post';
 }

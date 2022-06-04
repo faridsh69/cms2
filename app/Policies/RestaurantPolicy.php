@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Cms\Policy;
 
-class RestaurantPolicy extends Policy
+final class RestaurantPolicy extends Policy
 {
-	public string $modelNameSlug = 'restaurant';
+    public string $modelNameSlug = 'restaurant';
 }

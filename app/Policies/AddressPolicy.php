@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Cms\Policy;
 
-class AddressPolicy extends Policy
+final class AddressPolicy extends Policy
 {
-	public string $modelNameSlug = 'address';
+    public string $modelNameSlug = 'address';
 }

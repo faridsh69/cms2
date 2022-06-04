@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Cms\Policy;
 
-class FoodProgramPolicy extends Policy
+final class FoodProgramPolicy extends Policy
 {
-	public string $modelNameSlug = 'food-program';
+    public string $modelNameSlug = 'food-program';
 }

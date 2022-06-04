@@ -1,17 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Cms;
 
-use App\Notifications\Channels\DatabaseChannel;
-use App\Notifications\Channels\SmsChannel;
+use App\Notifications\Channels\{DatabaseChannel, SmsChannel};
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Messages\SlackMessage;
+use Illuminate\Notifications\Messages\{MailMessage, SlackMessage};
 use Illuminate\Notifications\Notification as LaravelNotification;
 use Str;
 use URL;
 
-class Notification extends LaravelNotification
+final class Notification extends LaravelNotification
 {
     use Queueable;
 
@@ -54,26 +54,35 @@ class Notification extends LaravelNotification
             DatabaseChannel::class,
         ];
 
-        if (!config('setting-developer.notification_events'))
+        if (!config('setting-developer.notification_events')) {
             return $channelList;
+        }
 
-        if ($notifiable->phone && array_search($this->modelSnakeClassName . '_sms', config('setting-developer.notification_events')) !== false) {
+        if ($notifiable->phone && array_search(
+            $this->modelSnakeClassName . '_sms',
+            config('setting-developer.notification_events'),
+            true
+        ) !== false) {
             $channelList[] = SmsChannel::class;
         }
-        if ($notifiable->email && array_search($this->modelSnakeClassName . '_mail', config('setting-developer.notification_events')) !== false) {
+        if ($notifiable->email && array_search(
+            $this->modelSnakeClassName . '_mail',
+            config('setting-developer.notification_events'),
+            true
+        ) !== false) {
             $channelList[] = 'mail';
         }
 
         return $channelList;
     }
 
-    public function setMessage($message)
+    public function setMessage($message): void
     {
         $this->message = $message;
         $this->smsMessage = sprintf(" %s \n %s \n %s", $this->headingTitle, $this->message, $this->appTitle);
     }
 
-    public function setCode($code)
+    public function setCode($code): void
     {
         $this->message = sprintf($this->messageTemplate, $code);
         $this->smsMessage = sprintf(" %s \n %s \n %s", $this->headingTitle, $this->message, $this->appTitle);
@@ -101,7 +110,7 @@ class Notification extends LaravelNotification
             ->content('user_id: ' . $notifiable->id . ' - ' . $this->smsMessage);
     }
 
-    public function editContent()
+    public function editContent(): void
     {
     }
 }

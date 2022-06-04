@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Cms\AuthPolicy;
 
-class LikePolicy extends AuthPolicy
+final class LikePolicy extends AuthPolicy
 {
-	public string $modelNameSlug = 'like';
+    public string $modelNameSlug = 'like';
 }

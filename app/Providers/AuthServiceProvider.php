@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use Cache;
@@ -8,11 +10,11 @@ use Illuminate\Support\Facades\Gate;
 use Laravel\Passport\Passport;
 use Str;
 
-class AuthServiceProvider extends ServiceProvider
+final class AuthServiceProvider extends ServiceProvider
 {
     protected $policies = [];
 
-    public function boot()
+    public function boot(): void
     {
         $seconds = 100;
         $this->policies = Cache::remember('policies', $seconds, function () {
@@ -30,9 +32,7 @@ class AuthServiceProvider extends ServiceProvider
         });
         $this->registerPolicies();
 
-        Gate::define('manage', function ($user, $page) {
-            return $user->can($page . '_manager');
-        });
+        Gate::define('manage', fn ($user, $page) => $user->can($page . '_manager'));
 
         Passport::routes();
     }

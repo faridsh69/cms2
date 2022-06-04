@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Cms\Policy;
 
-class GymProgramPolicy extends Policy
+final class GymProgramPolicy extends Policy
 {
-	public string $modelNameSlug = 'gym-program';
+    public string $modelNameSlug = 'gym-program';
 }

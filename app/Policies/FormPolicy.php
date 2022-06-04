@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Cms\Policy;
 
-class FormPolicy extends Policy
+final class FormPolicy extends Policy
 {
-	public string $modelNameSlug = 'form';
+    public string $modelNameSlug = 'form';
 }

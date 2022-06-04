@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Cms;
 
 use Illuminate\Database\Eloquent\Factories\Factory as LaravelFactory;
 use Illuminate\Http\UploadedFile;
 use Str;
 
-class Factory extends LaravelFactory
+final class Factory extends LaravelFactory
 {
     protected $model = 'App\Models\User';
 
@@ -27,13 +29,13 @@ class Factory extends LaravelFactory
         $modelColumns = $modelRepository->getColumns();
 
         $output = [];
-        $randomNumber = rand(100000, 999999);
+        $randomNumber = mt_rand(100000, 999999);
         foreach ($modelColumns as $column) {
             $fakeData = null;
             $name = $column['name'];
             $type = $column['type'];
-            $form_type = isset($column['form_type']) ? $column['form_type'] : '';
-            $database = isset($column['database']) ? $column['database'] : null;
+            $form_type = $column['form_type'] ?? '';
+            $database = $column['database'] ?? null;
 
             if ($name === 'url') {
                 $fakeData = $this->modelNameSlug . '-url-' . $randomNumber;
@@ -50,7 +52,7 @@ class Factory extends LaravelFactory
             } elseif ($name === 'activated') {
                 $fakeData = 1;
             } elseif ($form_type === 'file') {
-                $file_accept = isset($column['file_accept']) ? $column['file_accept'] : null;
+                $file_accept = $column['file_accept'] ?? null;
                 if ($file_accept === 'image/*') {
                     $fileName = 'image.png';
                 } elseif ($file_accept === 'video/*') {
@@ -96,7 +98,7 @@ class Factory extends LaravelFactory
                 $password = '1111';
                 $fakeData = $password;
             } elseif ($type === 'array') {
-                $random_related_count = rand(2, 4);
+                $random_related_count = mt_rand(2, 4);
                 $fakeData = range(1, $random_related_count);
             } elseif ($database === 'none') {
                 continue;
@@ -105,11 +107,11 @@ class Factory extends LaravelFactory
             } elseif ($type === 'boolean') {
                 $fakeData = 0;
             } elseif (
-                $type === '' ||
-                $type === 'bigInteger' ||
-                $type === 'integer' ||
-                $type === 'tinyInteger' ||
-                $type === 'unsignedBigInteger'
+                $type === ''
+                || $type === 'bigInteger'
+                || $type === 'integer'
+                || $type === 'tinyInteger'
+                || $type === 'unsignedBigInteger'
             ) {
                 $fakeData = 1;
             } elseif ($type === 'string') {

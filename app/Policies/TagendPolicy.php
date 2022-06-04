@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Cms\Policy;
 
-class TagendPolicy extends Policy
+final class TagendPolicy extends Policy
 {
-	public string $modelNameSlug = 'tagend';
+    public string $modelNameSlug = 'tagend';
 }

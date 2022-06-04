@@ -2,7 +2,7 @@
 var BootstrapMaxlength=function() {
     var e=function() {
         var inputsWithTypeText = $("#admin_form :text, textarea");
-        inputsWithTypeText.each(function(){ 
+        inputsWithTypeText.each(function(){
             var input = $(this);
             var maxlength = input.attr('maxlength');
             if(maxlength){
@@ -49,10 +49,10 @@ var BootstrapDatepicker=function() {
         $("#datepicker").datepicker( {
             format: 'yyyy/mm/dd',
             autoclose: true,
-            todayBtn:"linked", 
-            clearBtn:!0, 
-            todayHighlight:!0, 
-            orientation:"bottom left", 
+            todayBtn:"linked",
+            clearBtn:!0,
+            todayHighlight:!0,
+            orientation:"bottom left",
             templates: {
                 leftArrow: '<i class="la la-angle-left"></i>', rightArrow: '<i class="la la-angle-right"></i>'
             }
@@ -99,13 +99,6 @@ jQuery(document).ready(function() {
     BootstrapSelect.init();
     // Inputmask.init();
     $("#admin_form").validate({});
-    $('.laravel-file-manager').filemanager('file');
-    $('.laravel-image-manager').filemanager('image');
-    $('.laravel-video-manager').filemanager('video');
-    $('.laravel-audio-manager').filemanager('audio');
-    $('.laravel-text-manager').filemanager('text');
-    // $('.laravel-image-manager').filemanager('image', {prefix: ""});
-    // lfm('lfm', 'image', {prefix: route_prefix});
 });
 
 // bootstrap ckeditor
@@ -118,7 +111,7 @@ var ckeditorOptions = {
     language: 'en',
 };
 var inputsWithTypeTextarea = $("textarea");
-inputsWithTypeTextarea.each(function(){ 
+inputsWithTypeTextarea.each(function(){
     var input = $(this);
     if(input.attr('ckeditor'))
     {

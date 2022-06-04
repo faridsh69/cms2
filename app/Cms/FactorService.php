@@ -1,22 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Cms;
 
-use App\Models\Basket;
-use App\Models\Category;
-use App\Models\Factor;
-use App\Models\Product;
+use App\Models\{Basket, Category, Factor, Product};
 use Auth;
 
-class FactorService extends Service
+final class FactorService extends Service
 {
-    public function _sendNotifications()
+    public function _sendNotifications(): void
     {
         // todo
         // send sms to customer and seller
     }
 
-    public static function _decreaseInventory()
+    public static function _decreaseInventory(): void
     {
         try {
             $factor = Factor::currentFactor()->first();
@@ -60,6 +59,7 @@ class FactorService extends Service
                 'image_url' => $product->asset_image,
             ];
         }
+
         return $vue_products;
     }
 
@@ -72,18 +72,20 @@ class FactorService extends Service
                 'id' => $basket_product->id,
                 'title' => $basket_product->title,
                 'features' => [],
-                'price' =>  $basket_product->price,
-                'discount_price' =>  $basket_product->discount_price,
-                'count' =>  $basket_product->pivot->count,
+                'price' => $basket_product->price,
+                'discount_price' => $basket_product->discount_price,
+                'count' => $basket_product->pivot->count,
                 'image_url' => $basket_product->asset_image,
             ];
         }
+
         return $vue_basket;
     }
 
     public static function _getUserBasketCountProducts()
     {
         $basket = self::_getUserBasket();
+
         return $basket->products->count();
     }
 
@@ -99,10 +101,11 @@ class FactorService extends Service
                 $total_price += $item->pivot->count * $item->price;
             }
         }
+
         return $total_price;
     }
 
-    public static function _addToBasket($product_id, $add)
+    public static function _addToBasket($product_id, $add): void
     {
         $basket = self::_getUserBasket();
         $basket_product = $basket->products()->where('product_id', $product_id);
@@ -112,20 +115,32 @@ class FactorService extends Service
             if ($count === 0 && $add === -1) {
                 $basket->products()->detach([$product_id]);
             } else {
-                $basket->products()->syncWithoutDetaching([$product_id => ['count' => $count]], false);
+                $basket->products()->syncWithoutDetaching([
+                    $product_id => [
+                        'count' => $count,
+                    ],
+                ], false);
             }
         } else {
-            $basket->products()->sync([$product_id => ['count' => 1]], false);
+            $basket->products()->sync([
+                $product_id => [
+                    'count' => 1,
+                ],
+            ], false);
         }
     }
 
-    public static function _changeCountBasket($product_id, $count)
+    public static function _changeCountBasket($product_id, $count): void
     {
         $basket = self::_getUserBasket();
         if ($count === 0) {
             $basket->products()->detach([$product_id]);
         } else {
-            $basket->products()->syncWithoutDetaching([$product_id => ['count' => $count]]);
+            $basket->products()->syncWithoutDetaching([
+                $product_id => [
+                    'count' => $count,
+                ],
+            ]);
         }
     }
 
@@ -137,7 +152,9 @@ class FactorService extends Service
         $basket->save();
 
         setcookie('basket_id', $basket->id, time() + (86400 * 3), '/'); // 86400 = 1 day
-        session(['basket_id' => $basket->id]);
+        session([
+            'basket_id' => $basket->id,
+        ]);
 
         return $basket;
     }
@@ -145,7 +162,9 @@ class FactorService extends Service
     public static function _getUserBasket()
     {
         $basket_id = session('basket_id', null);
-        session(['basket_id' => null]);
+        session([
+            'basket_id' => null,
+        ]);
         if ($basket_id) {
             $basket = Basket::where('id', $basket_id)
                 ->orderBy('id', 'desc')
@@ -155,7 +174,7 @@ class FactorService extends Service
             }
         }
 
-        if (\Auth::id()) {
+        if (Auth::id()) {
             if (isset($_COOKIE['basket_id'])) {
                 $basket_id = $_COOKIE['basket_id'];
                 $basket = Basket::where('id', $basket_id)
@@ -163,14 +182,14 @@ class FactorService extends Service
                     ->orderBy('id', 'desc')
                     ->first();
                 if ($basket) {
-                    $basket->user_id = \Auth::id();
+                    $basket->user_id = Auth::id();
                     $basket->save();
                     setcookie('basket_id', '', time() - 3600);
 
                     return $basket;
                 }
             }
-            $basket = Basket::where('user_id', \Auth::id())
+            $basket = Basket::where('user_id', Auth::id())
                 ->orderBy('id', 'desc')
                 ->first();
             if ($basket) {
@@ -190,8 +209,9 @@ class FactorService extends Service
         }
 
         $basket = self::_createBasket();
-        if ($basket)
+        if ($basket) {
             return $basket;
+        }
 
         return 'مشکلی در سیستم وجود دارد';
     }

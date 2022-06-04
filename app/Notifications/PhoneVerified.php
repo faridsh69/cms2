@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Notifications;
 
-use App\Notifications\Channels\DatabaseChannel;
-use App\Notifications\Channels\SmsChannel;
 use App\Cms\Notification;
+use App\Notifications\Channels\{DatabaseChannel, SmsChannel};
 
-class PhoneVerified extends Notification
+final class PhoneVerified extends Notification
 {
     public function via($notifiable)
     {

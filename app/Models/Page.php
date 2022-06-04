@@ -1,13 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Cms\Model;
 
-class Page extends Model
+final class Page extends Model
 {
     public $columns = [
-        ['name' => 'title'],
+        [
+            'name' => 'title',
+        ],
         [
             'name' => 'url',
             'type' => 'string',
@@ -17,13 +21,27 @@ class Page extends Model
             'form_type' => '',
             'table' => true,
         ],
-        ['name' => 'description'],
-        ['name' => 'content'],
-        ['name' => 'keywords'],
-        ['name' => 'image'],
-        ['name' => 'activated'],
-        ['name' => 'google_index'],
-        ['name' => 'canonical_url'],
+        [
+            'name' => 'description',
+        ],
+        [
+            'name' => 'content',
+        ],
+        [
+            'name' => 'keywords',
+        ],
+        [
+            'name' => 'image',
+        ],
+        [
+            'name' => 'activated',
+        ],
+        [
+            'name' => 'google_index',
+        ],
+        [
+            'name' => 'canonical_url',
+        ],
         [
             'name' => 'view_code_url',
             'type' => 'text',
@@ -33,9 +51,15 @@ class Page extends Model
             'form_type' => '',
             'table' => false,
         ],
-        ['name' => 'tags'],
-        ['name' => 'relateds'],
-        ['name' => 'language'],
+        [
+            'name' => 'tags',
+        ],
+        [
+            'name' => 'relateds',
+        ],
+        [
+            'name' => 'language',
+        ],
     ];
 
     public function blocks()

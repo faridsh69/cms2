@@ -1,22 +1,44 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Cms\Model;
 
-class Product extends Model
+final class Product extends Model
 {
     public $columns = [
-        ['name' => 'title'],
-        ['name' => 'url'],
-        ['name' => 'description'],
-        ['name' => 'category_id'],
-        ['name' => 'content'],
-        ['name' => 'image'],
-        ['name' => 'video'],
-        ['name' => 'activated'],
-        ['name' => 'price'],
-        ['name' => 'discount_price'],
+        [
+            'name' => 'title',
+        ],
+        [
+            'name' => 'url',
+        ],
+        [
+            'name' => 'description',
+        ],
+        [
+            'name' => 'category_id',
+        ],
+        [
+            'name' => 'content',
+        ],
+        [
+            'name' => 'image',
+        ],
+        [
+            'name' => 'video',
+        ],
+        [
+            'name' => 'activated',
+        ],
+        [
+            'name' => 'price',
+        ],
+        [
+            'name' => 'discount_price',
+        ],
         [
             'name' => 'inventory',
             'type' => 'bigInteger',
@@ -26,9 +48,17 @@ class Product extends Model
             'form_type' => 'none',
             'table' => false,
         ],
-        ['name' => 'order'],
-        ['name' => 'tags'],
-        ['name' => 'relateds'],
-        ['name' => 'language'],
+        [
+            'name' => 'order',
+        ],
+        [
+            'name' => 'tags',
+        ],
+        [
+            'name' => 'relateds',
+        ],
+        [
+            'name' => 'language',
+        ],
     ];
 }

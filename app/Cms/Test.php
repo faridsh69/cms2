@@ -1,14 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Cms;
 
-use App\Models\Category;
-use App\Models\Tag;
-use App\Models\User;
+use App\Models\{Category, Tag, User};
 use Str;
 use Tests\TestCase;
 
-class Test extends TestCase
+/**
+ * @internal
+ *
+ * @small
+ * @coversNothing
+ */
+abstract class Test extends TestCase
 {
     // an aray of models that want to test
     public array $modelNameSlugs;
@@ -30,7 +36,7 @@ class Test extends TestCase
         'tag.index',
     ];
 
-    public function adminTest()
+    final public function adminTest(): void
     {
         $this->modelNameSlugs = config('cms.admin_tests');
 
@@ -99,7 +105,7 @@ class Test extends TestCase
         }
     }
 
-    public function frontTest()
+    final public function frontTest(): void
     {
         $this->modelNameSlugs = config('cms.front_tests');
 

@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Cms\Policy;
 
-class PagePolicy extends Policy
+final class PagePolicy extends Policy
 {
-	public string $modelNameSlug = 'page';
+    public string $modelNameSlug = 'page';
 }

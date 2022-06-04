@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin\User;
 
 use App\Cms\AdminResourceController;
+use Auth;
 use Carbon\Carbon;
 
-class ResourceController extends AdminResourceController
+final class ResourceController extends AdminResourceController
 {
     public function login(int $id)
     {
         $this->authorize('index', $this->modelNamespace);
-        if (\Auth::loginUsingId($id)) {
+        if (Auth::loginUsingId($id)) {
             return redirect('/');
         }
 
@@ -23,7 +26,10 @@ class ResourceController extends AdminResourceController
         $this->authorize('view', $user);
         $this->meta['title'] = $this->modelNameTranslate . ' ' . __('identify');
 
-        return view('admin.page.user.identify', ['meta' => $this->meta, 'user' => $user]);
+        return view('admin.page.user.identify', [
+            'meta' => $this->meta,
+            'user' => $user,
+        ]);
     }
 
     public function identifyDocument(int $id, string $documentTitle = 'national_card')

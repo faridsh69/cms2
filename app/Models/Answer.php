@@ -1,14 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Cms\Model;
 
-class Answer extends Model
+final class Answer extends Model
 {
     public $columns = [
-        ['name' => 'user_id'],
-        ['name' => 'activated'],
+        [
+            'name' => 'user_id',
+        ],
+        [
+            'name' => 'activated',
+        ],
         [
             'name' => 'form_id',
             'type' => 'unsignedBigInteger',

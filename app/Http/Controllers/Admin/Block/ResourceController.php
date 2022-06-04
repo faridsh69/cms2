@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin\Block;
 
-use App\Models\Block;
 use App\Cms\AdminResourceController;
+use App\Models\Block;
 use Illuminate\View\View;
 use Str;
 
-class ResourceController extends AdminResourceController
+final class ResourceController extends AdminResourceController
 {
     public string $modelNameSlug = 'block';
 
@@ -30,7 +32,9 @@ class ResourceController extends AdminResourceController
             ->where('type', '!=', 'loading')
             ->get();
 
-        return view('admin.page.block.index', ['meta' => $this->meta, 'columns' => $columns, 'blocks' => $blocks]);
+        return view('admin.page.block.index', [
+            'meta' => $this->meta, 'columns' => $columns, 'blocks' => $blocks,
+        ]);
     }
 
     public function postSort()

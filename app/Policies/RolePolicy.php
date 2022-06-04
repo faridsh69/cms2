@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Cms\Policy;
 
-class RolePolicy extends Policy
+final class RolePolicy extends Policy
 {
-	public string $modelNameSlug = 'role';
+    public string $modelNameSlug = 'role';
 }

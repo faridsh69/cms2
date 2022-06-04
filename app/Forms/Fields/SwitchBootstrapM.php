@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Forms\Fields;
 
 use Kris\LaravelFormBuilder\Fields\FormField;
 
-class SwitchBootstrapM extends FormField
+final class SwitchBootstrapM extends FormField
 {
     public function getDefaults()
     {

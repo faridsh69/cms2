@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin\Setting;
 
 use App\Cms\AdminController;
 use Artisan;
 use Auth;
 use Illuminate\Http\Request;
+use Response;
 use Storage;
 
-class BackupController extends AdminController
+final class BackupController extends AdminController
 {
     public $disk_name;
 
@@ -34,7 +37,7 @@ class BackupController extends AdminController
         // make an array of backup files, with their filesize and creation date
         foreach ($files as $f) {
             // only take the zip files into account
-            if (substr($f, -4) === '.zip' && $disk->exists($f)) {
+            if (mb_substr($f, -4) === '.zip' && $disk->exists($f)) {
                 $backups[] = [
                     'file_path' => $f,
                     'file_name' => str_replace($this->backup_name . '/', '', $f),
@@ -46,7 +49,9 @@ class BackupController extends AdminController
         // reverse the backups, so the newest one would be on top
         $backups = array_reverse($backups);
 
-        return view('admin.page.setting.backup', ['backups' => $backups, 'meta' => $this->meta]);
+        return view('admin.page.setting.backup', [
+            'backups' => $backups, 'meta' => $this->meta,
+        ]);
     }
 
     public function create()
@@ -71,11 +76,12 @@ class BackupController extends AdminController
         if ($disk->exists($file)) {
             $file_storage = Storage::disk($this->disk_name)->getDriver();
             $stream = $file_storage->readStream($file);
-            return \Response::stream(function () use ($stream) {
+
+            return Response::stream(function () use ($stream): void {
                 fpassthru($stream);
             }, 200, [
-                'Content-Type' => $fs->getMimetype($file),
-                'Content-Length' => $fs->getSize($file),
+                'Content-Type' => $stream->getMimetype($file),
+                'Content-Length' => $stream->getSize($file),
             ]);
         } else {
             abort(404, "The backup file doesn't exist.");

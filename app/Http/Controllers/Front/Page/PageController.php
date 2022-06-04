@@ -1,24 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Front\Page;
 
 use App\Http\Controllers\Controller;
-use App\Models\Form;
-use App\Models\Page;
+use App\Models\{Form, Page};
 use Auth;
 use Illuminate\Http\Request;
 
-class PageController extends Controller
+final class PageController extends Controller
 {
-    public function index(string $page_url = null)
+    public function index(?string $page_url = null)
     {
         $page = Page::where('url', $page_url)->active()->first();
         abort_if(!$page, 404);
 
-        return view('front.common.layout', ['list' => [], 'page' => $page]);
+        return view('front.common.layout', [
+            'list' => [],
+            'page' => $page,
+        ]);
     }
 
-    public function postSubmitForm($form_id, Request $request, \App\Models\Answer $answer)
+    public function postSubmitForm($form_id, Request $request, \App\Models\Answer $answer): void
     {
         // $formModel = Form::find($form_id);
         // if ($formModel->authentication === true) {

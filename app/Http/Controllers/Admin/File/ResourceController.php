@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin\File;
 
 use App\Cms\AdminResourceController;
 
-class ResourceController extends AdminResourceController
+final class ResourceController extends AdminResourceController
 {
     public string $modelNameSlug = 'file';
 
@@ -17,7 +19,9 @@ class ResourceController extends AdminResourceController
         $this->destroy($file->id);
 
         return response()->json([
-            'data' => ['message' => __('File deleted successfully!')],
+            'data' => [
+                'message' => __('File deleted successfully!'),
+            ],
         ]);
     }
 }

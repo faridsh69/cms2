@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -8,7 +10,7 @@ use App\Notifications\PasswordChanged;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class ForgotPasswordController extends Controller
+final class ForgotPasswordController extends Controller
 {
     public function __construct()
     {
@@ -26,13 +28,14 @@ class ForgotPasswordController extends Controller
         $user = User::where('email', $email)->first();
         if (!$user) {
             $request->session()->flash('alert-danger', __('user not found'));
+
             return redirect()->back();
         }
-        $new_password = rand(100000, 999999);
+        $new_password = mt_rand(100000, 999999);
         $user->password = Hash::make($new_password);
         $user->save();
 
-        $password_changed =  new PasswordChanged();
+        $password_changed = new PasswordChanged();
         $password_changed->setCode($new_password);
         $user->notify($password_changed);
 

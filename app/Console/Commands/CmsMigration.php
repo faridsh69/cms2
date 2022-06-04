@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use Artisan;
 use DB;
+use Illuminate\Console\Command;
 
-class CmsMigration extends Command
+final class CmsMigration extends Command
 {
     protected $signature = 'cms:migration';
 
@@ -17,10 +19,14 @@ class CmsMigration extends Command
         parent::__construct();
     }
 
-    public function handle()
+    public function handle(): void
     {
         // Remove create_cms_tables record from migrations table.
-        DB::table('migrations')->where('migration', 'like', '%create_cms_tables%')->delete();
+        DB::table('migrations')->where(
+            'migration',
+            'like',
+            '%create_cms_tables%'
+        )->delete();
         Artisan::call('migrate');
     }
 }

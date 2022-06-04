@@ -1,25 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Cms\Model;
 
-class Activity extends Model
+final class Activity extends Model
 {
-    public function setTitle(string $title = null)
-    {
-        $activity = new Activity();
-        $activity->title = $title;
-        $activity->activated = 1;
-
-        return $activity;
-    }
-
     public $columns = [
-        ['name' => 'title'],
-        ['name' => 'description'],
-        ['name' => 'user_id'],
-        ['name' => 'activated'],
+        [
+            'name' => 'title',
+        ],
+        [
+            'name' => 'description',
+        ],
+        [
+            'name' => 'user_id',
+        ],
+        [
+            'name' => 'activated',
+        ],
         [
             'name' => 'activitiable_type',
             'type' => 'string',
@@ -48,6 +49,15 @@ class Activity extends Model
             'table' => false,
         ],
     ];
+
+    public function setTitle(?string $title = null)
+    {
+        $activity = new self();
+        $activity->title = $title;
+        $activity->activated = 1;
+
+        return $activity;
+    }
 
     public function activitiable()
     {

@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Cms\Model;
 
-class Module extends Model
+final class Module extends Model
 {
     public $columns = [
         [
@@ -17,15 +19,33 @@ class Module extends Model
             'form_enum_class' => 'BlockType',
             'table' => true,
         ],
-        ['name' => 'title'],
-        ['name' => 'url'],
-        ['name' => 'description'],
-        ['name' => 'content'],
-        ['name' => 'order'],
-        ['name' => 'image'],
-        ['name' => 'video'],
-        ['name' => 'icon'],
-        ['name' => 'full_name'],
+        [
+            'name' => 'title',
+        ],
+        [
+            'name' => 'url',
+        ],
+        [
+            'name' => 'description',
+        ],
+        [
+            'name' => 'content',
+        ],
+        [
+            'name' => 'order',
+        ],
+        [
+            'name' => 'image',
+        ],
+        [
+            'name' => 'video',
+        ],
+        [
+            'name' => 'icon',
+        ],
+        [
+            'name' => 'full_name',
+        ],
         [
             'name' => 'parent_id',
             'type' => 'unsignedBigInteger',
@@ -53,18 +73,22 @@ class Module extends Model
             'multiple' => false,
             'table' => false,
         ],
-        ['name' => 'activated'],
-        ['name' => 'language'],
+        [
+            'name' => 'activated',
+        ],
+        [
+            'name' => 'language',
+        ],
     ];
 
     public function parent()
     {
-        return $this->belongsTo(static::class, 'parent_id', 'id');
+        return $this->belongsTo(self::class, 'parent_id', 'id');
     }
 
     public function children()
     {
-        return $this->hasMany(static::class, 'parent_id', 'id');
+        return $this->hasMany(self::class, 'parent_id', 'id');
     }
 
     public function product()

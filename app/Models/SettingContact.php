@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Cms\Model;
 
-class SettingContact extends Model
+final class SettingContact extends Model
 {
     public $columns = [
         [

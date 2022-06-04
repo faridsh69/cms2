@@ -1,14 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit;
 
 use App\Models\User;
 use Tests\TestCase;
 
-class SettingTest extends TestCase
+/**
+ * @internal
+ *
+ * @small
+ * @coversNothing
+ */
+final class SettingTest extends TestCase
 {
-	public $methods = [
-        // 'dashboard.index',
+    public $methods = [
+        'dashboard.index',
         'dashboard.activity',
         'dashboard.profile',
         'dashboard.identify',
@@ -25,18 +33,17 @@ class SettingTest extends TestCase
         'setting.seo.content-rules',
     ];
 
-    public function test()
+    public function test(): void
     {
         $user = User::first();
         $this->actingAs($user);
 
-        foreach($this->methods as $method)
-        {
+        foreach ($this->methods as $method) {
             $this->checkMethod($method);
         }
     }
 
-    private function checkMethod($mothod_name)
+    private function checkMethod($mothod_name): void
     {
         $this
             ->get(route('admin.' . $mothod_name))

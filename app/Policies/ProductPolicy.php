@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Cms\Policy;
 
-class ProductPolicy extends Policy
+final class ProductPolicy extends Policy
 {
-	public string $modelNameSlug = 'product';
+    public string $modelNameSlug = 'product';
 }

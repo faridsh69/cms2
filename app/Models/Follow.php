@@ -1,13 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Cms\Model;
 
-class Follow extends Model
+final class Follow extends Model
 {
     public $columns = [
-        ['name' => 'user_id'],
+        [
+            'name' => 'user_id',
+        ],
         [
             'name' => 'followable_type',
             'type' => 'string',

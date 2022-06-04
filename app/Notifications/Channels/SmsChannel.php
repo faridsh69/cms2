@@ -1,14 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Notifications\Channels;
 
-use App\Services\BaseChannel;
 use Log;
 use SoapClient;
 
-class SmsChannel
+final class SmsChannel
 {
-    public function send($notifiable, $notification)
+    public function send($notifiable, $notification): void
     {
         $phone = $notifiable->phone;
         $message = $notification->smsMessage;

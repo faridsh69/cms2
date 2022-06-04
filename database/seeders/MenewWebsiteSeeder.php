@@ -1,25 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
-use App\Models\Block;
-use App\Models\Category;
-use App\Models\Food;
-use App\Models\Module;
-use App\Models\Page;
-use App\Models\SettingContact;
-use App\Models\SettingDeveloper;
-use App\Models\SettingGeneral;
-use App\Models\Tag;
-use App\Models\User;
+use App\Models\{Block, Category, Food, Module, Page, SettingContact, SettingDeveloper, SettingGeneral, Tag, User};
 use Illuminate\Database\Seeder;
 use Str;
 
-class MenewWebsiteSeeder extends Seeder
+final class MenewWebsiteSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
-    	$photosFolder = 'storage/temp/menew/';
+        $photosFolder = 'storage/temp/menew/';
 
         // Category
         $categories = [
@@ -62,21 +55,19 @@ class MenewWebsiteSeeder extends Seeder
             [
                 'title' => 'Cold Drinks',
                 'image' => 'https://images.immediate.co.uk/production/volatile/sites/30/2017/06/healthy-nicoise-09b6cd9.jpg',
-            ], 
+            ],
         ];
 
-        foreach (Category::where('type', 'Food')->get() as $category)
-        {
-        	$category->activated = 0;
-        	$category->save();
+        foreach (Category::where('type', 'Food')->get() as $category) {
+            $category->activated = 0;
+            $category->save();
         }
 
-        foreach ($categories as $category)
-        {
-        	$category['activated'] = 1;
+        foreach ($categories as $category) {
+            $category['activated'] = 1;
             $category['language'] = 'en';
             $category['type'] = 'Food';
-        	$category['url'] = Str::slug($category['title']);
+            $category['url'] = Str::slug($category['title']);
             Category::firstOrCreate($category);
         }
 
@@ -93,34 +84,32 @@ class MenewWebsiteSeeder extends Seeder
             ],
         ];
 
-        foreach (Tag::where('type', 'Food')->get() as $tag)
-        {
-        	$tag->activated = 0;
-        	$tag->save();
+        foreach (Tag::where('type', 'Food')->get() as $tag) {
+            $tag->activated = 0;
+            $tag->save();
         }
 
-        foreach($tags as $tag)
-        {
-        	$tag['activated'] = 1;
-        	$tag['language'] = 'en';
-        	$tag['type'] = 'Food';
-        	$tag['url'] = Str::slug($tag['title']);
+        foreach ($tags as $tag) {
+            $tag['activated'] = 1;
+            $tag['language'] = 'en';
+            $tag['type'] = 'Food';
+            $tag['url'] = Str::slug($tag['title']);
             Tag::firstOrCreate($tag);
         }
 
         $foods = [
-        	[
+            [
                 'title' => 'Peperoni pizza',
                 'image' => 'https://images.immediate.co.uk/production/volatile/sites/30/2017/06/healthy-nicoise-09b6cd9.jpg',
             ],
             [
-            	'title' => 'stack morgh',
+                'title' => 'stack morgh',
                 'image' => 'https://files.menew.ir/1/1/3/conversions/%DA%A9%D8%A7%D9%BE%D9%88%DA%86%DB%8C%D9%86%D9%88-cappuccino-normal.jpeg',
-        	],
-        	[
-            	'title' => 'salad sezar',
+            ],
+            [
+                'title' => 'salad sezar',
                 'image' => 'https://files.menew.ir/1/97/181/conversions/سالاد-مرغ-گریل-grilled-chicken-salad-normal.jpg',
-        	],
+            ],
         ];
 
         // foreach (Food::get() as $food)
@@ -129,16 +118,13 @@ class MenewWebsiteSeeder extends Seeder
         // 	$food->save();
         // }
 
-        foreach($foods as $food)
-        {
-        	$food['activated'] = 1;
-        	$food['language'] = 'en';
-        	$food['description'] = 'test';
-        	$food['url'] = Str::slug($food['title']);
+        foreach ($foods as $food) {
+            $food['activated'] = 1;
+            $food['language'] = 'en';
+            $food['description'] = 'test';
+            $food['url'] = Str::slug($food['title']);
             Food::firstOrCreate($food);
         }
-            	
-
 
         // User
         $users = [
@@ -153,13 +139,14 @@ class MenewWebsiteSeeder extends Seeder
                 'activated' => 1,
             ],
         ];
-        foreach ($users as $user)
-        {
-            User::updateOrCreate(['id' => $user['id']], $user);
+        foreach ($users as $user) {
+            User::updateOrCreate([
+                'id' => $user['id'],
+            ], $user);
         }
 
         // Page
-        
+
         // Setting
         $general_settings = [
             'app_title' => 'Menew',
@@ -210,9 +197,15 @@ class MenewWebsiteSeeder extends Seeder
             'sms_sender' => '9830006859000705',
             'sms_api_key' => 'muhammadc22:123',
         ];
-        SettingGeneral::updateOrCreate(['id' => 1], $general_settings);
-        SettingDeveloper::updateOrCreate(['id' => 1], $developer_settings);
-        SettingContact::updateOrCreate(['id' => 1], $contact_settings);
+        SettingGeneral::updateOrCreate([
+            'id' => 1,
+        ], $general_settings);
+        SettingDeveloper::updateOrCreate([
+            'id' => 1,
+        ], $developer_settings);
+        SettingContact::updateOrCreate([
+            'id' => 1,
+        ], $contact_settings);
 
         // Block
     }

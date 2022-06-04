@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -7,10 +9,9 @@ use App\Models\User;
 use App\Notifications\UserRegistered;
 use Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\{Hash, Validator};
 
-class RegisterController extends Controller
+final class RegisterController extends Controller
 {
     public function __construct()
     {
@@ -35,10 +36,12 @@ class RegisterController extends Controller
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
         ]);
-        // @TODO activity
-        // activity('User Registered')->performedOn($authUser)
-        //     ->causedBy($authUser)
-        //     ->log('User Registered');
+        /**
+         * @TODO activity
+         * activity('User Registered')->performedOn($authUser)
+         *     ->causedBy($authUser)
+         *     ->log('User Registered');
+         */
         $user_registered = new UserRegistered();
         $authUser->notify($user_registered);
 
