@@ -50,13 +50,6 @@ username: farid.sh69@gmail.com
 password: 123456
 ```
 
-#### Using file thumbnails:
-
-```php
-$generalSettings->avatar('logo')
-$user->avatar('profile_picture')
-$user->avatar('cover_photo')
-```
 #### Fix code style after your developments via pre-commit
 
 ```sh
@@ -85,13 +78,13 @@ php artisan passport:install
 php artisan passport:client --password
 ```
 
-# Laravel CMS, Fastest CMS ever with full enterprise features
+# Laravel CMS
 
 you can define your `model`, then `migration`, `routes`, `controllers`, `views`, `policies`, `test`, `factory`, `seeder`, `table`, `form`, `tags`, `categories`, `medias`, `api`, `export`, `import`, `print`, `sorting`, `filter` ... will be automatically generate by cms
 
 ## Check `App/CMS` folder, no more
 
-Also Theme with modules are ready, with full details `settings`, `logs`, `backup`, `code style configuration` are implemented.
+Also `Theme` with `modules` and `blocks` with `settings`, `logs`, `backup`, `code style configuration` are implemented.
 
 
 ### For more information about the structure of model check models folder
