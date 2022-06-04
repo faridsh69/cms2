@@ -59,10 +59,8 @@ final class Factory extends LaravelFactory
                     $fileName = 'video.mp4';
                 } elseif ($file_accept === 'audio/*') {
                     $fileName = 'audio.mp3';
-                    $fileName = 'image.png';
                 } else {
                     $fileName = 'pdf.pdf';
-                    $fileName = 'image.png';
                 }
                 $uploadFileTest = storage_path() . config('cms.config.faker_files') . $fileName;
                 $fakeData = new UploadedFile($uploadFileTest, $uploadFileTest);

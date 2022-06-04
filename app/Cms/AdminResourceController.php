@@ -61,11 +61,11 @@ abstract class AdminResourceController extends AdminController
 
             return redirect()->back()->withErrors($form->getErrors())->withInput();
         }
-        $model = $this->modelRepository->saveWithRelations($form->getFieldValues());
+        $this->modelRepository->saveWithRelations($form->getFieldValues());
 
         // @TODO activity
         // if (env('APP_ENV') !== 'testing') {
-        //     activity('Created')->performedOn($model)->causedBy(Auth::user())
+        //     activity('Created')->performedOn($storedModel)->causedBy(Auth::user())
         //         ->log($this->modelName . ' Created');
         // }
         $this->httpRequest->session()->flash(
@@ -78,33 +78,32 @@ abstract class AdminResourceController extends AdminController
 
     final public function show(int $id): View
     {
-        $model = $this->modelRepository->findOrFail($id);
-        $this->authorize('view', $model);
-        $data = $model;
+        $showedModal = $this->modelRepository->findOrFail($id);
+        $this->authorize('view', $showedModal);
         $activities = \App\Models\Activity::where('activitiable_type', $this->modelNamespace)
             ->where('activitiable_id', $id)
             ->get();
 
         $this->meta['title'] = $this->modelNameTranslate . __('show');
-        $this->meta['link_route'] = route('admin.' . $this->modelNameSlug . '.list.edit', $model);
+        $this->meta['link_route'] = route('admin.' . $this->modelNameSlug . '.list.edit', $showedModal);
         $this->meta['link_name'] = $this->modelNameTranslate . __('edit form');
 
         return view('admin.list.show', [
-            'data' => $data, 'meta' => $this->meta, 'activities' => $activities,
+            'data' => $showedModal, 'meta' => $this->meta, 'activities' => $activities,
         ]);
     }
 
     final public function edit(int $id)
     {
-        $model = $this->modelRepository->findOrFail($id);
-        $this->authorize('update', $model);
+        $editedModel = $this->modelRepository->findOrFail($id);
+        $this->authorize('update', $editedModel);
         $this->meta['title'] = __('edit') . $this->modelNameTranslate . ' - #' . $id;
         $form = $this->laravelFormBuilder->create($this->modelForm, [
             'method' => 'PUT',
-            'url' => route('admin.' . $this->modelNameSlug . '.list.update', $model),
+            'url' => route('admin.' . $this->modelNameSlug . '.list.update', $editedModel),
             'class' => 'm-form m-form--state',
             'id' => 'admin_form',
-            'model' => $model,
+            'model' => $editedModel,
             'enctype' => 'multipart/form-data',
         ]);
 
@@ -115,11 +114,11 @@ abstract class AdminResourceController extends AdminController
 
     final public function update(int $id): RedirectResponse
     {
-        $model = $this->modelRepository->findOrFail($id);
-        $this->authorize('update', $model);
+        $updatedModel = $this->modelRepository->findOrFail($id);
+        $this->authorize('update', $updatedModel);
 
         $form = $this->laravelFormBuilder->create($this->modelForm, [
-            'model' => $model,
+            'model' => $updatedModel,
         ]);
         if (!$form->isValid()) {
             if (env('APP_ENV') === 'testing') {
@@ -131,7 +130,7 @@ abstract class AdminResourceController extends AdminController
                 return redirect()->back()->withErrors($form->getErrors())->withInput();
             }
         }
-        $this->modelRepository->saveWithRelations($form->getFieldValues(), $model);
+        $updatedModel->saveWithRelations($form->getFieldValues());
 
         // @TODO activity
         // if (env('APP_ENV') !== 'testing') {

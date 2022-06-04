@@ -112,10 +112,11 @@ trait ModelTrait
         return $this->avatar();
     }
 
-    public function saveWithRelations(array $data, ?Model $model = null): Model
+    public function saveWithRelations(array $data): Model
     {
-        $formDataWitoutUploadFilesAndArrays = $this->clearFilesAndArrays($data, $model);
-        if ($model) {
+        $formDataWitoutUploadFilesAndArrays = $this->clearFilesAndArrays($data);
+        if ($this->id) {
+            $model = $this;
             $model->update($formDataWitoutUploadFilesAndArrays);
         } else {
             $model = $this->create($formDataWitoutUploadFilesAndArrays);
@@ -138,464 +139,17 @@ trait ModelTrait
     */
     public function getColumns(): array
     {
-        $constructor = [
-            'model_name' => class_basename($this),
-            'model_namespace' => (new ReflectionClass($this))->getName(),
-            'table_name' => $this->getTable(),
-        ];
+        $modelName = class_basename($this);
+        $modelNamespace = (new ReflectionClass($this))->getName();
+        $tableName = $this->getTable();
 
-        $seconds = 1;
+        $cacheSeconds = 1;
 
         return Cache::remember(
-            'model' . $constructor['model_name'],
-            $seconds,
-            function () use ($constructor) {
-                $default_columns = [
-                    'title' => [
-                        'name' => 'title',
-                        'type' => 'string',
-                        'database' => '',
-                        'rule' => 'required|min:' . config('setting-developer.seo_title_min')
-                            . '|max:' . config('setting-developer.seo_title_max'),
-                        'help' => 'Title should be unique.',
-                        'form_type' => '',
-                        'table' => true,
-                    ],
-                    'description' => [
-                        'name' => 'description',
-                        'type' => 'text',
-                        'database' => 'nullable',
-                        'rule' => 'nullable',
-                        'help' => 'Description should be 50 - 70 characters, maximum 160 characters.',
-                        'form_type' => 'textarea',
-                        'table' => true,
-                    ],
-                    'content' => [
-                        'name' => 'content',
-                        'type' => 'text',
-                        'database' => 'nullable',
-                        'rule' => 'nullable', // only page and blog need seo_header
-                        'help' => '',
-                        'form_type' => 'ckeditor',
-                        'table' => false,
-                    ],
-                    'url' => [
-                        'name' => 'url',
-                        'type' => 'string',
-                        'database' => 'nullable',
-                        'rule' => 'nullable|max:' . config(
-                            'setting-developer.seo_url_max'
-                        ) . '|unique:' . $constructor['table_name'] . ',url,',
-                        'help' => 'Url should be unique, contain [a-z, 0-9, -], required for seo',
-                        'form_type' => '',
-                        'table' => false,
-                    ],
-                    'keywords' => [
-                        'name' => 'keywords',
-                        'type' => 'string',
-                        'database' => 'nullable',
-                        'rule' => 'nullable|max:191',
-                        'help' => 'Keywords is optional and is not important for google',
-                        'form_type' => '',
-                        'table' => false,
-                    ],
-                    'activated' => [
-                        'name' => 'activated',
-                        'type' => 'boolean',
-                        'database' => 'default',
-                        'rule' => 'boolean',
-                        'help' => '',
-                        'form_type' => 'switch-m', // switch-m, checkbox-m, switch-bootstrap-m
-                        'table' => false,
-                    ],
-                    'google_index' => [
-                        'name' => 'google_index',
-                        'type' => 'boolean',
-                        'database' => 'default',
-                        'rule' => 'boolean',
-                        'help' => 'Shows google robots will follow this link.',
-                        'form_type' => 'checkbox-m',
-                        'table' => false,
-                    ],
-                    'canonical_url' => [
-                        'name' => 'canonical_url',
-                        'type' => 'string',
-                        'database' => 'nullable',
-                        'rule' => 'nullable|max:191',
-                        'help' => 'Canonical url is neccessary if one content will show from two different urls.',
-                        'form_type' => '',
-                        'table' => false,
-                    ],
-                    'icon' => [
-                        'name' => 'icon',
-                        'type' => 'string',
-                        'database' => 'nullable',
-                        'rule' => '',
-                        'help' => 'Click: <a target="blank" href="/admin/icons/list">List of Icons</a> - for example: fa-glass',
-                        'form_type' => '',
-                        'table' => false,
-                    ],
-                    'full_name' => [
-                        'name' => 'full_name',
-                        'type' => 'string',
-                        'database' => 'nullable',
-                        'rule' => '',
-                        'help' => '',
-                        'form_type' => '',
-                        'table' => false,
-                    ],
-                    'user_id' => [
-                        'name' => 'user_id',
-                        'type' => 'unsignedBigInteger',
-                        'database' => 'nullable',
-                        'relation' => 'users',
-                        'rule' => 'nullable|exists:users,id',
-                        'help' => '',
-                        'form_type' => 'entity',
-                        'class' => 'App\Models\User',
-                        'property' => 'email',
-                        'property_key' => 'id',
-                        'multiple' => false,
-                        'table' => true,
-                    ],
-                    'category_id' => [
-                        'name' => 'category_id',
-                        'type' => 'unsignedBigInteger',
-                        'database' => 'nullable',
-                        'relation' => 'categories',
-                        'rule' => 'nullable|exists:categories,id',
-                        'help' => '',
-                        'form_type' => 'entity',
-                        'class' => 'App\Models\Category',
-                        'property' => 'title',
-                        'property_key' => 'id',
-                        'query_builder' => 'type|' . $constructor['model_name'],
-                        'multiple' => false,
-                        'table' => true,
-                    ],
-                    'tags' => [
-                        'name' => 'tags',
-                        'type' => 'array',
-                        'database' => 'none',
-                        'rule' => 'nullable',
-                        'help' => '',
-                        'form_type' => 'entity',
-                        'class' => 'App\Models\Tag',
-                        'property' => 'title',
-                        'property_key' => 'id',
-                        'query_builder' => 'type|' . $constructor['model_name'],
-                        'multiple' => true,
-                        'table' => false,
-                    ],
-                    'relateds' => [
-                        'name' => 'relateds',
-                        'type' => 'array',
-                        'database' => 'none',
-                        'rule' => 'nullable',
-                        'help' => 'Select related items to suggest to user.',
-                        'form_type' => 'entity',
-                        'class' => $constructor['model_namespace'],
-                        'property' => 'title',
-                        'property_key' => 'id',
-                        'multiple' => true,
-                        'table' => false,
-                    ],
-                    'language' => [
-                        'name' => 'language',
-                        'type' => 'string',
-                        'database' => 'nullable',
-                        'rule' => '',
-                        'help' => 'Specify language.',
-                        'form_type' => 'enum',
-                        'form_enum_class' => 'AppLanguage',
-                        'table' => false,
-                    ],
-                    'order' => [
-                        'name' => 'order',
-                        'type' => 'integer',
-                        'database' => 'nullable',
-                        'rule' => 'nullable|numeric',
-                        'help' => 'Sort by this column, lower order will be ahead',
-                        'form_type' => '',
-                        'table' => false,
-                    ],
-                    'image' => [
-                        'name' => 'image',
-                        'type' => 'file',
-                        'database' => 'none',
-                        'rule' => 'nullable',
-                        'help' => 'You can choose multiple images',
-                        'form_type' => 'file',
-                        'file_accept' => 'image/*',
-                        'file_multiple' => true,
-                        'table' => true,
-                    ],
-                    'video' => [
-                        'name' => 'video',
-                        'type' => 'file',
-                        'database' => 'none',
-                        'rule' => 'nullable',
-                        'help' => 'You can choose multiple videos',
-                        'form_type' => 'file',
-                        'file_accept' => 'video/*',
-                        'file_multiple' => true,
-                        'table' => false,
-                    ],
-                    'audio' => [
-                        'name' => 'audio',
-                        'type' => 'file',
-                        'database' => 'none',
-                        'rule' => 'nullable',
-                        'help' => 'You can choose multiple videos',
-                        'form_type' => 'file',
-                        'file_accept' => 'audio/*',
-                        'file_multiple' => true,
-                        'table' => false,
-                    ],
-                    'opening_hours' => [
-                        'name' => 'opening_hours',
-                        'type' => 'string',
-                        'database' => 'nullable',
-                        'rule' => 'nullable|max:191',
-                        'help' => '',
-                        'form_type' => '',
-                        'table' => false,
-                    ],
-                    'city' => [
-                        'name' => 'city',
-                        'type' => 'string',
-                        'database' => 'nullable',
-                        'rule' => 'nullable|max:191',
-                        'help' => '',
-                        'form_type' => '',
-                        'table' => false,
-                    ],
-                    'country' => [
-                        'name' => 'country',
-                        'type' => 'string',
-                        'database' => 'nullable',
-                        'rule' => '',
-                        'help' => '',
-                        'form_type' => '',
-                        'table' => false,
-                    ],
-                    'province' => [
-                        'name' => 'province',
-                        'type' => 'string',
-                        'database' => 'nullable',
-                        'rule' => '',
-                        'help' => '',
-                        'form_type' => '',
-                        'table' => false,
-                    ],
-                    'city' => [
-                        'name' => 'city',
-                        'type' => 'string',
-                        'database' => 'nullable',
-                        'rule' => '',
-                        'help' => '',
-                        'form_type' => '',
-                        'table' => true,
-                    ],
-                    'address' => [
-                        'name' => 'address',
-                        'type' => 'text',
-                        'database' => 'nullable',
-                        'rule' => '',
-                        'help' => '',
-                        'form_type' => 'textarea',
-                        'table' => true,
-                    ],
-                    'postal_code' => [
-                        'name' => 'postal_code',
-                        'type' => 'string',
-                        'database' => 'nullable',
-                        'rule' => '',
-                        'help' => '',
-                        'form_type' => '',
-                        'table' => false,
-                    ],
-                    'phone' => [
-                        'name' => 'phone',
-                        'type' => 'string',
-                        'database' => 'nullable',
-                        'rule' => 'nullable|numeric',
-                        'help' => 'International format +4917...',
-                        'form_type' => 'phone',
-                        'table' => true,
-                    ],
-                    'telephone' => [
-                        'name' => 'telephone',
-                        'type' => 'string',
-                        'database' => 'nullable',
-                        'rule' => 'nullable|max:30',
-                        'help' => 'Home Number',
-                        'form_type' => '',
-                        'table' => false,
-                    ],
-                    'latitude' => [
-                        'name' => 'latitude',
-                        'type' => 'decimal',
-                        'database' => 'nullable',
-                        'rule' => '',
-                        'help' => '',
-                        'form_type' => '',
-                        'table' => false,
-                    ],
-                    'longitude' => [
-                        'name' => 'longitude',
-                        'type' => 'decimal',
-                        'database' => 'nullable',
-                        'rule' => '',
-                        'help' => '',
-                        'form_type' => '',
-                        'table' => false,
-                    ],
-                    'properties' => [
-                        'name' => 'properties',
-                        'type' => 'text',
-                        'database' => 'nullable',
-                        'rule' => '',
-                        'help' => '',
-                        'form_type' => 'textarea',
-                        'table' => false,
-                    ],
-                    'website' => [
-                        'name' => 'website',
-                        'type' => 'string',
-                        'database' => 'nullable',
-                        'rule' => 'nullable',
-                        'help' => '',
-                        'form_type' => '',
-                        'table' => false,
-                    ],
-                    'email' => [
-                        'name' => 'email',
-                        'type' => 'string',
-                        'database' => 'nullable',
-                        'rule' => 'nullable|unique:' . $constructor['table_name'] . ',email,',
-                        'help' => 'Wrtie valid email address',
-                        'form_type' => 'email',
-                        'table' => false,
-                    ],
-                    'price' => [
-                        'name' => 'price',
-                        'type' => 'bigInteger',
-                        'database' => 'nullable',
-                        'rule' => 'nullable|numeric',
-                        'help' => '',
-                        'form_type' => 'number',
-                        'table' => true,
-                    ],
-                    'discount_price' => [
-                        'name' => 'discount_price',
-                        'type' => 'bigInteger',
-                        'database' => 'nullable',
-                        'rule' => 'nullable|numeric',
-                        'help' => '',
-                        'form_type' => 'number',
-                        'table' => false,
-                    ],
-                    'year' => [
-                        'name' => 'year',
-                        'type' => 'integer',
-                        'database' => 'nullable',
-                        'rule' => 'nullable|numeric',
-                        'help' => '',
-                        'form_type' => 'number',
-                        'table' => false,
-                    ],
-                    'rooms' => [
-                        'name' => 'rooms',
-                        'type' => 'integer',
-                        'database' => 'nullable',
-                        'rule' => 'nullable|numeric',
-                        'help' => '',
-                        'form_type' => 'number',
-                        'table' => true,
-                    ],
-                    'color' => [
-                        'name' => 'color',
-                        'type' => 'string',
-                        'database' => 'nullable',
-                        'rule' => '',
-                        'help' => '',
-                        'form_type' => '',
-                        'table' => false,
-                    ],
-                    'foundation' => [
-                        'name' => 'foundation',
-                        'type' => 'string',
-                        'database' => 'nullable',
-                        'rule' => '',
-                        'help' => '',
-                        'form_type' => '',
-                        'table' => true,
-                    ],
-                    'calorie' => [
-                        'name' => 'calorie',
-                        'type' => 'integer',
-                        'database' => 'nullable',
-                        'rule' => 'nullable|numeric',
-                        'help' => '',
-                        'form_type' => '',
-                        'table' => false,
-                    ],
-                    'singer' => [
-                        'name' => 'singer',
-                        'type' => 'string',
-                        'database' => 'nullable',
-                        'rule' => '',
-                        'help' => '',
-                        'form_type' => '',
-                        'table' => true,
-                    ],
-                    'director' => [
-                        'name' => 'director',
-                        'type' => 'string',
-                        'database' => 'nullable',
-                        'rule' => '',
-                        'help' => '',
-                        'form_type' => '',
-                        'table' => true,
-                    ],
-                    'date' => [
-                        'name' => 'date',
-                        'type' => 'string',
-                        'database' => 'nullable',
-                        'rule' => '',
-                        'help' => '',
-                        'form_type' => 'date',
-                        'table' => true,
-                    ],
-                    'time' => [
-                        'name' => 'time',
-                        'type' => 'string',
-                        'database' => 'nullable',
-                        'rule' => '',
-                        'help' => '',
-                        'form_type' => 'time',
-                        'table' => true,
-                    ],
-                    'destination' => [
-                        'name' => 'destination',
-                        'type' => 'string',
-                        'database' => 'nullable',
-                        'rule' => '',
-                        'help' => '',
-                        'form_type' => '',
-                        'table' => true,
-                    ],
-                    'origin' => [
-                        'name' => 'origin',
-                        'type' => 'string',
-                        'database' => 'nullable',
-                        'rule' => '',
-                        'help' => '',
-                        'form_type' => '',
-                        'table' => true,
-                    ],
-                ];
+            'model_' . $modelName,
+            $cacheSeconds,
+            function () use ($modelName, $modelNamespace, $tableName) {
+                $default_columns = $this->getDefaultColumns($modelName, $modelNamespace, $tableName);
 
                 $columns = $this->columns;
                 foreach ($columns as $key => $column) {
@@ -616,9 +170,31 @@ trait ModelTrait
         );
     }
 
+    final public function getRules(): array
+    {
+        return collect($this->getColumns())
+            ->pluck('rule', 'name')
+            ->map(function ($rule) {
+                return mb_strpos($rule, 'unique') !== false ? $rule . $this->id : $rule;
+            })->toArray();
+    }
+
+    final public function appendData(): Model
+    {
+        $this->images = $this->srcs('image');
+        $this->videos = $this->srcs('video');
+        $this->audios = $this->srcs('audio');
+        $this->documents = $this->srcs('document');
+        $this->category = $this->category;
+        $this->tags = $this->tags;
+        $this->relateds = $this->relateds;
+
+        return $this;
+    }
+
     // Before save a form data we need to write 0 for unchecked checkboxes
     // All relational data that are array should eliminate from form data.
-    private function clearFilesAndArrays(array $data, ?Model $model = null): array
+    private function clearFilesAndArrays(array $data): array
     {
         // convert boolean input values: null and false => 0, true => 1
         foreach (collect($this->getColumns())
@@ -640,8 +216,8 @@ trait ModelTrait
             if (isset($data['password'])) {
                 $data['password'] = Hash::make($data['password']);
             } else {
-                if ($model) { // update mode
-                    $data['password'] = $model->password;
+                if ($this->id) { // update mode
+                    $data['password'] = $this->password;
                 } else { // create mode
                     if ($data['password'] === '') {
                         $data['password'] = Hash::make($data['email']);
@@ -654,7 +230,7 @@ trait ModelTrait
     }
 
     // Save all relational data.
-    private function saveRelatedDataAfterCreate(array $data, $model): void
+    private function saveRelatedDataAfterCreate(array $data, Model $model): void
     {
         // Upload all columns with type file.
         foreach (collect($this->getColumns())
@@ -672,5 +248,466 @@ trait ModelTrait
             ->pluck('name') as $arrayColumn) {
             $model->{$arrayColumn}()->sync($data[$arrayColumn], true);
         }
+    }
+
+    private function getDefaultColumns(string $modelName, string $modelNamespace, string $tableName)
+    {
+        return [
+            'title' => [
+                'name' => 'title',
+                'type' => 'string',
+                'database' => '',
+                'rule' => 'required|min:' . config('setting-developer.seo_title_min')
+                    . '|max:' . config('setting-developer.seo_title_max'),
+                'help' => 'Title should be unique.',
+                'form_type' => '',
+                'table' => true,
+            ],
+            'description' => [
+                'name' => 'description',
+                'type' => 'text',
+                'database' => 'nullable',
+                'rule' => 'nullable',
+                'help' => 'Description should be 50 - 70 characters, maximum 160 characters.',
+                'form_type' => 'textarea',
+                'table' => true,
+            ],
+            'content' => [
+                'name' => 'content',
+                'type' => 'text',
+                'database' => 'nullable',
+                'rule' => 'nullable', // only page and blog need seo_header
+                'help' => '',
+                'form_type' => 'ckeditor',
+                'table' => false,
+            ],
+            'url' => [
+                'name' => 'url',
+                'type' => 'string',
+                'database' => 'nullable',
+                'rule' => 'nullable|max:' . config(
+                    'setting-developer.seo_url_max'
+                ) . '|unique:' . $tableName . ',url,',
+                'help' => 'Url should be unique, contain [a-z, 0-9, -], required for seo',
+                'form_type' => '',
+                'table' => false,
+            ],
+            'keywords' => [
+                'name' => 'keywords',
+                'type' => 'string',
+                'database' => 'nullable',
+                'rule' => 'nullable|max:191',
+                'help' => 'Keywords is optional and is not important for google',
+                'form_type' => '',
+                'table' => false,
+            ],
+            'activated' => [
+                'name' => 'activated',
+                'type' => 'boolean',
+                'database' => 'default',
+                'rule' => 'boolean',
+                'help' => '',
+                'form_type' => 'switch-m', // switch-m, checkbox-m, switch-bootstrap-m
+                'table' => false,
+            ],
+            'google_index' => [
+                'name' => 'google_index',
+                'type' => 'boolean',
+                'database' => 'default',
+                'rule' => 'boolean',
+                'help' => 'Shows google robots will follow this link.',
+                'form_type' => 'checkbox-m',
+                'table' => false,
+            ],
+            'canonical_url' => [
+                'name' => 'canonical_url',
+                'type' => 'string',
+                'database' => 'nullable',
+                'rule' => 'nullable|max:191',
+                'help' => 'Canonical url is neccessary if one content will show from two different urls.',
+                'form_type' => '',
+                'table' => false,
+            ],
+            'icon' => [
+                'name' => 'icon',
+                'type' => 'string',
+                'database' => 'nullable',
+                'rule' => '',
+                'help' => 'Click: <a target="blank" href="/admin/icons/list">List of Icons</a> - for example: fa-glass',
+                'form_type' => '',
+                'table' => false,
+            ],
+            'full_name' => [
+                'name' => 'full_name',
+                'type' => 'string',
+                'database' => 'nullable',
+                'rule' => '',
+                'help' => '',
+                'form_type' => '',
+                'table' => false,
+            ],
+            'user_id' => [
+                'name' => 'user_id',
+                'type' => 'unsignedBigInteger',
+                'database' => 'nullable',
+                'relation' => 'users',
+                'rule' => 'nullable|exists:users,id',
+                'help' => '',
+                'form_type' => 'entity',
+                'class' => 'App\Models\User',
+                'property' => 'email',
+                'property_key' => 'id',
+                'multiple' => false,
+                'table' => true,
+            ],
+            'category_id' => [
+                'name' => 'category_id',
+                'type' => 'unsignedBigInteger',
+                'database' => 'nullable',
+                'relation' => 'categories',
+                'rule' => 'nullable|exists:categories,id',
+                'help' => '',
+                'form_type' => 'entity',
+                'class' => 'App\Models\Category',
+                'property' => 'title',
+                'property_key' => 'id',
+                'query_builder' => 'type|' . $modelName,
+                'multiple' => false,
+                'table' => true,
+            ],
+            'tags' => [
+                'name' => 'tags',
+                'type' => 'array',
+                'database' => 'none',
+                'rule' => 'nullable',
+                'help' => '',
+                'form_type' => 'entity',
+                'class' => 'App\Models\Tag',
+                'property' => 'title',
+                'property_key' => 'id',
+                'query_builder' => 'type|' . $modelName,
+                'multiple' => true,
+                'table' => false,
+            ],
+            'relateds' => [
+                'name' => 'relateds',
+                'type' => 'array',
+                'database' => 'none',
+                'rule' => 'nullable',
+                'help' => 'Select related items to suggest to user.',
+                'form_type' => 'entity',
+                'class' => $modelNamespace,
+                'property' => 'title',
+                'property_key' => 'id',
+                'multiple' => true,
+                'table' => false,
+            ],
+            'language' => [
+                'name' => 'language',
+                'type' => 'string',
+                'database' => 'nullable',
+                'rule' => '',
+                'help' => 'Specify language.',
+                'form_type' => 'enum',
+                'form_enum_class' => 'AppLanguage',
+                'table' => false,
+            ],
+            'order' => [
+                'name' => 'order',
+                'type' => 'integer',
+                'database' => 'nullable',
+                'rule' => 'nullable|numeric',
+                'help' => 'Sort by this column, lower order will be ahead',
+                'form_type' => '',
+                'table' => false,
+            ],
+            'image' => [
+                'name' => 'image',
+                'type' => 'file',
+                'database' => 'none',
+                'rule' => 'nullable',
+                'help' => 'You can choose multiple images',
+                'form_type' => 'file',
+                'file_accept' => 'image/*',
+                'file_multiple' => true,
+                'table' => true,
+            ],
+            'video' => [
+                'name' => 'video',
+                'type' => 'file',
+                'database' => 'none',
+                'rule' => 'nullable',
+                'help' => 'You can choose multiple videos',
+                'form_type' => 'file',
+                'file_accept' => 'video/*',
+                'file_multiple' => true,
+                'table' => false,
+            ],
+            'document' => [
+                'name' => 'document',
+                'type' => 'file',
+                'database' => 'none',
+                'rule' => 'nullable',
+                'help' => 'You can choose multiple documents',
+                'form_type' => 'file',
+                'file_accept' => '*',
+                'file_multiple' => true,
+                'table' => false,
+            ],
+            'audio' => [
+                'name' => 'audio',
+                'type' => 'file',
+                'database' => 'none',
+                'rule' => 'nullable',
+                'help' => 'You can choose multiple videos',
+                'form_type' => 'file',
+                'file_accept' => 'audio/*',
+                'file_multiple' => true,
+                'table' => false,
+            ],
+            'opening_hours' => [
+                'name' => 'opening_hours',
+                'type' => 'string',
+                'database' => 'nullable',
+                'rule' => 'nullable|max:191',
+                'help' => '',
+                'form_type' => '',
+                'table' => false,
+            ],
+            'city' => [
+                'name' => 'city',
+                'type' => 'string',
+                'database' => 'nullable',
+                'rule' => 'nullable|max:191',
+                'help' => '',
+                'form_type' => '',
+                'table' => false,
+            ],
+            'country' => [
+                'name' => 'country',
+                'type' => 'string',
+                'database' => 'nullable',
+                'rule' => '',
+                'help' => '',
+                'form_type' => '',
+                'table' => false,
+            ],
+            'province' => [
+                'name' => 'province',
+                'type' => 'string',
+                'database' => 'nullable',
+                'rule' => '',
+                'help' => '',
+                'form_type' => '',
+                'table' => false,
+            ],
+            'city' => [
+                'name' => 'city',
+                'type' => 'string',
+                'database' => 'nullable',
+                'rule' => '',
+                'help' => '',
+                'form_type' => '',
+                'table' => true,
+            ],
+            'address' => [
+                'name' => 'address',
+                'type' => 'text',
+                'database' => 'nullable',
+                'rule' => '',
+                'help' => '',
+                'form_type' => 'textarea',
+                'table' => true,
+            ],
+            'postal_code' => [
+                'name' => 'postal_code',
+                'type' => 'string',
+                'database' => 'nullable',
+                'rule' => '',
+                'help' => '',
+                'form_type' => '',
+                'table' => false,
+            ],
+            'phone' => [
+                'name' => 'phone',
+                'type' => 'string',
+                'database' => 'nullable',
+                'rule' => 'nullable|numeric',
+                'help' => 'International format +4917...',
+                'form_type' => 'phone',
+                'table' => true,
+            ],
+            'telephone' => [
+                'name' => 'telephone',
+                'type' => 'string',
+                'database' => 'nullable',
+                'rule' => 'nullable|max:30',
+                'help' => 'Home Number',
+                'form_type' => '',
+                'table' => false,
+            ],
+            'latitude' => [
+                'name' => 'latitude',
+                'type' => 'decimal',
+                'database' => 'nullable',
+                'rule' => '',
+                'help' => '',
+                'form_type' => '',
+                'table' => false,
+            ],
+            'longitude' => [
+                'name' => 'longitude',
+                'type' => 'decimal',
+                'database' => 'nullable',
+                'rule' => '',
+                'help' => '',
+                'form_type' => '',
+                'table' => false,
+            ],
+            'properties' => [
+                'name' => 'properties',
+                'type' => 'text',
+                'database' => 'nullable',
+                'rule' => '',
+                'help' => '',
+                'form_type' => 'textarea',
+                'table' => false,
+            ],
+            'website' => [
+                'name' => 'website',
+                'type' => 'string',
+                'database' => 'nullable',
+                'rule' => 'nullable',
+                'help' => '',
+                'form_type' => '',
+                'table' => false,
+            ],
+            'email' => [
+                'name' => 'email',
+                'type' => 'string',
+                'database' => 'nullable',
+                'rule' => 'nullable|unique:' . $tableName . ',email,',
+                'help' => 'Wrtie valid email address',
+                'form_type' => 'email',
+                'table' => false,
+            ],
+            'price' => [
+                'name' => 'price',
+                'type' => 'bigInteger',
+                'database' => 'nullable',
+                'rule' => 'nullable|numeric',
+                'help' => '',
+                'form_type' => 'number',
+                'table' => true,
+            ],
+            'discount_price' => [
+                'name' => 'discount_price',
+                'type' => 'bigInteger',
+                'database' => 'nullable',
+                'rule' => 'nullable|numeric',
+                'help' => '',
+                'form_type' => 'number',
+                'table' => false,
+            ],
+            'year' => [
+                'name' => 'year',
+                'type' => 'integer',
+                'database' => 'nullable',
+                'rule' => 'nullable|numeric',
+                'help' => '',
+                'form_type' => 'number',
+                'table' => false,
+            ],
+            'rooms' => [
+                'name' => 'rooms',
+                'type' => 'integer',
+                'database' => 'nullable',
+                'rule' => 'nullable|numeric',
+                'help' => '',
+                'form_type' => 'number',
+                'table' => true,
+            ],
+            'color' => [
+                'name' => 'color',
+                'type' => 'string',
+                'database' => 'nullable',
+                'rule' => '',
+                'help' => '',
+                'form_type' => '',
+                'table' => false,
+            ],
+            'foundation' => [
+                'name' => 'foundation',
+                'type' => 'string',
+                'database' => 'nullable',
+                'rule' => '',
+                'help' => '',
+                'form_type' => '',
+                'table' => true,
+            ],
+            'calorie' => [
+                'name' => 'calorie',
+                'type' => 'integer',
+                'database' => 'nullable',
+                'rule' => 'nullable|numeric',
+                'help' => '',
+                'form_type' => '',
+                'table' => false,
+            ],
+            'singer' => [
+                'name' => 'singer',
+                'type' => 'string',
+                'database' => 'nullable',
+                'rule' => '',
+                'help' => '',
+                'form_type' => '',
+                'table' => true,
+            ],
+            'director' => [
+                'name' => 'director',
+                'type' => 'string',
+                'database' => 'nullable',
+                'rule' => '',
+                'help' => '',
+                'form_type' => '',
+                'table' => true,
+            ],
+            'date' => [
+                'name' => 'date',
+                'type' => 'string',
+                'database' => 'nullable',
+                'rule' => '',
+                'help' => '',
+                'form_type' => 'date',
+                'table' => true,
+            ],
+            'time' => [
+                'name' => 'time',
+                'type' => 'string',
+                'database' => 'nullable',
+                'rule' => '',
+                'help' => '',
+                'form_type' => 'time',
+                'table' => true,
+            ],
+            'destination' => [
+                'name' => 'destination',
+                'type' => 'string',
+                'database' => 'nullable',
+                'rule' => '',
+                'help' => '',
+                'form_type' => '',
+                'table' => true,
+            ],
+            'origin' => [
+                'name' => 'origin',
+                'type' => 'string',
+                'database' => 'nullable',
+                'rule' => '',
+                'help' => '',
+                'form_type' => '',
+                'table' => true,
+            ],
+        ];
     }
 }

@@ -19,7 +19,6 @@ abstract class ApiController extends Controller
         $this->authorize('index', $this->modelNamespace);
         $list = $this->modelRepository
             ->active()
-            ->language()
             ->orderBy('updated_at', 'desc')
             ->get();
 
@@ -31,28 +30,19 @@ abstract class ApiController extends Controller
 
     final public function show(string $url): JsonResponse
     {
-        $model = $this->modelRepository
+        $showedModel = $this->modelRepository
             ->where('url', $url)
             ->active()
-            ->language()
             ->first();
 
-        if (!$model) {
+        if (!$showedModel) {
             return $this->prepareJsonResponse();
         }
-        $this->authorize('view', $model);
-
-        // $model->category = $model->category;
-        // $model->tags = $model->tags;
-        // $model->relateds = $model->relateds;
-        // $model->images = $model->srcs('image');
-        // $model->videos = $model->srcs('video');
-        // $model->audios = $model->srcs('audio');
-        // $model->avatar = $model->avatar();
+        $this->authorize('view', $showedModel);
 
         return $this->setSuccessStatus()
             ->setMessage(__('show_successfully'))
-            ->setData($model)
+            ->setData($showedModel->appendData())
             ->prepareJsonResponse();
     }
 
@@ -65,11 +55,14 @@ abstract class ApiController extends Controller
     {
         $this->authorize('create', $this->modelNamespace);
         $mainData = $this->httpRequest->all();
-        $validator = Validator::make($mainData, $this->modelRules);
+        $modelRules = $this->modelRepository->getRules();
+        $validator = Validator::make($mainData, $modelRules);
         if ($validator->fails()) {
-            return response()->json($validator->messages(), 200);
+            return $this->setMessage(__('validation_failed'))
+                ->setData($validator->messages())
+                ->prepareJsonResponse();
         }
-        $modelStore = $this->modelRepository->create($mainData);
+        $storedModel = $this->modelRepository->create($mainData);
 
         // @TODO activity
         // if (env('APP_ENV') !== 'testing') {
@@ -81,50 +74,36 @@ abstract class ApiController extends Controller
 
         return $this->setSuccessStatus()
             ->setMessage($this->modelNameTranslate . __('created_successfully'))
-            ->setData($modelStore)
+            ->setData($storedModel->appendData())
             ->prepareJsonResponse();
     }
 
-    final public function edit($id)
+    final public function edit()
     {
-        $modelEdit = $this->modelRepository
-            ->where('id', $id)
-            ->first();
-
-        if (!$modelEdit) {
-            $this->response['status'] = 'error';
-            $this->response['message'] = $this->notFoundMessage;
-
-            return response()->json($this->response);
-        }
-        $this->authorize('update', $modelEdit);
-
-        $mainData = $modelEdit->getAttributes();
-
-        $this->response['message'] = __('show_successfully');
-        $this->response['data'] = $mainData;
-
-        return response()->json($this->response);
+        abort(404);
     }
 
-    final public function update($id)
+    final public function update(string $url)
     {
-        $modelUpdate = $this->modelRepository->where('id', $id)->first();
-        if (!$modelUpdate) {
-            $this->response['status'] = 'error';
-            $this->response['message'] = $this->notFoundMessage;
+        $updatedModel = $this->modelRepository
+            ->where('url', $url)
+            ->active()
+            ->first();
 
-            return response()->json($this->response);
+        if (!$updatedModel) {
+            return $this->prepareJsonResponse();
         }
-        $this->authorize('update', $modelUpdate);
+        $this->authorize('update', $updatedModel);
 
         $mainData = $this->httpRequest->all();
-        $validator = Validator::make($mainData, $this->modelRules);
+        $modelRules = $updatedModel->getRules();
+        $validator = Validator::make($mainData, $modelRules);
         if ($validator->fails()) {
-            return response()->json($validator->messages(), 200);
+            return $this->setMessage(__('validation_failed'))
+                ->setData($validator->messages())
+                ->prepareJsonResponse();
         }
-
-        $modelUpdate->update($mainData);
+        $updatedModel->update($mainData);
 
         // @TODO activity
         // if (env('APP_ENV') !== 'testing') {
@@ -134,24 +113,21 @@ abstract class ApiController extends Controller
         //         ->log($this->modelName . ' Updated');
         // }
 
-        $this->response['message'] = $this->modelNameTranslate . __('updated_successfully');
-        $this->response['data'] = $modelUpdate;
-
-        return response()->json($this->response);
+        return $this->setSuccessStatus()
+            ->setMessage(__('updated_successfully'))
+            ->setData($updatedModel->appendData())
+            ->prepareJsonResponse();
     }
 
-    final public function destroy($id)
+    final public function destroy(string $url): JsonResponse
     {
-        $modelDelete = $this->modelRepository->where('id', $id)->first();
-        if (!$modelDelete) {
-            $this->response['status'] = 'error';
-            $this->response['message'] = $this->notFoundMessage;
-
-            return response()->json($this->response);
+        $deletedModel = $this->modelRepository->where('url', $url)->first();
+        if (!$deletedModel) {
+            return $this->prepareJsonResponse();
         }
-        $this->authorize('delete', $modelDelete);
+        $this->authorize('delete', $deletedModel);
 
-        $modelDelete->delete();
+        $deletedModel->delete();
 
         // @TODO activity
         // if (env('APP_ENV') !== 'testing') {
@@ -161,23 +137,9 @@ abstract class ApiController extends Controller
         //         ->log($this->modelName . ' Deleted');
         // }
 
-        $this->response['message'] = $this->modelNameTranslate . __('deleted_successfully');
-        $this->response['data'] = $modelDelete;
-
-        return response()->json($this->response);
-    }
-
-    final public function getCategories()
-    {
-        $list = Category::ofType($this->modelName)
-            ->active()
-            ->language()
-            ->orderBy('updated_at', 'desc')
-            ->get();
-
-        $this->response['message'] = 'Category' . __('list_successfully');
-        $this->response['data'] = $list;
-
-        return response()->json($this->response);
+        return $this->setSuccessStatus()
+            ->setMessage(__('deleted_successfully'))
+            ->setData($deletedModel)
+            ->prepareJsonResponse();
     }
 }

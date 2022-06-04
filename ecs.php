@@ -51,6 +51,7 @@ return static function (ECSConfig $ecsConfig): void {
         __DIR__ . '/config',
         __DIR__ . '/database/migrations',
         __DIR__ . '/database/seeders',
+        __DIR__ . '/resources/lang',
         __DIR__ . '/routes',
         __DIR__ . '/tests',
     ]);

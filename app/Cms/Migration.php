@@ -10,7 +10,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Str;
 
-final class Migration extends LaravelMigration
+abstract class Migration extends LaravelMigration
 {
     // Models of migration tables
     public array $modelNameSlugs = [];

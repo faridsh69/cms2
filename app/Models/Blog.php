@@ -31,6 +31,9 @@ final class Blog extends Model
             'name' => 'audio',
         ],
         [
+            'name' => 'document',
+        ],
+        [
             'name' => 'activated',
         ],
         [
