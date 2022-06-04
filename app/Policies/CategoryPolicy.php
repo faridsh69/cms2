@@ -8,5 +8,5 @@ use App\Cms\Policy;
 
 final class CategoryPolicy extends Policy
 {
-    public string $modelNameSlug = 'category';
+	public string $modelNameSlug = 'category';
 }

@@ -14,8 +14,8 @@ use App\Cms\Test;
  */
 final class FrontTest extends Test
 {
-    public function test(): void
-    {
-        $this->frontTest();
-    }
+	public function test(): void
+	{
+		$this->frontTest();
+	}
 }

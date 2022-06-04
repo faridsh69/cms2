@@ -8,5 +8,5 @@ use App\Cms\Policy;
 
 final class TagendPolicy extends Policy
 {
-    public string $modelNameSlug = 'tagend';
+	public string $modelNameSlug = 'tagend';
 }

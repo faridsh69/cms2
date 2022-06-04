@@ -8,5 +8,5 @@ use App\Cms\Policy;
 
 final class AddressPolicy extends Policy
 {
-    public string $modelNameSlug = 'address';
+	public string $modelNameSlug = 'address';
 }

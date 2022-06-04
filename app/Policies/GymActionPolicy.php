@@ -8,5 +8,5 @@ use App\Cms\Policy;
 
 final class GymActionPolicy extends Policy
 {
-    public string $modelNameSlug = 'gym-action';
+	public string $modelNameSlug = 'gym-action';
 }

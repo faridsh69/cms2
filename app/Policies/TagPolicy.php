@@ -8,5 +8,5 @@ use App\Cms\Policy;
 
 final class TagPolicy extends Policy
 {
-    public string $modelNameSlug = 'tag';
+	public string $modelNameSlug = 'tag';
 }

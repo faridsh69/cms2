@@ -8,5 +8,5 @@ use App\Cms\Policy;
 
 final class TravelPolicy extends Policy
 {
-    public string $modelNameSlug = 'travel';
+	public string $modelNameSlug = 'travel';
 }

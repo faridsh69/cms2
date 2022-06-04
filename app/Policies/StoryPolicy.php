@@ -8,5 +8,5 @@ use App\Cms\AuthPolicy;
 
 final class StoryPolicy extends AuthPolicy
 {
-    public string $modelNameSlug = 'story';
+	public string $modelNameSlug = 'story';
 }

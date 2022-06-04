@@ -8,5 +8,5 @@ use App\Cms\Policy;
 
 final class FoodProgramPolicy extends Policy
 {
-    public string $modelNameSlug = 'food-program';
+	public string $modelNameSlug = 'food-program';
 }

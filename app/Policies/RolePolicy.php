@@ -8,5 +8,5 @@ use App\Cms\Policy;
 
 final class RolePolicy extends Policy
 {
-    public string $modelNameSlug = 'role';
+	public string $modelNameSlug = 'role';
 }

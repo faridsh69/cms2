@@ -8,5 +8,5 @@ use App\Cms\Policy;
 
 final class PermissionPolicy extends Policy
 {
-    public string $modelNameSlug = 'permission';
+	public string $modelNameSlug = 'permission';
 }

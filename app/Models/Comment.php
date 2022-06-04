@@ -8,55 +8,55 @@ use App\Cms\Model;
 
 final class Comment extends Model
 {
-    public $columns = [
-        [
-            'name' => 'user_id',
-        ],
-        [
-            'name' => 'content',
-        ],
-        [
-            'name' => 'activated',
-        ],
-        [
-            'name' => 'image',
-        ],
-        [
-            'name' => 'video',
-        ],
-        [
-            'name' => 'commentable_type',
-            'type' => 'string',
-            'database' => 'nullable',
-            'rule' => '',
-            'help' => '',
-            'form_type' => '',
-            'table' => true,
-        ],
-        [
-            'name' => 'commentable_id',
-            'type' => 'unsignedBigInteger',
-            'database' => 'nullable',
-            'rule' => '',
-            'help' => '',
-            'form_type' => '',
-            'table' => true,
-        ],
-    ];
+	public $columns = [
+		[
+			'name' => 'user_id',
+		],
+		[
+			'name' => 'content',
+		],
+		[
+			'name' => 'activated',
+		],
+		[
+			'name' => 'image',
+		],
+		[
+			'name' => 'video',
+		],
+		[
+			'name' => 'commentable_type',
+			'type' => 'string',
+			'database' => 'nullable',
+			'rule' => '',
+			'help' => '',
+			'form_type' => '',
+			'table' => true,
+		],
+		[
+			'name' => 'commentable_id',
+			'type' => 'unsignedBigInteger',
+			'database' => 'nullable',
+			'rule' => '',
+			'help' => '',
+			'form_type' => '',
+			'table' => true,
+		],
+	];
 
-    public function commentable()
-    {
-        return $this->morphTo();
-    }
+	public function commentable()
+	{
+		return $this->morphTo();
+	}
 
-    public function getAuthorAttribute()
-    {
-        $user = $this->user()->first();
+	public function getAuthorAttribute()
+	{
+		$user = $this->user()->first();
 
-        if ($user) {
-            return $user->name;
-        }
+		if ($user) {
+			return $user->name;
+		}
 
-        return 'User';
-    }
+		return 'User';
+	}
 }

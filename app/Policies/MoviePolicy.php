@@ -8,5 +8,5 @@ use App\Cms\Policy;
 
 final class MoviePolicy extends Policy
 {
-    public string $modelNameSlug = 'movie';
+	public string $modelNameSlug = 'movie';
 }

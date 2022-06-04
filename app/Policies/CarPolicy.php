@@ -8,5 +8,5 @@ use App\Cms\Policy;
 
 final class CarPolicy extends Policy
 {
-    public string $modelNameSlug = 'car';
+	public string $modelNameSlug = 'car';
 }

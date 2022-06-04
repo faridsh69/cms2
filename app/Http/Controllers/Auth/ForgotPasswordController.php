@@ -12,35 +12,35 @@ use Illuminate\Support\Facades\Hash;
 
 final class ForgotPasswordController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
+	public function __construct()
+	{
+		$this->middleware('guest');
+	}
 
-    public function index()
-    {
-        return view('auth.forget-password');
-    }
+	public function index()
+	{
+		return view('auth.forget-password');
+	}
 
-    public function sendResetLinkEmail(Request $request)
-    {
-        $email = $request->input('email');
-        $user = User::where('email', $email)->first();
-        if (!$user) {
-            $request->session()->flash('alert-danger', __('user not found'));
+	public function sendResetLinkEmail(Request $request)
+	{
+		$email = $request->input('email');
+		$user = User::where('email', $email)->first();
+		if (!$user) {
+			$request->session()->flash('alert-danger', __('user not found'));
 
-            return redirect()->back();
-        }
-        $new_password = mt_rand(100000, 999999);
-        $user->password = Hash::make($new_password);
-        $user->save();
+			return redirect()->back();
+		}
+		$new_password = mt_rand(100000, 999999);
+		$user->password = Hash::make($new_password);
+		$user->save();
 
-        $password_changed = new PasswordChanged();
-        $password_changed->setCode($new_password);
-        $user->notify($password_changed);
+		$password_changed = new PasswordChanged();
+		$password_changed->setCode($new_password);
+		$user->notify($password_changed);
 
-        $request->session()->flash('alert-danger', __('password sent to your email'));
+		$request->session()->flash('alert-danger', __('password sent to your email'));
 
-        return redirect()->route('auth.login');
-    }
+		return redirect()->route('auth.login');
+	}
 }

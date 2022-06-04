@@ -8,5 +8,5 @@ use App\Cms\AuthPolicy;
 
 final class LikePolicy extends AuthPolicy
 {
-    public string $modelNameSlug = 'like';
+	public string $modelNameSlug = 'like';
 }

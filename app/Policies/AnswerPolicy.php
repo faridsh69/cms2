@@ -8,5 +8,5 @@ use App\Cms\Policy;
 
 final class AnswerPolicy extends Policy
 {
-    public string $modelNameSlug = 'answer';
+	public string $modelNameSlug = 'answer';
 }

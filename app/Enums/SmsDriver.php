@@ -6,8 +6,8 @@ namespace App\Enums;
 
 final class SmsDriver
 {
-    public const data = [
-        'kavenegar' => 'Kavenegar',
-        'raygansms' => 'Raygansms',
-    ];
+	public const data = [
+		'kavenegar' => 'Kavenegar',
+		'raygansms' => 'Raygansms',
+	];
 }

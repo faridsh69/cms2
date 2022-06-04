@@ -8,5 +8,5 @@ use App\Cms\AuthPolicy;
 
 final class RatePolicy extends AuthPolicy
 {
-    public string $modelNameSlug = 'rate';
+	public string $modelNameSlug = 'rate';
 }

@@ -8,5 +8,5 @@ use App\Cms\Policy;
 
 final class BlockPolicy extends Policy
 {
-    public string $modelNameSlug = 'block';
+	public string $modelNameSlug = 'block';
 }

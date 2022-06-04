@@ -10,5 +10,5 @@ Route::post('logout', 'LoginController@logout')->name('logout');
 Route::get('forget-password', 'ForgotPasswordController@index')->name('forget-password');
 Route::get('login/{social_company}', 'LoginController@redirectToProvider')->name('login-social');
 Route::get('login/{social_company}/callback', 'LoginController@handleProviderCallback')->name(
-    'login-social-redirect'
+	'login-social-redirect'
 );

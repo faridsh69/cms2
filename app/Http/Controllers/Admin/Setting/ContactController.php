@@ -8,5 +8,5 @@ use App\Cms\AdminSettingsController;
 
 final class ContactController extends AdminSettingsController
 {
-    public string $modelNameSlug = 'setting-contact';
+	public string $modelNameSlug = 'setting-contact';
 }

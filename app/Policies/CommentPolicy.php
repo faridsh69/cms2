@@ -8,5 +8,5 @@ use App\Cms\Policy;
 
 final class CommentPolicy extends Policy
 {
-    public string $modelNameSlug = 'comment';
+	public string $modelNameSlug = 'comment';
 }

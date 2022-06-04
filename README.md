@@ -50,14 +50,11 @@ username: farid.sh69@gmail.com
 password: 123456
 ```
 
-#### Fix code style after your developments via pre-commit
+#### Run code style
 
+It will check `app`, `config`, `database`, `routes` and `test` folders
 ```sh
-vendor/bin/ecs check app --fix
-vendor/bin/ecs check config --fix
-vendor/bin/ecs check database --fix
-vendor/bin/ecs check routes --fix
-vendor/bin/ecs check tests --fix
+.\vendor\bin\ecs --fix
 ```
 
 #### Run tests

@@ -8,5 +8,5 @@ use App\Cms\Policy;
 
 final class FieldPolicy extends Policy
 {
-    public string $modelNameSlug = 'field';
+	public string $modelNameSlug = 'field';
 }

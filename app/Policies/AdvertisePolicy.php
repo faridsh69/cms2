@@ -8,5 +8,5 @@ use App\Cms\AuthPolicy;
 
 final class AdvertisePolicy extends AuthPolicy
 {
-    public string $modelNameSlug = 'advertise';
+	public string $modelNameSlug = 'advertise';
 }

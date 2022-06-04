@@ -8,13 +8,13 @@ use Kris\LaravelFormBuilder\Fields\FormField;
 
 final class File extends FormField
 {
-    public function render(array $options = [], $showLabel = true, $showField = true, $showError = true)
-    {
-        return parent::render($options, $showLabel, $showField, $showError);
-    }
+	public function render(array $options = [], $showLabel = true, $showField = true, $showError = true)
+	{
+		return parent::render($options, $showLabel, $showField, $showError);
+	}
 
-    protected function getTemplate()
-    {
-        return 'vendor.laravel-form-builder.file';
-    }
+	protected function getTemplate()
+	{
+		return 'vendor.laravel-form-builder.file';
+	}
 }

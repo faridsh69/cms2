@@ -8,5 +8,5 @@ use App\Cms\Policy;
 
 final class NotificationPolicy extends Policy
 {
-    public string $modelNameSlug = 'notification';
+	public string $modelNameSlug = 'notification';
 }

@@ -8,5 +8,5 @@ use App\Cms\AdminSettingsController;
 
 final class GeneralController extends AdminSettingsController
 {
-    public string $modelNameSlug = 'setting-general';
+	public string $modelNameSlug = 'setting-general';
 }

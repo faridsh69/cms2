@@ -8,5 +8,5 @@ use App\Cms\Policy;
 
 final class PagePolicy extends Policy
 {
-    public string $modelNameSlug = 'page';
+	public string $modelNameSlug = 'page';
 }

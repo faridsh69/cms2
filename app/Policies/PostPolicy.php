@@ -8,5 +8,5 @@ use App\Cms\AuthPolicy;
 
 final class PostPolicy extends AuthPolicy
 {
-    public string $modelNameSlug = 'post';
+	public string $modelNameSlug = 'post';
 }

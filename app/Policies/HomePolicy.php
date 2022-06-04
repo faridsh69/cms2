@@ -8,5 +8,5 @@ use App\Cms\Policy;
 
 final class HomePolicy extends Policy
 {
-    public string $modelNameSlug = 'home';
+	public string $modelNameSlug = 'home';
 }

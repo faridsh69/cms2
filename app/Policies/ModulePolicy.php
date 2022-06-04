@@ -8,5 +8,5 @@ use App\Cms\Policy;
 
 final class ModulePolicy extends Policy
 {
-    public string $modelNameSlug = 'module';
+	public string $modelNameSlug = 'module';
 }

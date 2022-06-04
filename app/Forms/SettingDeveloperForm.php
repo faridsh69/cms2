@@ -8,5 +8,5 @@ use App\Cms\Form;
 
 final class SettingDeveloperForm extends Form
 {
-    public string $modelName = 'SettingDeveloper';
+	public string $modelName = 'SettingDeveloper';
 }

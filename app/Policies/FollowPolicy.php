@@ -8,5 +8,5 @@ use App\Cms\AuthPolicy;
 
 final class FollowPolicy extends AuthPolicy
 {
-    public string $modelNameSlug = 'follow';
+	public string $modelNameSlug = 'follow';
 }

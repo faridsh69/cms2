@@ -8,5 +8,5 @@ use App\Cms\Form;
 
 final class SettingGeneralForm extends Form
 {
-    public string $modelName = 'SettingGeneral';
+	public string $modelName = 'SettingGeneral';
 }

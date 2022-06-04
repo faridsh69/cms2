@@ -8,5 +8,5 @@ use App\Cms\Form;
 
 final class SettingContactForm extends Form
 {
-    public string $modelName = 'SettingContact';
+	public string $modelName = 'SettingContact';
 }

@@ -9,21 +9,21 @@ use Illuminate\Database\Seeder as LaravelSeeder;
 
 final class DatabaseSeeder extends LaravelSeeder
 {
-    public function run(): void
-    {
-        $this->call(Seeder001Categories::class);
-        $this->call(Seeder002Tags::class);
-        $this->call(Seeder003Users::class);
-        $this->call(Seeder004Settings::class);
-        $this->call(Seeder005Products::class);
-        $this->call(Seeder006Pages::class);
-        $this->call(Seeder007Blocks::class);
-        $this->call(Seeder008Modules::class);
-        $this->call(Seeder009Fields::class);
-        $this->call(Seeder010Roles::class);
+	public function run(): void
+	{
+		$this->call(Seeder001Categories::class);
+		$this->call(Seeder002Tags::class);
+		$this->call(Seeder003Users::class);
+		$this->call(Seeder004Settings::class);
+		$this->call(Seeder005Products::class);
+		$this->call(Seeder006Pages::class);
+		$this->call(Seeder007Blocks::class);
+		$this->call(Seeder008Modules::class);
+		$this->call(Seeder009Fields::class);
+		$this->call(Seeder010Roles::class);
 
-        $this->call(CmsSeeder::class);
+		$this->call(CmsSeeder::class);
 
-        $this->call(CmsLaravelWebsiteSeeder::class);
-    }
+		$this->call(CmsLaravelWebsiteSeeder::class);
+	}
 }

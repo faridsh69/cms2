@@ -6,46 +6,46 @@ namespace App\Cms;
 
 trait ApiTrait
 {
-    private $data;
+	private $data;
 
-    private string $message = 'Not Found';
+	private string $message = 'Not Found';
 
-    private string $status = 'error';
+	private string $status = 'error';
 
-    public function setData($data): self
-    {
-        $this->data = $data;
+	public function setData($data): self
+	{
+		$this->data = $data;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    public function setMessage(string $message): self
-    {
-        $this->message = $message;
+	public function setMessage(string $message): self
+	{
+		$this->message = $message;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    private function setErrorStatus(): self
-    {
-        $this->status = 'error';
+	private function setErrorStatus(): self
+	{
+		$this->status = 'error';
 
-        return $this;
-    }
+		return $this;
+	}
 
-    private function setSuccessStatus(): self
-    {
-        $this->status = 'success';
+	private function setSuccessStatus(): self
+	{
+		$this->status = 'success';
 
-        return $this;
-    }
+		return $this;
+	}
 
-    private function prepareJsonResponse()
-    {
-        return response()->json([
-            'status' => $this->status,
-            'message' => $this->message,
-            'data' => $this->data,
-        ]);
-    }
+	private function prepareJsonResponse()
+	{
+		return response()->json([
+			'status' => $this->status,
+			'message' => $this->message,
+			'data' => $this->data,
+		]);
+	}
 }

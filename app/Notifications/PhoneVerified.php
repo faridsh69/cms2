@@ -9,8 +9,8 @@ use App\Notifications\Channels\{DatabaseChannel, SmsChannel};
 
 final class PhoneVerified extends Notification
 {
-    public function via($notifiable)
-    {
-        return [DatabaseChannel::class, SmsChannel::class];
-    }
+	public function via($notifiable)
+	{
+		return [DatabaseChannel::class, SmsChannel::class];
+	}
 }

@@ -8,5 +8,5 @@ use App\Cms\Policy;
 
 final class FilePolicy extends Policy
 {
-    public string $modelNameSlug = 'file';
+	public string $modelNameSlug = 'file';
 }

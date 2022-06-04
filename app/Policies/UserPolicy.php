@@ -8,5 +8,5 @@ use App\Cms\Policy;
 
 final class UserPolicy extends Policy
 {
-    public string $modelNameSlug = 'user';
+	public string $modelNameSlug = 'user';
 }

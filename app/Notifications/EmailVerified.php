@@ -9,8 +9,8 @@ use App\Notifications\Channels\DatabaseChannel;
 
 final class EmailVerified extends Notification
 {
-    public function via($notifiable)
-    {
-        return [DatabaseChannel::class, 'mail'];
-    }
+	public function via($notifiable)
+	{
+		return [DatabaseChannel::class, 'mail'];
+	}
 }

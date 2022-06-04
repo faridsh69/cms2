@@ -8,5 +8,5 @@ use App\Cms\Policy;
 
 final class MusicPolicy extends Policy
 {
-    public string $modelNameSlug = 'music';
+	public string $modelNameSlug = 'music';
 }

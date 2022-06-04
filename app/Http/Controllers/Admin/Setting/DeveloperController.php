@@ -8,5 +8,5 @@ use App\Cms\AdminSettingsController;
 
 final class DeveloperController extends AdminSettingsController
 {
-    public string $modelNameSlug = 'setting-developer';
+	public string $modelNameSlug = 'setting-developer';
 }

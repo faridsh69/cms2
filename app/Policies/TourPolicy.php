@@ -8,5 +8,5 @@ use App\Cms\Policy;
 
 final class TourPolicy extends Policy
 {
-    public string $modelNameSlug = 'tour';
+	public string $modelNameSlug = 'tour';
 }

@@ -9,25 +9,25 @@ use Str;
 
 final class Seeder extends LaravelSeeder
 {
-    public function run(): void
-    {
-        $modelNameSlugs = config('cms.seeder');
+	public function run(): void
+	{
+		$modelNameSlugs = config('cms.seeder');
 
-        foreach ($modelNameSlugs as $modelNameSlug) {
-            echo 'Seeding ' . $modelNameSlug . '...';
-            $modelName = Str::studly($modelNameSlug);
-            $modelNamespace = config('cms.config.models_namespace') . $modelName;
-            $modelRepository = new $modelNamespace();
-            for ($i = 0; $i < 4; ++$i) {
-                // Create fake data and store them in database
-                $factory = new Factory();
-                $factory->setModelNameSlug($modelNameSlug);
-                $fakeModel = $factory->make();
-                $fakeData = $fakeModel->getAttributes();
+		foreach ($modelNameSlugs as $modelNameSlug) {
+			echo 'Seeding ' . $modelNameSlug . '...';
+			$modelName = Str::studly($modelNameSlug);
+			$modelNamespace = config('cms.config.models_namespace') . $modelName;
+			$modelRepository = new $modelNamespace();
+			for ($i = 0; $i < 4; ++$i) {
+				// Create fake data and store them in database
+				$factory = new Factory();
+				$factory->setModelNameSlug($modelNameSlug);
+				$fakeModel = $factory->make();
+				$fakeData = $fakeModel->getAttributes();
 
-                $modelRepository->saveWithRelations($fakeData);
-            }
-            echo "Done!\n";
-        }
-    }
+				$modelRepository->saveWithRelations($fakeData);
+			}
+			echo "Done!\n";
+		}
+	}
 }

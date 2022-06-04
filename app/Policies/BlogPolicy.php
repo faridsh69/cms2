@@ -8,5 +8,5 @@ use App\Cms\Policy;
 
 final class BlogPolicy extends Policy
 {
-    public string $modelNameSlug = 'blog';
+	public string $modelNameSlug = 'blog';
 }

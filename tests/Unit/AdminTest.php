@@ -14,8 +14,8 @@ use App\Cms\Test;
  */
 final class AdminTest extends Test
 {
-    public function test(): void
-    {
-        $this->adminTest();
-    }
+	public function test(): void
+	{
+		$this->adminTest();
+	}
 }

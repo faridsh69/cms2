@@ -8,5 +8,5 @@ use App\Cms\AuthPolicy;
 
 final class FactorPolicy extends AuthPolicy
 {
-    public string $modelNameSlug = 'factor';
+	public string $modelNameSlug = 'factor';
 }
