@@ -10,6 +10,7 @@ git clone https://github.com/faridsh69/cms2.git
 
 ```sh
 cp .env.example .env
+cp .env.example .env.testing
 ```
 
 #### Install dependencies
