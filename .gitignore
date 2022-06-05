@@ -6,6 +6,8 @@
 .env
 .env.testing
 composer.lock
+.scribe
+/public/docs
 
 .phpunit.result.cache
 docker-compose.override.yml

@@ -61,7 +61,13 @@ It will check `app`, `config`, `database`, `routes` and `test` folders
 #### Run tests
 
 ```sh
-vendor/bin/phpunit
+.\vendor\bin\phpunit
+```
+
+#### Generate API docs
+
+```sh
+php artisan scribe:generate
 ```
 
 #### Creating personal token using passport

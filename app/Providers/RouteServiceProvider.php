@@ -44,7 +44,6 @@ final class RouteServiceProvider extends ServiceProvider
 
 	protected function configureRateLimiting(): void
 	{
-		// ->middleware(['api', 'throttle:' . config('setting-developer.throttle')])
 		RateLimiter::for(
 			'api',
 			fn (Request $request) => Limit::perMinute(360)->by(optional($request->user())->id ?: $request->ip())
