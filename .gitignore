@@ -6,6 +6,7 @@
 .env
 .env.testing
 composer.lock
+
 .phpunit.result.cache
 docker-compose.override.yml
 Homestead.json
