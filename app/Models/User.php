@@ -252,6 +252,8 @@ final class User extends Authenticatable
 		'activated' => 'boolean',
 	];
 
+	protected $appends = ['avatar', 'name'];
+
 	public function routeNotificationForSlack($notification)
 	{
 		return 'https://hooks.slack.com/services/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';
@@ -297,15 +299,10 @@ final class User extends Authenticatable
 		return $this->morphMany(Follow::class, 'followable');
 	}
 
-	// public function getTitleAttribute()
-	// {
-	//     return $this->first_name . ' ' . $this->last_name;
-	// }
-
-	// public function getNameAttribute()
-	// {
-	//     return $this->first_name . ' ' . $this->last_name;
-	// }
+	public function getNameAttribute()
+	{
+		return $this->first_name . ' ' . $this->last_name;
+	}
 
 	// In RolesSeeder system is giving admin roles to this users.
 	public static function getAdminUsers()

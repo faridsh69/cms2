@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\{BelongsTo, belongsToMany, morphMany, morphToMany};
 use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
 use ReflectionClass;
+use Str;
 
 trait ModelTrait
 {
@@ -112,6 +113,11 @@ trait ModelTrait
 		return $this->avatar();
 	}
 
+	public function getUserAttribute()
+	{
+		return $this->user()->select('id', 'url', 'first_name', 'last_name')->first();
+	}
+
 	public function saveWithRelations(array $data): Model
 	{
 		$formDataWitoutUploadFilesAndArrays = $this->clearFilesAndArrays($data);
@@ -183,6 +189,7 @@ trait ModelTrait
 		$this->videos = $this->srcs('video');
 		$this->audios = $this->srcs('audio');
 		$this->documents = $this->srcs('document');
+		$this->likes = $this->likes;
 		$this->category = $this->category;
 		$this->tags = $this->tags;
 		$this->relateds = $this->relateds;
@@ -221,6 +228,12 @@ trait ModelTrait
 					$data['password'] = Hash::make(123456);
 				}
 			}
+		}
+
+		// Convert blog to App\Models\Blog
+		if (class_basename($this) === 'Like') {
+			$modelName = Str::studly($data['likeable_type']);
+			$data['likeable_type'] = config('cms.config.models_namespace') . $modelName;
 		}
 
 		return $data;

@@ -17,7 +17,6 @@ abstract class ApiController extends Controller
 	{
 		$this->authorize('index', $this->modelNamespace);
 		$list = $this->modelRepository
-			->active()
 			->orderBy('updated_at', 'desc')
 			->get();
 
@@ -31,9 +30,13 @@ abstract class ApiController extends Controller
 	{
 		$showedModel = $this->modelRepository
 			->where('url', $url)
-			->active()
 			->first();
 
+		return $this->showOrGetById($showedModel);
+	}
+
+	private function showOrGetById($showedModel)
+	{
 		if (!$showedModel) {
 			return $this->prepareJsonResponse();
 		}
@@ -43,6 +46,14 @@ abstract class ApiController extends Controller
 			->setMessage(__('show_successfully'))
 			->setData($showedModel->appendData())
 			->prepareJsonResponse();
+	}
+
+	final public function getById(int $id): JsonResponse
+	{
+		$showedModel = $this->modelRepository
+			->find($id);
+
+		return $this->showOrGetById($showedModel);
 	}
 
 	final public function create(): void
@@ -118,9 +129,61 @@ abstract class ApiController extends Controller
 			->prepareJsonResponse();
 	}
 
+	final public function updateById(int $id): JsonResponse
+	{
+		$updatedModel = $this->modelRepository
+			->where('id', $id)
+			->first();
+
+		if (!$updatedModel) {
+			return $this->prepareJsonResponse();
+		}
+		$this->authorize('update', $updatedModel);
+
+		$mainData = $this->httpRequest->all();
+		$modelRules = $updatedModel->getRules();
+		$validator = Validator::make($mainData, $modelRules);
+		if ($validator->fails()) {
+			return $this->setMessage(__('validation_failed'))
+				->setData($validator->messages())
+				->prepareJsonResponse();
+		}
+
+		$updatedModel->saveWithRelations($mainData);
+
+		return $this->setSuccessStatus()
+			->setMessage(__('updated_successfully'))
+			->setData($updatedModel->appendData())
+			->prepareJsonResponse();
+	}
+
 	final public function destroy(string $url): JsonResponse
 	{
 		$deletedModel = $this->modelRepository->where('url', $url)->first();
+		if (!$deletedModel) {
+			return $this->prepareJsonResponse();
+		}
+		$this->authorize('delete', $deletedModel);
+
+		$deletedModel->delete();
+
+		// @TODO activity
+		// if (env('APP_ENV') !== 'testing') {
+		//     activity($this->modelName)
+		//         ->performedOn($modelDelete)
+		//         ->causedBy(Auth::user())
+		//         ->log($this->modelName . ' Deleted');
+		// }
+
+		return $this->setSuccessStatus()
+			->setMessage(__('deleted_successfully'))
+			->setData($deletedModel)
+			->prepareJsonResponse();
+	}
+
+	final public function destroyById(int $id): JsonResponse
+	{
+		$deletedModel = $this->modelRepository->where('id', $id)->first();
 		if (!$deletedModel) {
 			return $this->prepareJsonResponse();
 		}

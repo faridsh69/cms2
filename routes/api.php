@@ -12,12 +12,12 @@ foreach ($modelNameSlugs as $modelNameSlug) {
 		$controllerName = 'ApiController';
 	}
 	Route::resource($modelNameSlug, $controllerName);
-	// Route::group([
-	//     'prefix' => $modelNameSlug,
-	//     'as' => $modelNameSlug . '.',
-	// ], function () use ($controllerName): void {
-	// Route::post('{url}/comment', $controllerName . '@comment')->name('comment');
-	// Route::post('{url}/like', $controllerName . '@like')->name('like');
-	// Route::get('{url}/likes_count', $controllerName . '@likeCount')->name('like-count');
-	// });
+	Route::group([
+		'prefix' => $modelNameSlug,
+		'as' => $modelNameSlug . '.',
+	], function () use ($controllerName): void {
+		Route::get('id/{id}', $controllerName . '@getById')->name('get-by-id');
+		Route::put('id/{id}', $controllerName . '@updateById')->name('update-by-id');
+		Route::delete('id/{id}', $controllerName . '@destroyById')->name('destroy-by-id');
+	});
 }

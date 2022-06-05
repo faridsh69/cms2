@@ -280,6 +280,7 @@ $cms = [
 		'gym-program',
 		'home',
 		'hotel',
+		'like',
 		'module',
 		'movie',
 		'music',
