@@ -17,13 +17,13 @@ use Tests\TestCase;
  */
 abstract class Test extends TestCase
 {
+	private array $apiMethods = ['index'];
+
 	private array $modelNameSlugs = [];
 
 	private array $adminMethods = ['print', 'export', 'datatable', 'list.index', 'list.create'];
 
 	private array $frontendMethods = ['index', 'category.index', 'tag.index'];
-
-	public array $apiMethods = ['index'];
 
 	final public function adminTest(): void
 	{
@@ -158,10 +158,7 @@ abstract class Test extends TestCase
 			$modelRepository = new $modelNamespace();
 
 			$user = User::first();
-			Passport::actingAs(
-				$user,
-				['*']
-			);
+			Passport::actingAs($user, ['*']);
 
 			// create fake data for store in database
 			$factory = new Factory();
@@ -177,7 +174,9 @@ abstract class Test extends TestCase
 			// get fake model that created at this test
 			$fakeStoredModel = $modelRepository->orderBy('id', 'desc')->first();
 
-			if ($fakeStoredModel->id === 1) return;
+			if ($fakeStoredModel->id === 1) {
+				return;
+			}
 
 			// show fake model
 			$this
@@ -196,7 +195,6 @@ abstract class Test extends TestCase
 
 			// force delete fake model
 			$fakeStoredModel->forceDelete();
-
 
 			foreach ($this->apiMethods as $method) {
 				$this
