@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Cms;
 
 use App\Models\{Category, Tag, User};
+use Laravel\Passport\Passport;
 use Str;
 use Tests\TestCase;
 
@@ -16,15 +17,13 @@ use Tests\TestCase;
  */
 abstract class Test extends TestCase
 {
-	// an aray of models that want to test
-	public array $modelNameSlugs;
+	private array $modelNameSlugs = [];
 
-	// single model to test
-	public string $modelNameSlug;
+	private array $adminMethods = ['print', 'export', 'datatable', 'list.index', 'list.create'];
 
-	public $resource_methods = ['print', 'export', 'datatable', 'list.index', 'list.create'];
+	private array $frontendMethods = ['index', 'category.index', 'tag.index'];
 
-	public $frontMethods = ['index', 'category.index', 'tag.index'];
+	public array $apiMethods = ['index'];
 
 	final public function adminTest(): void
 	{
@@ -86,7 +85,7 @@ abstract class Test extends TestCase
 			// force delete fake model
 			$fakeModel->forceDelete();
 
-			foreach ($this->resource_methods as $method) {
+			foreach ($this->adminMethods as $method) {
 				$this
 					->get(route('admin.' . $modelNameSlug . '.' . $method))
 					->assertOk();
@@ -139,11 +138,72 @@ abstract class Test extends TestCase
 				echo 'With Tag...';
 			}
 
-			foreach ($this->frontMethods as $method) {
+			foreach ($this->frontendMethods as $method) {
 				$this
 					->get(route('front.' . $modelNameSlug . '.' . $method))
 					->assertOk();
 			}
+			echo 'Done!';
+		}
+	}
+
+	final public function apiTest(): void
+	{
+		$this->modelNameSlugs = config('cms.api_tests');
+
+		foreach ($this->modelNameSlugs as $modelNameSlug) {
+			echo "\nAPI Testing " . $modelNameSlug . '...';
+			$modelName = Str::studly($modelNameSlug);
+			$modelNamespace = config('cms.config.models_namespace') . $modelName;
+			$modelRepository = new $modelNamespace();
+
+			$user = User::first();
+			Passport::actingAs(
+				$user,
+				['*']
+			);
+
+			// create fake data for store in database
+			$factory = new Factory();
+			$factory->setModelNameSlug($modelNameSlug);
+			$fakeModel = $factory->make();
+			$fakeData = $fakeModel->getAttributes();
+
+			// store fake model
+			$this
+				->post(route('api.' . $modelNameSlug . '.store', $fakeData))
+				->assertOk();
+
+			// get fake model that created at this test
+			$fakeStoredModel = $modelRepository->orderBy('id', 'desc')->first();
+
+			if ($fakeStoredModel->id === 1) return;
+
+			// show fake model
+			$this
+				->get(route('api.' . $modelNameSlug . '.show', $fakeStoredModel))
+				->assertOk();
+
+			// update fake model
+			$this
+				->put(route('api.' . $modelNameSlug . '.update', $fakeStoredModel), $fakeData)
+				->assertOk();
+
+			// delete fake model
+			$this
+				->delete(route('api.' . $modelNameSlug . '.destroy', $fakeStoredModel))
+				->assertOk();
+
+			// force delete fake model
+			$fakeStoredModel->forceDelete();
+
+
+			foreach ($this->apiMethods as $method) {
+				$this
+					->get(route('front.' . $modelNameSlug . '.' . $method))
+					->assertOk();
+			}
+
 			echo 'Done!';
 		}
 	}

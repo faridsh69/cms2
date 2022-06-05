@@ -90,6 +90,8 @@ final class Factory extends LaravelFactory
 				$fakeData = $this->faker->longitude();
 			} elseif ($name === 'email') {
 				$fakeData = $this->faker->email();
+			} elseif ($name === 'website') {
+				$fakeData = $this->faker->url();
 			} elseif ($name === 'language') {
 				$fakeData = 'en';
 			} elseif ($name === 'password') {

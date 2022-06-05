@@ -5,49 +5,40 @@ declare(strict_types=1);
 namespace App\Cms;
 
 use App\Models\User;
-use Illuminate\Auth\Access\HandlesAuthorization;
 
 abstract class AuthPolicy
 {
-	use HandlesAuthorization;
-
-	// Define in each policies to find model slug.
 	public string $modelNameSlug;
 
-	final public function index(User $user): bool
+	private string $guardName = 'web';
+
+	final public function index(): bool
 	{
 		return true;
 	}
 
-	final public function view(User $user, $list): bool
+	final public function view(User $user, $model): bool
 	{
-		if ($user->can($this->modelNameSlug . '_view')) {
-			return true;
-		}
-
-		return $user->id === $list->user_id;
+		return $this->hasPermission($user, 'view') ?? $user->id === $model->user_id;
 	}
 
-	final public function create(User $user): bool
+	final public function create(): bool
 	{
 		return true;
 	}
 
-	final public function update(User $user, $list): bool
+	final public function update(User $user, $model): bool
 	{
-		if ($user->can($this->modelNameSlug . '_update')) {
-			return true;
-		}
-
-		return $user->id === $list->user_id;
+		return $this->hasPermission($user, 'update') ?? $user->id === $model->user_id;
 	}
 
-	final public function delete(User $user, $list): bool
+	final public function delete(User $user, $model): bool
 	{
-		if ($user->can($this->modelNameSlug . '_delete')) {
-			return true;
-		}
+		return $this->hasPermission($user, 'delete') ?? $user->id === $model->user_id;
+	}
 
-		return $user->id === $list->user_id;
+	private function hasPermission(User $user, string $action)
+	{
+		return $user->hasPermissionTo($this->modelNameSlug . '_' . $action, $this->guardName);
 	}
 }

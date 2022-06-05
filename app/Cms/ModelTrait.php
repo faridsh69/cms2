@@ -214,12 +214,11 @@ trait ModelTrait
 			if (isset($data['password'])) {
 				$data['password'] = Hash::make($data['password']);
 			} else {
-				if ($this->id) { // update mode
+				if ($this->id) { // update user
 					$data['password'] = $this->password;
-				} else { // create mode
-					if ($data['password'] === '') {
-						$data['password'] = Hash::make($data['email']);
-					}
+				} else {
+					// create user, and there is no password
+					$data['password'] = Hash::make(123456);
 				}
 			}
 		}
@@ -244,7 +243,9 @@ trait ModelTrait
 		foreach (collect($this->getColumns())
 			->where('type', 'array')
 			->pluck('name') as $arrayColumn) {
-			$model->{$arrayColumn}()->sync($data[$arrayColumn], true);
+			if (isset($data[$arrayColumn]) && $data[$arrayColumn]) {
+				$model->{$arrayColumn}()->sync($data[$arrayColumn]);
+			}
 		}
 	}
 

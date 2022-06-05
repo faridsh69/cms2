@@ -61,12 +61,12 @@ abstract class ApiController extends Controller
 				->setData($validator->messages())
 				->prepareJsonResponse();
 		}
-		$storedModel = $this->modelRepository->create($mainData);
+		$storedModel = $this->modelRepository->saveWithRelations($mainData);
 
 		// @TODO activity
 		// if (env('APP_ENV') !== 'testing') {
 		//     activity($this->modelName)
-		//         ->performedOn($modelStore)
+		//         ->performedOn($storedModel)
 		//         ->causedBy(Auth::user())
 		//         ->log($this->modelName . ' Created');
 		// }
@@ -86,7 +86,6 @@ abstract class ApiController extends Controller
 	{
 		$updatedModel = $this->modelRepository
 			->where('url', $url)
-			->active()
 			->first();
 
 		if (!$updatedModel) {
@@ -102,7 +101,8 @@ abstract class ApiController extends Controller
 				->setData($validator->messages())
 				->prepareJsonResponse();
 		}
-		$updatedModel->update($mainData);
+
+		$updatedModel->saveWithRelations($mainData);
 
 		// @TODO activity
 		// if (env('APP_ENV') !== 'testing') {

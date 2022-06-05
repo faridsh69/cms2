@@ -17,7 +17,7 @@ abstract class Policy
 		return $this->hasPermission($user, 'index');
 	}
 
-	final public function view(User $user, $list)
+	final public function view(User $user)
 	{
 		return $this->hasPermission($user, 'view');
 	}

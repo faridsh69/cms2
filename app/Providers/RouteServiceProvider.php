@@ -82,7 +82,7 @@ final class RouteServiceProvider extends ServiceProvider
 		Route::namespace($this->namespace . '\Api')
 			->as('api.')
 			->prefix('api')
-			->middleware(['auth:api', 'throttle:' . config('setting-developer.throttle')])
+			->middleware(['auth:api'])
 			->group(base_path('routes/api.php'));
 	}
 }
