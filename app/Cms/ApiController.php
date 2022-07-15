@@ -32,10 +32,10 @@ abstract class ApiController extends Controller
 			->where('url', $url)
 			->first();
 
-		return $this->showOrGetById($showedModel);
+		return $this->prepareViewResponse($showedModel);
 	}
 
-	private function showOrGetById($showedModel)
+	private function prepareViewResponse($showedModel)
 	{
 		if (!$showedModel) {
 			return $this->prepareJsonResponse();
@@ -53,7 +53,7 @@ abstract class ApiController extends Controller
 		$showedModel = $this->modelRepository
 			->find($id);
 
-		return $this->showOrGetById($showedModel);
+		return $this->prepareViewResponse($showedModel);
 	}
 
 	final public function create(): void

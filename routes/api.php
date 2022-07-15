@@ -6,12 +6,14 @@ use Illuminate\Support\Facades\Route;
 
 $modelNameSlugs = Config::get('cms.api_routes');
 
+
 foreach ($modelNameSlugs as $modelNameSlug) {
 	$controllerName = \Str::studly($modelNameSlug) . '\ApiController';
 	if (!file_exists(__DIR__ . '\..\app\Http\Controllers\Api\\' . $controllerName . '.php')) {
 		$controllerName = 'ApiController';
 	}
 	Route::resource($modelNameSlug, $controllerName);
+	
 	Route::group([
 		'prefix' => $modelNameSlug,
 		'as' => $modelNameSlug . '.',
