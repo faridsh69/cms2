@@ -112,6 +112,16 @@ trait ModelTrait
 		return asset(config('cms.config.default_images') . mb_strtolower(class_basename($this)) . '.png');
 	}
 
+	public function mainImage($fileColumnName = 'image'): string
+	{
+		$srcs = $this->srcs($fileColumnName);
+		if (\count($srcs)) {
+			return $srcs[0];
+		}
+
+		return asset(config('cms.config.default_images') . mb_strtolower(class_basename($this)) . '.png');
+	}
+
 	public function getAvatarAttribute(): string
 	{
 		return $this->avatar();
