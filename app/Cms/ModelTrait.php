@@ -343,7 +343,7 @@ trait ModelTrait
 				'type' => 'string',
 				'database' => 'nullable',
 				'rule' => '',
-				'help' => 'Click: <a target="blank" href="/admin/icons/list">List of Icons</a> - for example: fa-glass',
+				'help' => 'Click: <a target="blank" href="/admin/icon/list">List of Icons</a> - for example: fa-glass',
 				'form_type' => '',
 				'table' => false,
 			],

@@ -47,7 +47,7 @@ abstract class AdminSettingsController extends AdminResourceController
 			return redirect()->back()->withErrors($form->getErrors())->withInput();
 		}
 
-		$this->modelRepository->saveWithRelations($form->getFieldValues(), $model);
+		$model->saveWithRelations($form->getFieldValues());
 
 		foreach (['developer', 'general', 'contact'] as $cache_section) {
 			Cache::forget('setting.' . $cache_section);
