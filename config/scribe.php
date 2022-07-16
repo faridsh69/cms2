@@ -75,7 +75,7 @@ return [
 				'headers' => [
 					'Content-Type' => 'application/json',
 					'Accept' => 'application/json',
-					'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMGNjNDIzYzE0MWQ5NGQ1YzQyMDc4MTQwM2YwMzZhOGU0MDc4NzQ1Y2FhMzE5Mjg5N2NiZmM4ZDQ0NzY1ZTg3MjFlMDQyOGYwMjY0OGY1ZDgiLCJpYXQiOjE2NTQ0MTQzNzEuMDk2ODUzLCJuYmYiOjE2NTQ0MTQzNzEuMDk2ODU4LCJleHAiOjE2ODU5NTAzNzAuOTk3NzQ1LCJzdWIiOiIxIiwic2NvcGVzIjpbIioiXX0.RkpwupjPkOf2M0OtJfBSTC8pD0j1dztvuYeSXfSpio_JysuK_cACj1JifMWFOYaVM2-NLko8FFQJTE7QBiVG1V1Y3JfuPZoU-wcl3_0SNfzu_g92NZRIZJpMBRdv-I8nKYT_spNah2W-nmwovkjQT4UD39t930XN5mxkw2XMLTQ7R3OEYA7FzjNL-Aq_xOuQopTFyLNIXb3yKmO56AJg-FuknyUxTGm-8nkIRl5E-SiMA0pENuQze_WWwN24FCPJxDwxLFEoGLcFj7AOr1xUnuwGcmvxVi5ikM54ChwdGuTYqePcLeg-nnObZ5meE0EAznkQbsPwFOtJDBYxk9jG7L9jLijDVOJsncaIOG_WAS-vOYYPsiTMPfTToDLcrOsc4gWlgzbVk34EGFbhPZ3K-Ruorr_TPjvUZa51pr6jGhL4PIi1cUpsWaeWpJXHX83SvsVhIJ2w4oGOxSRVD4_ckLSCvMkbAfHYXMm8ughcvUVMQvyrV7AzyzUJeXaoIlTQ4R3rCKt2oDv6OtFZi1go2qxC8vPhQHtp0alTkFvnx6nEEzZtQ4OEXUHwiM9ebFwha-uvse1IKYNSMS68obKXYLeUlJHI6zShMY53sIKQ4IAk55BT5uvxC97j5t4PvvEgGEbF9Hn1zB16imuCfN5r3dHXxrBiIPdoSUYI9_uEHIA'
+					'Authorization' => 'Bearer ' . env('APP_TOKEN', 'No Bearer In env')
 				],
 
 				/*
