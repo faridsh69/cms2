@@ -33,7 +33,7 @@ abstract class AdminResourceController extends AdminController
 		]);
 	}
 
-	final public function create(): View
+	public function create(): View
 	{
 		$this->authorize('create', $this->modelNamespace);
 		$this->meta['title'] = __('create_new') . $this->modelNameTranslate;
@@ -50,7 +50,7 @@ abstract class AdminResourceController extends AdminController
 		]);
 	}
 
-	final public function store(): RedirectResponse
+	public function store(): RedirectResponse
 	{
 		$this->authorize('create', $this->modelNamespace);
 		$form = $this->laravelFormBuilder->create($this->modelForm);
@@ -73,7 +73,7 @@ abstract class AdminResourceController extends AdminController
 		return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
 	}
 
-	final public function show(int $id): View
+	public function show(int $id): View
 	{
 		$showedModal = $this->modelRepository->findOrFail($id);
 		$this->authorize('view', $showedModal);
@@ -90,7 +90,7 @@ abstract class AdminResourceController extends AdminController
 		]);
 	}
 
-	final public function edit(int $id)
+	public function edit(int $id)
 	{
 		$editedModel = $this->modelRepository->findOrFail($id);
 		$this->authorize('update', $editedModel);
@@ -109,7 +109,7 @@ abstract class AdminResourceController extends AdminController
 		]);
 	}
 
-	final public function update(int $id): RedirectResponse
+	public function update(int $id): RedirectResponse
 	{
 		$updatedModel = $this->modelRepository->findOrFail($id);
 		$this->authorize('update', $updatedModel);
@@ -139,7 +139,7 @@ abstract class AdminResourceController extends AdminController
 		return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
 	}
 
-	final public function destroy(int $id): RedirectResponse
+	public function destroy(int $id): RedirectResponse
 	{
 		$model = $this->modelRepository->findOrFail($id);
 		$this->authorize('delete', $model);
@@ -156,7 +156,7 @@ abstract class AdminResourceController extends AdminController
 		return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
 	}
 
-	final public function restore(int $id): RedirectResponse
+	public function restore(int $id): RedirectResponse
 	{
 		$model = $this->modelRepository->withTrashed()->findOrFail($id);
 		$this->authorize('delete', $model);
@@ -173,7 +173,7 @@ abstract class AdminResourceController extends AdminController
 		return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
 	}
 
-	final public function print(): View
+	public function print(): View
 	{
 		$this->authorize('index', $this->modelNamespace);
 		$list = $this->modelRepository->all();
@@ -181,7 +181,7 @@ abstract class AdminResourceController extends AdminController
 		return view('admin.common.print', compact('list'));
 	}
 
-	final public function pdf()
+	public function pdf()
 	{
 		$this->authorize('index', $this->modelNamespace);
 		$list = $this->modelRepository->all();
@@ -191,7 +191,7 @@ abstract class AdminResourceController extends AdminController
 			->download($this->modelName . '.pdf');
 	}
 
-	final public function export()
+	public function export()
 	{
 		$this->authorize('index', $this->modelNamespace);
 		$exportClassName = 'App\Cms\Export';
@@ -201,7 +201,7 @@ abstract class AdminResourceController extends AdminController
 		return Excel::download($exportRepository, $this->modelName . '.xlsx');
 	}
 
-	final public function import()
+	public function import()
 	{
 		$this->authorize('index', $this->modelNamespace);
 		$importClassName = 'App\Cms\Import';
@@ -212,7 +212,7 @@ abstract class AdminResourceController extends AdminController
 		return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
 	}
 
-	final public function toggleActivated(int $id)
+	public function toggleActivated(int $id)
 	{
 		$model = $this->modelRepository->findOrFail($id);
 		$this->authorize('update', $model);
@@ -231,7 +231,7 @@ abstract class AdminResourceController extends AdminController
 		return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
 	}
 
-	final public function datatable()
+	public function datatable()
 	{
 		$this->authorize('index', $this->modelNamespace);
 		$list = $this->modelRepository->orderBy('updated_at', 'desc');
