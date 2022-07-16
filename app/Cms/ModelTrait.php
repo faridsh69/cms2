@@ -30,6 +30,10 @@ trait ModelTrait
 
 	public function scopeLanguage($query): Builder
 	{
+		if (true) {
+			return $query;
+		}
+
 		return $query->where('language', config('app.locale'));
 	}
 
