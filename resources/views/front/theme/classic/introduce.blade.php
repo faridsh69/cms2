@@ -2,8 +2,8 @@
 <div class="popular-course-details-area wow fadeInUp" data-wow-delay="300ms" id="introduce">
     <div class="single-top-popular-course d-flex align-items-center flex-wrap">
         <div class="popular-course-content">
-            <h5>{{ $introduce->title }}</h5>
-            <span>{{ $introduce->description }}</span>
+            <h5 style="text-align: center;">{{ $introduce->title }}</h5>
+            <span style="text-align: center;">{{ $introduce->description }}</span>
             <p>{!! $introduce->content !!}</p>
             @if($introduce->url)
             <a href="{{ $introduce->url }}" class="btn academy-btn btn-sm mt-15">{{ __('See More') }}</a>
