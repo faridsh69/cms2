@@ -14,6 +14,9 @@ final class PageController extends Controller
 	public function index(?string $page_url = '/')
 	{
 		$page = Page::where('url', $page_url)->active()->first();
+		if (!$page && $page_url === '/') {
+			$page = Page::where('url', null)->active()->first();
+		}
 		abort_if(!$page, 404);
 
 		return view('front.common.layout', [

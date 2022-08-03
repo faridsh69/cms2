@@ -92,7 +92,7 @@ final class CmsLaravelWebsiteSeeder extends Seeder
 		$pages = [
 			[
 				'title' => 'Open Source Full-Featured CMS',
-				'url' => null,
+				'url' => '/',
 				'image' => 'logo.png',
 				'description' => 'CMS Laravel is an open source project with Laravel contains all usefull packages and services for developing in the fastest way.',
 				'view_code_url' => 'front.components.documents.laravel-cms',

@@ -59,8 +59,14 @@
                             <p>{{ config('setting-contact.address') }}</p>
                         </div>
                         <div class="single-contact d-flex mb-30">
-                            <i class="icon-telephone-1"></i>
-                            <p>Main: {{ config('setting-contact.phone') }} <br>Office: {{ config('setting-contact.telephone') }}</p>
+                            <a target="_blank" href="tel:{{ config('setting-contact.phone') }}">
+                                <i class="icon-telephone-1"></i>
+                                <p>
+                                    Main: {{ config('setting-contact.phone') }}
+                                    <br>
+                                    Office: {{ config('setting-contact.telephone') }}
+                                </p>
+                            </a>
                         </div>
                         <div class="single-contact d-flex">
                             <i class="icon-contract"></i>

@@ -14,7 +14,7 @@ final class Seeder006Pages extends Seeder
 		$pages = [
 			[
 				'title' => 'Home',
-				'url' => null,
+				'url' => '/',
 				'content' => 'This is home page content',
 				'description' => 'Home page description',
 				'activated' => 1,

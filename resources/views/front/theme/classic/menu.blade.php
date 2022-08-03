@@ -9,6 +9,11 @@
                         </div>
                         <div class="login-content">
                             @if(!\Auth::id())
+                            <a target="_blank" href="tel:{{ config('setting-contact.phone') }}" style="color: green">
+                                <span style="display: inline-block !important">{{ config('setting-contact.phone') }}</span>
+                                <i class="fa fa-phone"></i>
+                            </a>
+                            <br />
                             <a href="{{ route('auth.register') }}">{{ __('register') }}</a>
                             /
                             <a href="{{ route('auth.login') }}">{{ __('login') }}</a>
@@ -61,8 +66,8 @@
                             </a> -->
 
                             <a target="_blank" href="tel:{{ config('setting-contact.phone') }}">
-                                <i class="fa fa-whatsapp"></i>
-                                <span>{{ config('setting-contact.phone') }}</span>
+                                <span style="display: inline-block !important">{{ config('setting-contact.phone') }}</span>
+                                <i class="fa fa-phone"></i>
                             </a>
                         </div>
                     </div>
