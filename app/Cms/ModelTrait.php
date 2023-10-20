@@ -276,6 +276,7 @@ trait ModelTrait
 		}
 	}
 
+	// TODO, move to specific config file
 	private function getDefaultColumns(string $modelName, string $modelNamespace, string $tableName)
 	{
 		return [

@@ -61,6 +61,7 @@ abstract class AdminResourceController extends AdminController
 
 			return redirect()->back()->withErrors($form->getErrors())->withInput();
 		}
+		// TODO, move to service
 		$this->modelRepository->saveWithRelations($form->getFieldValues());
 
 		// @TODO activity
@@ -77,6 +78,7 @@ abstract class AdminResourceController extends AdminController
 	{
 		$showedModal = $this->modelRepository->findOrFail($id);
 		$this->authorize('view', $showedModal);
+		// TODO, move to service and repository
 		$activities = \App\Models\Activity::where('activitiable_type', $this->modelNamespace)
 			->where('activitiable_id', $id)
 			->get();
@@ -242,7 +244,9 @@ abstract class AdminResourceController extends AdminController
 			->addColumn('edit_url', fn ($model) => route('admin.' . $this->modelNameSlug . '.list.edit', $model))
 			->addColumn('delete_url', fn ($model) => route('admin.' . $this->modelNameSlug . '.list.destroy', $model));
 		if ($this->modelName === 'Notification') {
-			$datatable->addColumn('user', fn ($model) => $model->user->name)->addColumn(
+			$datatable->addColumn('user', function ($model) {
+				return $model->user->name;
+			})->addColumn(
 				'type',
 				fn ($model) => str_replace('App\Notifications\\', '', $model->type)
 			)->addColumn('data', fn ($model) => json_decode($model->data)->data);

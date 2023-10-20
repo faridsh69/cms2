@@ -44,7 +44,7 @@ trait CmsMainTrait
 		}
 		$this->modelName = Str::studly($this->modelNameSlug);
 		$this->modelNamespace = config('cms.config.models_namespace') . $this->modelName;
-		$this->modelRepository = new $this->modelNamespace();
+		$this->modelRepository = app($this->modelNamespace);
 		$this->modelColumns = $this->modelRepository->getColumns();
 		$this->modelNameTranslate = __(Str::snake($this->modelName));
 		$this->modelForm = 'App\Forms\\' . $this->modelName . 'Form';

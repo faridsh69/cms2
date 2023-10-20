@@ -108,8 +108,9 @@ abstract class ApiController extends Controller
 		$modelRules = $updatedModel->getRules();
 		$validator = Validator::make($mainData, $modelRules);
 		if ($validator->fails()) {
-			return $this->setMessage(__('validation_failed'))
-				->setData($validator->messages())
+			$errorString = implode(",", $validator->messages()->all());
+
+			return $this->setMessage($errorString)
 				->prepareJsonResponse();
 		}
 
@@ -144,8 +145,9 @@ abstract class ApiController extends Controller
 		$modelRules = $updatedModel->getRules();
 		$validator = Validator::make($mainData, $modelRules);
 		if ($validator->fails()) {
-			return $this->setMessage(__('validation_failed'))
-				->setData($validator->messages())
+			$errorString = implode(",", $validator->messages()->all());
+
+			return $this->setMessage($errorString)
 				->prepareJsonResponse();
 		}
 

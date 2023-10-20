@@ -42,10 +42,13 @@ trait ApiTrait
 
 	private function prepareJsonResponse()
 	{
-		return response()->json([
-			'status' => $this->status,
-			'message' => $this->message,
-			'data' => $this->data,
-		]);
+		return response()->json(
+			[
+				'status' => $this->status,
+				'message' => $this->message,
+				'data' => $this->data,
+			],
+			$this->status === 'success' ? 200 : 500
+		);
 	}
 }

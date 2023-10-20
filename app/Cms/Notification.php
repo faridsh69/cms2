@@ -11,7 +11,7 @@ use Illuminate\Notifications\Notification as LaravelNotification;
 use Str;
 use URL;
 
-final class Notification extends LaravelNotification
+class Notification extends LaravelNotification
 {
 	use Queueable;
 
