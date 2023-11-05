@@ -18,5 +18,5 @@ abstract class Model extends LaravelModel
 		'activated' => 'boolean',
 	];
 
-	protected $appends = ['avatar'];
+	protected $appends = ['avatar', 'main-image'];
 }

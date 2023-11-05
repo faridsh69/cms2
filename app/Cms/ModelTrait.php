@@ -127,6 +127,11 @@ trait ModelTrait
 		return $this->avatar();
 	}
 
+	public function getMainImageAttribute(): string
+	{
+		return $this->mainImage();
+	}
+
 	public function getUserAttribute()
 	{
 		return $this->user()->select('id', 'url', 'first_name', 'last_name')->first();
