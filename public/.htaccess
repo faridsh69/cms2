@@ -1,4 +1,5 @@
 <IfModule mod_rewrite.c>
+    Header set Access-Control-Allow-Origin "*"
 
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
@@ -21,8 +22,3 @@
     RewriteRule ^ index.php [L]
 
 </IfModule>
-
-<Files "index.php">
-  Header set Access-Control-Allow-Origin "*"
-  Header set Access-Control-Allow-Methods: "GET,POST,OPTIONS,DELETE,PUT"
-</Files>
