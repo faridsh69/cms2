@@ -4,7 +4,6 @@
     </IfModule>
 
     RewriteEngine On
-    Header add Access-Control-Allow-Origin "*"
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
