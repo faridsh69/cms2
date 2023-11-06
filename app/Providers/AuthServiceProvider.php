@@ -36,7 +36,7 @@ final class AuthServiceProvider extends ServiceProvider
 
 		// Passport::routes(null, ['middleware' => [\Fruitcake\Cors\HandleCors::class]]);
 		// Passport::routes();
-		Route::group(['middleware' => 'cors'], function ($router) {
+		\Route::group(['middleware' => 'cors'], function ($router) {
 			Passport::routes();
 		});
 	}
