@@ -34,10 +34,6 @@ final class AuthServiceProvider extends ServiceProvider
 
 		Gate::define('manage', fn ($user, $page) => $user->can($page . '_manager'));
 
-		// Passport::routes(null, ['middleware' => [\Fruitcake\Cors\HandleCors::class]]);
-		// Passport::routes();
-		\Route::group(['middleware' => 'cors'], function ($router) {
-			Passport::routes();
-		});
+		Passport::routes();
 	}
 }
