@@ -8,8 +8,6 @@ use App\Cms\Model;
 
 final class Like extends Model
 {
-	protected $appends = ['user'];
-
 	public $columns = [
 		[
 			'name' => 'user_id',
@@ -54,6 +52,8 @@ final class Like extends Model
 			'table' => true,
 		],
 	];
+
+	protected $appends = ['user'];
 
 	public function likeable()
 	{

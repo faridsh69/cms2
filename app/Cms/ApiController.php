@@ -35,19 +35,6 @@ abstract class ApiController extends Controller
 		return $this->prepareViewResponse($showedModel);
 	}
 
-	private function prepareViewResponse($showedModel)
-	{
-		if (!$showedModel) {
-			return $this->prepareJsonResponse();
-		}
-		$this->authorize('view', $showedModel);
-
-		return $this->setSuccessStatus()
-			->setMessage(__('show_successfully'))
-			->setData($showedModel->appendData())
-			->prepareJsonResponse();
-	}
-
 	final public function getById(int $id): JsonResponse
 	{
 		$showedModel = $this->modelRepository
@@ -108,7 +95,7 @@ abstract class ApiController extends Controller
 		$modelRules = $updatedModel->getRules();
 		$validator = Validator::make($mainData, $modelRules);
 		if ($validator->fails()) {
-			$errorString = implode(",", $validator->messages()->all());
+			$errorString = implode(',', $validator->messages()->all());
 
 			return $this->setMessage($errorString)
 				->prepareJsonResponse();
@@ -145,7 +132,7 @@ abstract class ApiController extends Controller
 		$modelRules = $updatedModel->getRules();
 		$validator = Validator::make($mainData, $modelRules);
 		if ($validator->fails()) {
-			$errorString = implode(",", $validator->messages()->all());
+			$errorString = implode(',', $validator->messages()->all());
 
 			return $this->setMessage($errorString)
 				->prepareJsonResponse();
@@ -204,6 +191,19 @@ abstract class ApiController extends Controller
 		return $this->setSuccessStatus()
 			->setMessage(__('deleted_successfully'))
 			->setData($deletedModel)
+			->prepareJsonResponse();
+	}
+
+	private function prepareViewResponse($showedModel)
+	{
+		if (!$showedModel) {
+			return $this->prepareJsonResponse();
+		}
+		$this->authorize('view', $showedModel);
+
+		return $this->setSuccessStatus()
+			->setMessage(__('show_successfully'))
+			->setData($showedModel->appendData())
 			->prepareJsonResponse();
 	}
 }
