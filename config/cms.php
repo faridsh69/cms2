@@ -549,7 +549,7 @@ $cms = [
 			'rule' => 'nullable',
 			'help' => 'Wrtie valid email address',
 			'form_type' => 'email',
-			'table' => false,
+			'table' => true,
 		],
 		'price' => [
 			'name' => 'price',

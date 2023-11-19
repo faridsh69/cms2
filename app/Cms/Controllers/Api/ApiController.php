@@ -63,14 +63,6 @@ abstract class ApiController extends Controller
 		}
 		$storedModel = $this->modelRepository->saveWithRelations($mainData);
 
-		// @TODO activity
-		// if (env('APP_ENV') !== 'testing') {
-		//     activity($this->modelName)
-		//         ->performedOn($storedModel)
-		//         ->causedBy(Auth::user())
-		//         ->log($this->modelName . ' Created');
-		// }
-
 		return $this->setSuccessStatus()
 			->setMessage($this->modelNameTranslate . __('created_successfully'))
 			->setData($storedModel->appendData())
@@ -104,14 +96,6 @@ abstract class ApiController extends Controller
 		}
 
 		$updatedModel->saveWithRelations($mainData);
-
-		// @TODO activity
-		// if (env('APP_ENV') !== 'testing') {
-		//     activity($this->modelName)
-		//         ->performedOn($modelUpdate)
-		//         ->causedBy(Auth::user())
-		//         ->log($this->modelName . ' Updated');
-		// }
 
 		return $this->setSuccessStatus()
 			->setMessage(__('updated_successfully'))
@@ -158,14 +142,6 @@ abstract class ApiController extends Controller
 
 		$deletedModel->delete();
 
-		// @TODO activity
-		// if (env('APP_ENV') !== 'testing') {
-		//     activity($this->modelName)
-		//         ->performedOn($modelDelete)
-		//         ->causedBy(Auth::user())
-		//         ->log($this->modelName . ' Deleted');
-		// }
-
 		return $this->setSuccessStatus()
 			->setMessage(__('deleted_successfully'))
 			->setData($deletedModel)
@@ -181,14 +157,6 @@ abstract class ApiController extends Controller
 		$this->authorize('delete', $deletedModel);
 
 		$deletedModel->delete();
-
-		// @TODO activity
-		// if (env('APP_ENV') !== 'testing') {
-		//     activity($this->modelName)
-		//         ->performedOn($modelDelete)
-		//         ->causedBy(Auth::user())
-		//         ->log($this->modelName . ' Deleted');
-		// }
 
 		return $this->setSuccessStatus()
 			->setMessage(__('deleted_successfully'))

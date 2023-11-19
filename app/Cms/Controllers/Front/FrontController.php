@@ -18,6 +18,10 @@ abstract class FrontController extends Controller
 {
 	use CmsMainTrait;
 
+	public array $meta = [
+		'keywords' => '',
+	];
+
 	public function __construct(Request $httpRequest)
 	{
 		$this->httpRequest = $httpRequest;
@@ -58,12 +62,6 @@ abstract class FrontController extends Controller
 	{
 		$item = $this->modelRepository->where('url', $url)->firstOrFail();
 
-		// @TODO activity
-		// if (env('APP_ENV') !== 'testing') {
-		//     activity($this->modelName)->performedOn($item)->causedBy(Auth::user())
-		//         ->log($this->modelName . ' View');
-		// }
-
 		$this->meta['title'] = $this->modelNameTranslate . ' | ' . $item->title;
 		$this->meta['description'] = $item->description;
 		$this->meta['google_index'] = $item->google_index;
@@ -82,11 +80,6 @@ abstract class FrontController extends Controller
 	{
 		$category = Category::where('url', $url)->firstOrFail();
 
-		// @TODO activity
-		// if (env('APP_ENV') !== 'testing') {
-		//     activity('Category')->performedOn($category)->causedBy(Auth::user())
-		//         ->log('Category View');
-		// }
 		$this->meta['title'] = $this->modelNameTranslate . ' | Category | ' . $category->title;
 		$this->meta['description'] = $category->description;
 
@@ -124,12 +117,6 @@ abstract class FrontController extends Controller
 	public function getTag($url)
 	{
 		$tag = Tag::where('url', $url)->firstOrFail();
-
-		// @TODO activity
-		// if (env('APP_ENV') !== 'testing') {
-		//     activity('Tag')->performedOn($tag)->causedBy(Auth::user())
-		//         ->log('Tag View');
-		// }
 
 		$this->meta['title'] = $this->modelNameTranslate . ' | Tag | ' . $tag->title;
 		$this->meta['description'] = $tag->description;
@@ -175,12 +162,6 @@ abstract class FrontController extends Controller
 		$commentModel->content = $this->httpRequest->input('comment');
 
 		$commentModel->save();
-
-		// @TODO activity
-		// if (env('APP_ENV') !== 'testing') {
-		//     activity($this->modelName)->performedOn($item)->causedBy(Auth::user())
-		//         ->log($this->modelName . ' Comment');
-		// }
 
 		$this->httpRequest->session()->flash('alert-success', __('commented_successfully'));
 

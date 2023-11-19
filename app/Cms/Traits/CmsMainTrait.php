@@ -36,6 +36,8 @@ trait CmsMainTrait
 
 	public FormBuilder $laravelFormBuilder;
 
+	public $response = [];
+
 	public function __construct(Request $httpRequest, FormBuilder $laravelFormBuilder)
 	{
 		$this->httpRequest = $httpRequest;

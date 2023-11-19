@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Notifications;
 
-use App\Cms\Notification;
+use App\Cms\Services\NotificationService;
 
-final class FormSubmitted extends Notification
+final class FormSubmitted extends NotificationService
 {
 }
