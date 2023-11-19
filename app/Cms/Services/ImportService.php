@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Cms;
+namespace App\Cms\Services;
 
+use App\Cms\Traits\CmsMainTrait;
 use Maatwebsite\Excel\Concerns\ToModel;
 
-final class Import implements ToModel
+final class ImportService implements ToModel
 {
 	use CmsMainTrait;
 

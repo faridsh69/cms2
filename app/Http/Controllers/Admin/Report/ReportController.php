@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin\Report;
 
-use App\Cms\AdminController;
+use App\Cms\Controllers\Admin\AdminController;
 use App\Models\Activity;
 
 final class ReportController extends AdminController

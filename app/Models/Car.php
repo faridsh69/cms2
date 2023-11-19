@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Cms\Model;
+use App\Cms\Models\CmsModel;
 
-final class Car extends Model
+final class Car extends CmsModel
 {
 	public $columns = [
 		[

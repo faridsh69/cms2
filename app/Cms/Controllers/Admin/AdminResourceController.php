@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Cms;
+namespace App\Cms\Controllers\Admin;
 
 use Auth;
 use Illuminate\Http\RedirectResponse;
@@ -196,7 +196,7 @@ abstract class AdminResourceController extends AdminController
 	public function export()
 	{
 		$this->authorize('index', $this->modelNamespace);
-		$exportClassName = 'App\Cms\Export';
+		$exportClassName = 'App\Cms\Services\ExportService';
 		$exportRepository = new $exportClassName();
 		$exportRepository->setModelName($this->modelName);
 
@@ -206,7 +206,7 @@ abstract class AdminResourceController extends AdminController
 	public function import()
 	{
 		$this->authorize('index', $this->modelNamespace);
-		$importClassName = 'App\Cms\Import';
+		$importClassName = 'App\Cms\Services\ImportService';
 		$importRepository = new $importClassName();
 		$importRepository->setModelName($this->modelName);
 		Excel::import($importRepository, storage_path('app/public/import.xlsx'));

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Cms;
+namespace App\Cms\Controllers\Admin;
 
 use Artisan;
 use Cache;
@@ -21,6 +21,7 @@ abstract class AdminSettingsController extends AdminResourceController
 		$this->meta['title'] = __($section . '_manager');
 		$this->authorize('manage', 'setting_' . $section);
 		$model = $this->modelRepository->first();
+
 		$form = $this->laravelFormBuilder->create($this->modelForm, [
 			'method' => 'PUT',
 			'url' => route('admin.setting.' . $section),

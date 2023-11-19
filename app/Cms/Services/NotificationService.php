@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Cms;
+namespace App\Cms\Services;
 
 use App\Notifications\Channels\{DatabaseChannel, SmsChannel};
 use Illuminate\Bus\Queueable;
@@ -11,7 +11,7 @@ use Illuminate\Notifications\Notification as LaravelNotification;
 use Str;
 use URL;
 
-class Notification extends LaravelNotification
+class NotificationService extends LaravelNotification
 {
 	use Queueable;
 

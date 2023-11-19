@@ -2,20 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Cms;
+namespace App\Cms\Services;
 
 use App\Models\{Category, Tag, User};
 use Laravel\Passport\Passport;
 use Str;
 use Tests\TestCase;
+use App\Cms\Services\FactoryService;
 
-/**
- * @internal
- *
- * @small
- * @coversNothing
- */
-abstract class Test extends TestCase
+abstract class TestService extends TestCase
 {
 	private array $apiMethods = ['index'];
 
@@ -44,7 +39,7 @@ abstract class Test extends TestCase
 				->assertRedirect(route('admin.' . $modelNameSlug . '.list.index'));
 
 			// create fake data for store in database
-			$factory = new Factory();
+			$factory = new FactoryService();
 			$factory->setModelNameSlug($modelNameSlug);
 			$fakeModel = $factory->make();
 			$fakeData = $fakeModel->getAttributes();
@@ -161,7 +156,7 @@ abstract class Test extends TestCase
 			Passport::actingAs($user, ['*']);
 
 			// create fake data for store in database
-			$factory = new Factory();
+			$factory = new FactoryService();
 			$factory->setModelNameSlug($modelNameSlug);
 			$fakeModel = $factory->make();
 			$fakeData = $fakeModel->getAttributes();

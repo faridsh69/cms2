@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
-use App\Cms\Policy;
+use App\Cms\Policies\CmsPolicy;
 
-final class RolePolicy extends Policy
+final class RolePolicy extends CmsPolicy
 {
 	public string $modelNameSlug = 'role';
 }

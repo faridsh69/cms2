@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Cms;
+namespace App\Cms\Policies;
 
 use App\Models\User;
 
-abstract class Policy
+abstract class CmsPolicy
 {
 	public string $modelNameSlug = 'user';
 

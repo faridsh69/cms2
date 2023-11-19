@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Cms\Model;
+use App\Cms\Models\CmsModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-final class Notification extends Model
+final class Notification extends CmsModel
 {
 	public $columns = [
 		[

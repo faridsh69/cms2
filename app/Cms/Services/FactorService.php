@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Cms;
+namespace App\Cms\Services;
 
 use App\Models\{Basket, Category, Factor, Product};
 use Auth;

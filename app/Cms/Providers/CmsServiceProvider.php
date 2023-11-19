@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Cms;
+namespace App\Cms\Providers;
 
 use App;
 use App\Models\{Module, SettingContact, SettingDeveloper, SettingGeneral};

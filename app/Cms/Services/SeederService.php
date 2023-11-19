@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Cms;
+namespace App\Cms\Services;
 
 use Illuminate\Database\Seeder as LaravelSeeder;
 use Str;
 
-final class Seeder extends LaravelSeeder
+final class SeederService extends LaravelSeeder
 {
 	public function run(): void
 	{

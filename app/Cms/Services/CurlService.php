@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Cms;
+namespace App\Cms\Services;
 
-final class Curl extends Service
+final class CurlService
 {
 	public function call_curl($url, $method = 'get', $body = null, $authorization = null, $user_password = null)
 	{

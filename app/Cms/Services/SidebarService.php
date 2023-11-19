@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Cms;
+namespace App\Cms\Services;
 
 use Auth;
 use Cache;
 use Route;
 use Str;
 
-final class Sidebar
+final class SidebarService
 {
 	private static $cachingTime = 1;
 

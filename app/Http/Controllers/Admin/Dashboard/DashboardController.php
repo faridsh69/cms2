@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin\Dashboard;
 
-use App\Cms\{AdminResourceController, FileService};
+use App\Cms\Controllers\Admin\AdminResourceController;
+use App\Cms\Services\FileService;
 use App\Models\{Activity, Address};
 use App\Notifications\{EmailVerified, PhoneVerified, ProfileUpdated};
 use Auth;

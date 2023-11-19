@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Cms;
+namespace App\Cms\Traits;
 
+use App\Cms\Services\FileService;
 use Auth;
 use Cache;
 use Hash;
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
 use ReflectionClass;
 use Str;
 
-trait ModelTrait
+trait CmsModelTrait
 {
 	use HasFactory;
 	use SoftDeletes;

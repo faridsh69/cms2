@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Cms;
+namespace App\Cms\Models;
 
+use App\Cms\Traits\CmsModelTrait;
 use Illuminate\Database\Eloquent\Model as LaravelModel;
 
-abstract class Model extends LaravelModel
+abstract class CmsModel extends LaravelModel
 {
-	use ModelTrait;
+	use CmsModelTrait;
 
 	protected $guarded = [];
 

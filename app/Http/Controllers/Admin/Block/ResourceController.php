@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin\Block;
 
-use App\Cms\AdminResourceController;
+use App\Cms\Controllers\Admin\AdminResourceController;
 use App\Models\Block;
 use Illuminate\View\View;
 use Str;

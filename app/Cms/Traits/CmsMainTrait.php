@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Cms;
+namespace App\Cms\Traits;
 
 use Illuminate\Http\Request;
 use Kris\LaravelFormBuilder\FormBuilder;
@@ -47,8 +47,9 @@ trait CmsMainTrait
 		$this->modelRepository = app($this->modelNamespace);
 		$this->modelColumns = $this->modelRepository->getColumns();
 		$this->modelNameTranslate = __(Str::snake($this->modelName));
+		// Check to get form class
 		$this->modelForm = 'App\Forms\\' . $this->modelName . 'Form';
-		if (!file_exists(__DIR__ . '/../../app/Forms/' . $this->modelName . 'Form.php')) {
+		if (!file_exists(__DIR__ . '/../../../app/Forms/' . $this->modelName . 'Form.php')) {
 			$this->modelForm = 'App\Forms\Form';
 		}
 		$this->laravelFormBuilder = $laravelFormBuilder;

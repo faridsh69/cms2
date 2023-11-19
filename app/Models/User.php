@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Cms\ModelTrait;
+use App\Cms\Traits\CmsModelTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\{hasMany, morphMany};
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -16,7 +16,7 @@ final class User extends Authenticatable
 {
 	use HasApiTokens;
 	use HasRoles;
-	use ModelTrait;
+	use CmsModelTrait;
 	use Notifiable;
 
 	public $columns = [

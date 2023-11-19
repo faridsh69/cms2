@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Cms\Model;
+use App\Cms\Models\CmsModel;
 
-final class GymProgram extends Model
+final class GymProgram extends CmsModel
 {
 	public $columns = [
 		[

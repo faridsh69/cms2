@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
-use App\Cms\Policy;
+use App\Cms\Policies\CmsPolicy;
 
-final class GymProgramPolicy extends Policy
+final class GymProgramPolicy extends CmsPolicy
 {
 	public string $modelNameSlug = 'gym-program';
 }

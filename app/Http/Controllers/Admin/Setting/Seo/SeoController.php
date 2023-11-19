@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin\Setting\Seo;
 
-use App\Cms\AdminController;
+use App\Cms\Controllers\Admin\AdminController;
 use App\Models\Blog;
 
 final class SeoController extends AdminController

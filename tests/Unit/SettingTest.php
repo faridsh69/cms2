@@ -7,12 +7,6 @@ namespace Tests\Unit;
 use App\Models\User;
 use Tests\TestCase;
 
-/**
- * @internal
- *
- * @small
- * @coversNothing
- */
 final class SettingTest extends TestCase
 {
 	public $methods = [

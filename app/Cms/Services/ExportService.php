@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Cms;
+namespace App\Cms\Services;
 
 use Maatwebsite\Excel\Concerns\{FromCollection, WithHeadings};
 
-final class Export implements FromCollection, WithHeadings
+final class ExportService implements FromCollection, WithHeadings
 {
 	public $model_columns;
 

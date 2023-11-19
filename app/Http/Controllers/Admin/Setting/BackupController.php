@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin\Setting;
 
-use App\Cms\AdminController;
+use App\Cms\Controllers\Admin\AdminController;
 use Artisan;
 use Illuminate\Http\Request;
 use Response;

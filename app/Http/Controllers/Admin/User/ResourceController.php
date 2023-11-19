@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin\User;
 
-use App\Cms\AdminResourceController;
+use App\Cms\Controllers\Admin\AdminResourceController;
 use Auth;
 use Carbon\Carbon;
 

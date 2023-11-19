@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Cms;
+namespace App\Cms\Services;
 
 use Illuminate\Database\Eloquent\Factories\Factory as LaravelFactory;
 use Illuminate\Http\UploadedFile;
 use Str;
 
-final class Factory extends LaravelFactory
+final class FactoryService extends LaravelFactory
 {
 	protected $model = 'App\Models\User';
 

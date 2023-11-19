@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Cms\{FactorService, Model};
+use App\Cms\Models\CmsModel;
 use Auth;
 
-final class Factor extends Model
+final class Factor extends CmsModel
 {
 	public const STATUS_INITIAL = 1;
 

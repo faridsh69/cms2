@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin\File;
 
-use App\Cms\AdminResourceController;
+use App\Cms\Controllers\Admin\AdminResourceController;
 
 final class ResourceController extends AdminResourceController
 {

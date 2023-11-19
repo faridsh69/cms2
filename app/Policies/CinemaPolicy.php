@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
-use App\Cms\Policy;
+use App\Cms\Policies\CmsPolicy;
 
-final class CinemaPolicy extends Policy
+final class CinemaPolicy extends CmsPolicy
 {
 	public string $modelNameSlug = 'cinema';
 }

@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Cms;
+namespace App\Cms\Services;
 
+use App\Cms\Traits\CmsMainTrait;
 use Kris\LaravelFormBuilder\Form as LaravelForm;
 
-abstract class Form extends LaravelForm
+abstract class FormService extends LaravelForm
 {
 	use CmsMainTrait;
 

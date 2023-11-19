@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Cms;
+namespace App\Cms\Controllers\Admin;
 
+use App\Cms\Traits\CmsMainTrait;
 use App\Http\Controllers\Controller;
 
 abstract class AdminController extends Controller

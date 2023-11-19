@@ -7,8 +7,8 @@ namespace App\Enums;
 final class MenuLocation
 {
 	public const data = [
-		'1' => 'top-menu',
-		'2' => 'footer-menu',
-		'3' => 'side-menu',
+		'top-menu' => 'top-menu',
+		'footer-menu' => 'footer-menu',
+		'side-menu' => 'side-menu',
 	];
 }

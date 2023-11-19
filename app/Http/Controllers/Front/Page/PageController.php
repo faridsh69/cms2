@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Front\Page;
 
 use App\Http\Controllers\Controller;
-use App\Models\{Form, Page};
-use Auth;
+use App\Models\Page;
 use Illuminate\Http\Request;
 
 final class PageController extends Controller

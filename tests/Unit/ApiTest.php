@@ -4,15 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use App\Cms\Test;
+use App\Cms\Services\TestService;
 
-/**
- * @internal
- *
- * @small
- * @coversNothing
- */
-final class ApiTest extends Test
+final class ApiTest extends TestService
 {
 	public function test(): void
 	{

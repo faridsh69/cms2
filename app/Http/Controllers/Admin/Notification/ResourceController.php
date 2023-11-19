@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin\Notification;
 
-use App\Cms\AdminResourceController;
+use App\Cms\Controllers\Admin\AdminResourceController;
 use App\Models\User;
 use App\Notifications\SiteNotification;
 use Auth;

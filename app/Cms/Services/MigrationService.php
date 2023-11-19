@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Cms;
+namespace App\Cms\Services;
 
 use DB;
 use Illuminate\Database\Migrations\Migration as LaravelMigration;
@@ -10,7 +10,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Str;
 
-abstract class Migration extends LaravelMigration
+abstract class MigrationService extends LaravelMigration
 {
 	// Models of migration tables
 	public array $modelNameSlugs = [];

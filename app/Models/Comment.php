@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Cms\Model;
+use App\Cms\Models\CmsModel;
 
-final class Comment extends Model
+final class Comment extends CmsModel
 {
 	public $columns = [
 		[
