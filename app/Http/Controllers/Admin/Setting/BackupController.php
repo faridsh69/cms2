@@ -79,8 +79,8 @@ final class BackupController extends AdminController
 			return Response::stream(function () use ($stream): void {
 				fpassthru($stream);
 			}, 200, [
-				'Content-Type' => $stream->getMimetype($file),
-				'Content-Length' => $stream->getSize($file),
+				'Content-Type' => 'zip',
+				// 'Content-Length' => $stream->getSize($file),
 			]);
 		} else {
 			abort(404, "The backup file doesn't exist.");

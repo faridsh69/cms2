@@ -27,15 +27,10 @@ final class ResourceController extends AdminResourceController
 		$users = User::where('id', $data['users'])->get();
 		$site_notification = new SiteNotification();
 		$site_notification->setMessage($data['data']);
+
 		foreach ($users as $user) {
 			$user->notify($site_notification);
 		}
-
-		$model = $this->modelRepository->orderBy('id', 'desc')->first();
-		activity($this->modelName)
-			->performedOn($model)
-			->causedBy(Auth::user())
-			->log($this->modelName . ' Sended');
 
 		$this->httpRequest->session()->flash('alert-success', $this->modelName . ' Sent Successfully!');
 

@@ -101,7 +101,6 @@ final class CmsServiceProvider
 
 		$modules = Cache::remember('modules', config('cms.config.cache_time'), function () {
 			return Module::active()
-				->language()
 				->with('children')
 				->orderBy('order', 'asc')
 				->orderBy('id', 'desc')

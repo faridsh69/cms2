@@ -9,7 +9,7 @@ $cms = [
 		'cms_files' => '/app/public/static-files/laravel-cms-website/',
 		'default_images' => '/storage/static-files/default-model-images/',
 		'upload_folder' => '/upload/',
-		'cache_time' => 60,
+		'cache_time' => 1,
 	],
 	'migration' => [
 		'user',

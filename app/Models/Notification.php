@@ -72,7 +72,7 @@ final class Notification extends CmsModel
 			'help' => '',
 			'form_type' => 'entity',
 			'class' => 'App\Models\User',
-			'property' => 'phone',
+			'property' => 'email',
 			'property_key' => 'id',
 			'multiple' => true,
 			'table' => false,

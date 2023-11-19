@@ -44,7 +44,7 @@ abstract class FrontController extends Controller
 
 	public function index(): View
 	{
-		$list = $this->modelRepository->active()->language()
+		$list = $this->modelRepository->active()
 			->orderBy('updated_at', 'desc')
 			->paginate(config('setting-general.pagination_number'));
 
@@ -83,7 +83,7 @@ abstract class FrontController extends Controller
 		$this->meta['title'] = $this->modelNameTranslate . ' | Category | ' . $category->title;
 		$this->meta['description'] = $category->description;
 
-		$list = $category->modelsWithThisType()->active()->language()
+		$list = $category->modelsWithThisType()->active()
 			->orderBy('updated_at', 'desc')
 			->paginate(config('setting-general.pagination_number'));
 
@@ -96,11 +96,11 @@ abstract class FrontController extends Controller
 
 	public function getCategories()
 	{
-		$categories = Category::ofType($this->modelName)->active()->language()
+		$categories = Category::ofType($this->modelName)->active()
 			->orderBy('updated_at', 'desc')
 			->get();
 
-		$list = $this->modelRepository->active()->language()
+		$list = $this->modelRepository->active()
 			->orderBy('updated_at', 'desc')
 			->paginate(config('setting-general.pagination_number'));
 
@@ -120,7 +120,7 @@ abstract class FrontController extends Controller
 
 		$this->meta['title'] = $this->modelNameTranslate . ' | Tag | ' . $tag->title;
 		$this->meta['description'] = $tag->description;
-		$list = $tag->modelsWithThisType()->active()->language()
+		$list = $tag->modelsWithThisType()->active()
 			->orderBy('updated_at', 'desc')
 			->paginate(config('setting-general.pagination_number'));
 
@@ -133,11 +133,11 @@ abstract class FrontController extends Controller
 
 	public function getTags()
 	{
-		$tags = Tag::ofType($this->modelName)->active()->language()
+		$tags = Tag::ofType($this->modelName)->active()
 			->orderBy('updated_at', 'desc')
 			->get();
 
-		$list = $this->modelRepository->active()->language()
+		$list = $this->modelRepository->active()
 			->orderBy('updated_at', 'desc')
 			->paginate(config('setting-general.pagination_number'));
 
@@ -198,13 +198,13 @@ abstract class FrontController extends Controller
 	private function getCategoryAndTags(): array
 	{
 		$categories = Cache::remember('category.' . $this->modelNameSlug, config('cms.config.cache_time'), function () {
-			return Category::ofType($this->modelName)->active()->language()
+			return Category::ofType($this->modelName)->active()
 				->orderBy('updated_at', 'desc')
 				->get();
 		});
 
 		$tags = Cache::remember('tag.' . $this->modelNameSlug, config('cms.config.cache_time'), function () {
-			return Tag::ofType($this->modelName)->active()->language()
+			return Tag::ofType($this->modelName)->active()
 				->orderBy('updated_at', 'desc')
 				->get();
 		});

@@ -126,7 +126,8 @@ abstract class AdminResourceController extends AdminController
 				return redirect()->back()->withErrors($form->getErrors())->withInput();
 			}
 		}
-		$updatedModel->saveWithRelations($form->getFieldValues());
+		$formValues = $form->getFieldValues();
+		$updatedModel->saveWithRelations($formValues);
 
 		if (env('APP_ENV') !== 'testing') {
 			$this->httpRequest->session()->flash('alert-success', $this->modelNameTranslate . __('updated_successfully'));

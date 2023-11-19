@@ -11,8 +11,6 @@ final class FactorService extends Service
 {
 	public function _sendNotifications(): void
 	{
-		// todo
-		// send sms to customer and seller
 	}
 
 	public static function _decreaseInventory(): void
@@ -44,10 +42,9 @@ final class FactorService extends Service
 					$products = $products->where('category_id', $category_id);
 				}
 			}
-			// if($filters['title'])
-			// {
-			//     $products = $products->where('title', 'like','%'. $filters['title'] .'%');
-			// }
+			if ($filters['title']) {
+				$products = $products->where('title', 'like', '%' . $filters['title'] . '%');
+			}
 		}
 		$vue_products = [];
 		foreach ($products as $product) {
@@ -109,7 +106,7 @@ final class FactorService extends Service
 	{
 		$basket = self::_getUserBasket();
 		$basket_product = $basket->products()->where('product_id', $product_id);
-		// ->where('inventory', '>', 0);
+
 		if ($basket_product->count() >= 1) {
 			$count = $basket_product->first()->pivot->count + $add;
 			if ($count === 0 && $add === -1) {
@@ -151,7 +148,7 @@ final class FactorService extends Service
 		$basket->user_id = Auth::id();
 		$basket->save();
 
-		setcookie('basket_id', $basket->id, time() + (86400 * 3), '/'); // 86400 = 1 day
+		setcookie('basket_id', $basket->id, time() + (86400 * 3), '/');
 		session([
 			'basket_id' => $basket->id,
 		]);
@@ -213,6 +210,6 @@ final class FactorService extends Service
 			return $basket;
 		}
 
-		return 'مشکلی در سیستم وجود دارد';
+		return null;
 	}
 }

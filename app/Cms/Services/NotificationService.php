@@ -63,6 +63,7 @@ class NotificationService extends LaravelNotification
 		) !== false) {
 			$channelList[] = SmsChannel::class;
 		}
+
 		if ($notifiable->email && array_search(
 			$this->modelSnakeClassName . '_mail',
 			config('setting-developer.notification_events'),
