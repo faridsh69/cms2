@@ -175,17 +175,17 @@ abstract class TestService extends TestCase
 
 			// show fake model
 			$this
-				->get(route('api.' . $modelNameSlug . '.show', $fakeStoredModel))
+				->get(route('api.' . $modelNameSlug . '.get-by-id', $fakeStoredModel))
 				->assertOk();
 
 			// update fake model
 			$this
-				->put(route('api.' . $modelNameSlug . '.update', $fakeStoredModel), $fakeData)
+				->put(route('api.' . $modelNameSlug . '.update-by-id', $fakeStoredModel), $fakeData)
 				->assertOk();
 
 			// delete fake model
 			$this
-				->delete(route('api.' . $modelNameSlug . '.destroy', $fakeStoredModel))
+				->delete(route('api.' . $modelNameSlug . '.destroy-by-id', $fakeStoredModel))
 				->assertOk();
 
 			// force delete fake model

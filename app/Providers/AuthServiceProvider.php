@@ -16,8 +16,7 @@ final class AuthServiceProvider extends ServiceProvider
 
 	public function boot(): void
 	{
-		$seconds = 100;
-		$this->policies = Cache::remember('policies', $seconds, function () {
+		$this->policies = Cache::remember('policies', config('cms.config.cache_time'), function () {
 			$modelNameSlugs = config('cms.policies');
 			$models_namespace = config('cms.config.models_namespace');
 			$policies = [];

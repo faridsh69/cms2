@@ -15,11 +15,10 @@ final class CmsServiceProvider
 {
 	public static function bootCms()
 	{
-		$seconds = 1;
 		if (!Schema::hasTable('setting_generals') || SettingGeneral::first() === null) {
 			return 'general settings does not exist!';
 		}
-		$general_settings = Cache::remember('setting.general', $seconds, function () {
+		$general_settings = Cache::remember('setting.general', config('cms.config.cache_time'), function () {
 			$general_setings_database = SettingGeneral::first();
 			if ($general_setings_database) {
 				$general_setings_database->logo = $general_setings_database->avatar('logo');
@@ -30,7 +29,7 @@ final class CmsServiceProvider
 
 			return [];
 		});
-		$contact_settings = Cache::remember('setting.contact', $seconds, function () {
+		$contact_settings = Cache::remember('setting.contact', config('cms.config.cache_time'), function () {
 			$contact_setings_database = SettingContact::first();
 			if ($contact_setings_database) {
 				return $contact_setings_database->toArray();
@@ -38,7 +37,7 @@ final class CmsServiceProvider
 
 			return [];
 		});
-		$developer_settings = Cache::remember('setting.developer', $seconds, function () {
+		$developer_settings = Cache::remember('setting.developer', config('cms.config.cache_time'), function () {
 			$developer_setings_database = SettingDeveloper::first();
 			if ($developer_setings_database) {
 				return $developer_setings_database->toArray();
@@ -100,7 +99,7 @@ final class CmsServiceProvider
 		}
 		Validator::extend('seo_headings', '\App\Rules\SeoHeading@passes');
 
-		$modules = Cache::remember('modules', $seconds, function () {
+		$modules = Cache::remember('modules', config('cms.config.cache_time'), function () {
 			return Module::active()
 				->language()
 				->with('children')

@@ -11,8 +11,6 @@ use Str;
 
 final class SidebarService
 {
-	private static $cachingTime = 1;
-
 	private static $sidebarMenuItems = [
 		[
 			'order' => 0,
@@ -317,7 +315,7 @@ final class SidebarService
 	{
 		$sidebarMenuItems = self::$sidebarMenuItems;
 
-		return Cache::remember('sidebar', self::$cachingTime, function () use ($sidebarMenuItems) {
+		return Cache::remember('sidebar', config('cms.config.cache_time'), function () use ($sidebarMenuItems) {
 			$list = [];
 			foreach (collect($sidebarMenuItems)->sortBy('order') as $menuItems) {
 				$authUser = Auth::user();

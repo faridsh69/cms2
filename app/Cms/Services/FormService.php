@@ -25,6 +25,8 @@ abstract class FormService extends LaravelForm
 
 	final public function buildForm(): void
 	{
+		$this->modelNamespace = config('cms.config.models_namespace') . $this->modelName;
+
 		if (isset($this->model->id)) {
 			$this->id = $this->model ? $this->model->id : 0;
 		}
@@ -128,7 +130,7 @@ abstract class FormService extends LaravelForm
 			// create option from a list of models item with specific attribute
 			elseif ($form_type === 'entity') {
 				$input_type = 'entity';
-				$options['class'] = $column['class'];
+				$options['class'] = $column['class'] ?? $this->modelNamespace;
 				$options['property'] = $column['property'];
 				$options['property_key'] = $column['property_key'];
 				$options['attr']['class'] = 'form-control m-bootstrap-select m-bootstrap-select--pill m-bootstrap-select--air m_selectpicker';
@@ -140,7 +142,7 @@ abstract class FormService extends LaravelForm
 				}
 				if (isset($column['query_builder'])) {
 					$q = explode('|', $column['query_builder']);
-					$options['query_builder'] = fn ($query) => $query->where($q[0], $q[1]);
+					$options['query_builder'] = fn ($query) => $query->where($q[0], $this->modelName);
 				}
 			}
 			// all input files

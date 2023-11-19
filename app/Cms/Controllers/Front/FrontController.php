@@ -12,6 +12,7 @@ use Cache;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Str;
+use App\Models\Like;
 
 abstract class FrontController extends Controller
 {
@@ -186,7 +187,7 @@ abstract class FrontController extends Controller
 		return redirect()->route('front.' . $this->modelNameSlug . '.show', $item->url);
 	}
 
-	public function likeCount(string $url, \App\Models\Like $likeModel)
+	public function likeCount(string $url)
 	{
 		$item = $this->modelRepository->where('url', $url)->firstOrFail();
 
@@ -196,7 +197,7 @@ abstract class FrontController extends Controller
 		return response()->json($this->response);
 	}
 
-	public function like(string $url, \App\Models\Like $likeModel)
+	public function like(string $url, Like $likeModel)
 	{
 		$item = $this->modelRepository->where('url', $url)->firstOrFail();
 
@@ -215,13 +216,13 @@ abstract class FrontController extends Controller
 
 	private function getCategoryAndTags(): array
 	{
-		$categories = Cache::remember('category.' . $this->modelNameSlug, 10, function () {
+		$categories = Cache::remember('category.' . $this->modelNameSlug, config('cms.config.cache_time'), function () {
 			return Category::ofType($this->modelName)->active()->language()
 				->orderBy('updated_at', 'desc')
 				->get();
 		});
 
-		$tags = Cache::remember('tag.' . $this->modelNameSlug, 10, function () {
+		$tags = Cache::remember('tag.' . $this->modelNameSlug, config('cms.config.cache_time'), function () {
 			return Tag::ofType($this->modelName)->active()->language()
 				->orderBy('updated_at', 'desc')
 				->get();
