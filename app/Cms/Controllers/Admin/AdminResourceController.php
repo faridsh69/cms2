@@ -64,12 +64,9 @@ abstract class AdminResourceController extends AdminController
 		// TODO, move to service
 		$this->modelRepository->saveWithRelations($form->getFieldValues());
 
-		// @TODO activity
-		// if (env('APP_ENV') !== 'testing') {
-		//     activity('Created')->performedOn($storedModel)->causedBy(Auth::user())
-		//         ->log($this->modelName . ' Created');
-		// }
-		$this->httpRequest->session()->flash('alert-success', $this->modelNameTranslate . __('created_successfully'));
+		if (env('APP_ENV') !== 'testing') {
+			$this->httpRequest->session()->flash('alert-success', $this->modelNameTranslate . __('created_successfully'));
+		}
 
 		return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
 	}
@@ -131,12 +128,9 @@ abstract class AdminResourceController extends AdminController
 		}
 		$updatedModel->saveWithRelations($form->getFieldValues());
 
-		// @TODO activity
-		// if (env('APP_ENV') !== 'testing') {
-		//     activity('Updated')->performedOn($model)->causedBy(Auth::user())
-		//         ->log($this->modelName . ' Updated');
-		// }
-		$this->httpRequest->session()->flash('alert-success', $this->modelNameTranslate . __('updated_successfully'));
+		if (env('APP_ENV') !== 'testing') {
+			$this->httpRequest->session()->flash('alert-success', $this->modelNameTranslate . __('updated_successfully'));
+		}
 
 		return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
 	}
@@ -148,12 +142,9 @@ abstract class AdminResourceController extends AdminController
 
 		$model->delete();
 
-		// @TODO activity
-		// if (env('APP_ENV') !== 'testing') {
-		//     activity('Deleted')->performedOn($model)->causedBy(Auth::user())
-		//         ->log($this->modelName . ' Deleted');
-		// }
-		// $this->httpRequest->session()->flash('alert-success', $this->modelNameTranslate . __('deleted_successfully'));
+		if (env('APP_ENV') !== 'testing') {
+			$this->httpRequest->session()->flash('alert-success', $this->modelNameTranslate . __('deleted_successfully'));
+		}
 
 		return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
 	}
@@ -165,12 +156,9 @@ abstract class AdminResourceController extends AdminController
 
 		$model->restore();
 
-		// @TODO activity
-		// if (env('APP_ENV') !== 'testing') {
-		//     activity('Restored')->performedOn($model)->causedBy(Auth::user())
-		//         ->log($this->modelName . ' Restored');
-		// }
-		$this->httpRequest->session()->flash('alert-success', $this->modelNameTranslate . __('restored_successfully'));
+		if (env('APP_ENV') !== 'testing') {
+			$this->httpRequest->session()->flash('alert-success', $this->modelNameTranslate . __('restored_successfully'));
+		}
 
 		return redirect()->route('admin.' . $this->modelNameSlug . '.list.index');
 	}
