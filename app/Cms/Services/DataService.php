@@ -13,7 +13,6 @@ final class DataService extends Service
 {
 	/*
 	* This is the main method in this cms, we are defining all models columns here,
-	* Other models will extend this columns and we have same properties for one type of column.
 	* name: Define name of the column in database and forms and everywhere
 	* type: string, text, boolean, integer, decimal, array (for tags), file (image uploader)
 	* database: nullable, default(1), none (Dont create that column)

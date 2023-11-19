@@ -99,11 +99,6 @@ final class DashboardController extends AdminResourceController
 
 		$model->saveWithRelations($data, $model);
 
-		// @TODO activity
-		// activity('Updated')
-		//     ->performedOn($model)
-		//     ->causedBy(Auth::user())
-		//     ->log('User Profile Updated');
 		$this->httpRequest->session()->flash('alert-success', 'Profile Updated Successfully!');
 
 		return redirect()->route('admin.dashboard.profile');

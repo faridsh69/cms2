@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Cms\Seeder as CmsSeeder;
+use App\Cms\Services\SeederService;
 use Illuminate\Database\Seeder as LaravelSeeder;
 
 final class DatabaseSeeder extends LaravelSeeder
@@ -22,7 +22,7 @@ final class DatabaseSeeder extends LaravelSeeder
 		$this->call(Seeder009Fields::class);
 		$this->call(Seeder010Roles::class);
 
-		$this->call(CmsSeeder::class);
+		$this->call(SeederService::class);
 
 		$this->call(CmsLaravelWebsiteSeeder::class);
 	}

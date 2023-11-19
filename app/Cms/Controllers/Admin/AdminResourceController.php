@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Cms\Controllers\Admin;
 
+use App\Models\Activity;
 use Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -76,7 +77,7 @@ abstract class AdminResourceController extends AdminController
 		$showedModal = $this->modelRepository->findOrFail($id);
 		$this->authorize('view', $showedModal);
 		// TODO, move to service and repository
-		$activities = \App\Models\Activity::where('activitiable_type', $this->modelNamespace)
+		$activities = Activity::where('activitiable_type', $this->modelNamespace)
 			->where('activitiable_id', $id)
 			->get();
 

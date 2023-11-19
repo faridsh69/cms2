@@ -69,11 +69,6 @@ trait CmsModelTrait
 		return $this->belongsTo('App\Models\Category', 'category_id', 'id');
 	}
 
-	public function tags(): morphToMany
-	{
-		return $this->morphToMany('App\Models\Tag', 'taggable');
-	}
-
 	public function comments(): morphMany
 	{
 		return $this->morphMany('App\Models\Comment', 'commentable');
@@ -102,6 +97,11 @@ trait CmsModelTrait
 			'model_id',
 			'related_id'
 		);
+	}
+
+	public function tags(): morphToMany
+	{
+		return $this->morphToMany('App\Models\Tag', 'taggable');
 	}
 
 	public function files(): morphMany
@@ -167,5 +167,52 @@ trait CmsModelTrait
 		return collect($this->getColumns())
 			->pluck('rule', 'name')
 			->map(fn ($rule) => mb_strpos($rule, 'unique') !== false ? $rule . $this->id : $rule)->toArray();
+	}
+
+	public static function boot()
+	{
+		parent::boot();
+
+		self::created(function ($model) {
+			if (!$model->price) {
+				return null;
+			}
+
+			$data = [
+				'title' => $model->title,
+				'price' => $model->price,
+				'activated' => $model->activated,
+			];
+			if (env('APP_ENV') !== 'testing') {
+				$model->activities()->forceCreate([
+					'title' => 'Created...',
+					'user_id' => Auth::id(),
+					'properties' => json_encode($data)
+				]);
+			}
+		});
+
+		self::updating(function ($model) {
+			$prevModel = $model->find($model->id);
+			if (!$model || !$prevModel) return;
+			$diff = array_diff_assoc($model->getAttributes(), $prevModel->getAttributes());
+
+			if (env('APP_ENV') !== 'testing') {
+				$model->activities()->forceCreate([
+					'title' => 'Updating...',
+					'user_id' => Auth::id(),
+					'properties' => json_encode($diff)
+				]);
+			}
+		});
+
+		self::deleted(function ($model) {
+			if (env('APP_ENV') !== 'testing') {
+				$model->activities()->forceCreate([
+					'title' => 'Deleted',
+					'user_id' => Auth::id(),
+				]);
+			}
+		});
 	}
 }

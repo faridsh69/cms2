@@ -37,14 +37,6 @@ final class LoginController extends Controller
 		$credentials = $request->only('email', 'password');
 
 		if (Auth::attempt($credentials)) {
-			// @TODO activity
-			// $authUser = Auth::user();
-			// activity('User')->performedOn($authUser)
-			//     ->causedBy($authUser)
-			//     ->log('User Logined');
-			// $user_logined = new UserLogined();
-			// $authUser->notify($user_logined);
-
 			return redirect()->route('admin.dashboard.profile');
 		}
 
@@ -77,12 +69,6 @@ final class LoginController extends Controller
 
 		if ($user) {
 			Auth::login($user);
-			// @TODO activity
-			// activity('User Login')
-			//     ->performedOn($user)
-			//     ->causedBy(Auth::user())
-			//     ->log('User Login');
-
 			return redirect()->route('admin.dashboard.index');
 		}
 

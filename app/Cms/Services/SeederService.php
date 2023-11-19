@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Cms\Services;
 
 use Illuminate\Database\Seeder as LaravelSeeder;
+use App\Cms\Services\FactoryService;
 use Str;
 
 final class SeederService extends LaravelSeeder
@@ -20,7 +21,7 @@ final class SeederService extends LaravelSeeder
 			$modelRepository = new $modelNamespace();
 			for ($i = 0; $i < 4; ++$i) {
 				// Create fake data and store them in database
-				$factory = new Factory();
+				$factory = new FactoryService();
 				$factory->setModelNameSlug($modelNameSlug);
 				$fakeModel = $factory->make();
 				$fakeData = $fakeModel->getAttributes();

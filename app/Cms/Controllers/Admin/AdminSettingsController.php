@@ -53,11 +53,6 @@ abstract class AdminSettingsController extends AdminResourceController
 		foreach (['developer', 'general', 'contact'] as $cache_section) {
 			Cache::forget('setting.' . $cache_section);
 		}
-		// @TODO activity
-		// activity('Update')
-		// 	->performedOn($model)
-		// 	->causedBy(Auth::user())
-		// 	->log($this->modelName . ' Updated');
 
 		$this->httpRequest->session()->flash('alert-success', $this->modelNameTranslate . ' Updated Successfully!');
 		sleep(1);

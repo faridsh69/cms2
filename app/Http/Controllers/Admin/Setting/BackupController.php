@@ -57,10 +57,6 @@ final class BackupController extends AdminController
 	{
 		$this->authorize('manage', 'backup');
 		Artisan::call('backup:run');
-		// @TODO activity
-		// activity('Backup')
-		//     ->causedBy(Auth::user())
-		//     ->log('Backup Created');
 
 		$this->httpRequest->session()->flash('alert-success', 'Backup Created');
 
